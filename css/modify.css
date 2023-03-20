@@ -1,0 +1,46 @@
+.col-25-border-left {
+    float: left;
+    height: auto;
+    width: calc(25% - 12px);
+    margin-top: 6px;
+    margin-left: 12px;
+}
+
+.col-25-border-right {
+    float: left;
+    height: auto;
+    width: calc(25% - 12px);
+    margin-top: 6px;
+    margin-right: 12px;
+}
+
+.col-25-border {
+    float: left;
+    height: auto;
+    width: calc(25% - 12px);
+    margin-top: 6px;
+    margin-left: 6px;
+    margin-right: 6px;
+}
+
+.input-disabled{
+  margin-bottom: 15px;
+}
+
+.col-100-58{
+  float: left;
+  width: calc(100% - 58px);
+}
+
+.col-58{
+  float: left;
+  width: 58px;
+}
+
+.tab {
+  display: none;
+}
+
+#manufacturerSlotPHP, #typeSlotsPHP, #typeEstablishmentPHP, #brandOperatorPHP, #modelSlotsPHP{
+  display: none;
+}

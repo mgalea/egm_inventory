@@ -1,0 +1,127 @@
+#video, #myCanvas{
+  width:  460px;
+  height: 340px;
+}
+
+.modal-div-content-camera {
+    background-color: #fefefe;
+    margin: 5% auto 15% auto; /* 5% from the top, 15% from the bottom and centered */
+    border: 1px solid #888;
+    width: 492px; /* Could be more or less, depending on screen size */
+}
+
+.modal-div-content-seal {
+    background-color: #fefefe;
+    margin: 5% auto 15% auto; /* 5% from the top, 15% from the bottom and centered */
+    border: 1px solid #888;
+    width: 60%; /* Could be more or less, depending on screen size */
+}
+
+.modal-div-camera, .modal-div-seal{
+  display: none; /* Hidden by default */
+  position: fixed; /* Stay in place */
+  z-index: 1; /* Sit on top */
+  padding-top: 100px; /* Location of the box */
+  left: 0;
+  top: 0;
+  width: 100%; /* Full width */
+  height: 100%; /* Full height */
+  overflow: auto; /* Enable scroll if needed */
+  background-color: rgb(0,0,0); /* Fallback color */
+  background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+}
+
+.container-camera{
+  padding: 16px;
+  height: 452px;
+}
+
+.container-seal{
+  padding: 30px;
+}
+
+.col-100-camera{
+  float:left;
+  width: 100%;
+}
+
+.col-100-camera-padding{
+  float:left;
+  width: 100%;
+  padding: 20px;
+}
+
+.col-50-camera-padding{
+  float:left;
+  width: 50%;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+.col-50-camera{
+  float:left;
+  width: 50%;
+}
+
+.col-25-camera{
+  float:left;
+  width: 25%;
+  display: flex;
+  justify-content: center;
+}
+
+#take-snapshot{
+  background-color: #4CAF50; /* Green */
+  width: 200px;
+  height: 50px;
+  border: none;
+  border-radius: 20px;
+  margin-top: 15px;
+  margin-left: 130px;
+  color: white;
+  padding: 15px 32px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+}
+
+#save-snapshot{
+  background-color: #4CAF50; /* Green */
+  width: 100%;
+  height: 50px;
+  border: none;
+  border-radius: 20px;
+  margin-top: 15px;
+  color: white;
+  padding: 15px 32px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+}
+
+#cancel-snapshot{
+  width: 100%;
+  height: 50px;
+  border: 1px solid black;
+  border-radius: 20px;
+  margin-top: 15px;
+  padding: 15px 32px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+}
+
+.button-camera{
+  background-color: #4CAF50; /* Green */
+  border: none;
+  color: white;
+  padding: 15px 32px;
+  margin: 0 auto;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+}
