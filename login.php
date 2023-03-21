@@ -35,11 +35,11 @@ session_start();
             <div class="container">
                 <div class="d-flex justify-content-center">
                     <div class="login-content">
-                        <label class="font-display" for="username">
+                        <label class="" for="username">
                             <b>Username</b>
                         </label>
                         <input type="text" placeholder="Enter Username" name="username" required>
-                        <label class="pt-2 font-display" for="password">
+                        <label class="pt-2 " for="password">
                             <b>Password</b>
                         </label>
                         <input class="fs-sm-2" type="password" placeholder="Enter Password" name="password" required>
