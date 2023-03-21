@@ -6,12 +6,19 @@ body {
 
 .title {
     margin-left: auto;
-    max-width:500px;
+    max-width:400px;
 }
 
 h1 {
     color: white;
 }
+
+.div-body{
+    display: flex;
+    flex: 1 0 auto;
+  
+  }
+  
 
 input[type=text],
 input[type=password] {
@@ -78,11 +85,14 @@ button:hover {
 .imgcontainer {
     text-align: center;
     margin: 12px 0 12px 0;
-    position: relative;
 }
 
-img.brand_img {
+.brand_img {
     max-width: 200px;
+}
+
+.rsi_img {
+    max-width: 100px;
 }
 
 .container {
