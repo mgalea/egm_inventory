@@ -1,10 +1,10 @@
 <?php
 function connectDB()
 {
-  $servername = "localhost";
+  $servername = "slots.rsi.ge";
   $username = "root";
   $password = "4pXePY8LRcGA";
-  $dbname = "dbmalta";
+  $dbname = "dblagos";
 
   $conn = new mysqli($servername, $username, $password, $dbname);
   if ($conn->connect_error) {
