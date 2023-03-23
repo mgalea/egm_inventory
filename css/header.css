@@ -4,6 +4,12 @@ body {
   margin: 0;
 }
 
+.header-spacer {
+  display: block;
+  width: 100%;
+  min-height: 120px;
+}
+
 body {
   font-family: Arial, Helvetica, sans-serif;
   display: flex;
@@ -22,6 +28,8 @@ body {
 .login-content {
   width: 50%;
 }
+
+
 
 @media (min-width: 481px) {
 

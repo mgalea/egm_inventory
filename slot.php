@@ -204,13 +204,63 @@
     }
     if (isset($_POST['slot_info'])) {
       $serial_number = $_POST['slot_info'];
+      if ($connect && $serial_number != "") {
+
+
+        $query = "SELECT * FROM slot_machines, manufacturer, type_slot_machines, slot_model WHERE serial_number = \"" . $serial_number . "\";";
+
+        if ($result = $connect->query($query)) {
+          if ($result->num_rows > 0) {
+            $row = $result->fetch_assoc();
+            $serial_number_motherboard = $row["fk_serial_number_motherboard"];
+            $license_number_operator = $row["fk_license_number"];
+            $manufacturer = $row["name_manufacturer"];
+            $date_manufacturing = $row["date_manufacturing"];
+            $id_model = $row["id_model"];
+            $model = $row["name_model"];
+            $type = $row["name_type"];
+            $id_manufacturer = $row["fk_id_manufacturer"];
+            $id_type = $row["fk_slot_type"];
+            $state = $row["commission"];
+            $date_commission = $row["date_commission"];
+            $date_decommission = $row["date_decommission"];
+            $type_player = $row["multi_game"];
+            $multiterminal = $row["multi_terminal"];
+            $regulator_number = $row["reg_number"];
+            $operator_number = $row["operator_number"];
+            $est_location = $row["est_location"];
+            $is_original = $row["is_original"];
+
+            $query = "SELECT fk_establishment, name FROM slot_machines_establishment, establishment WHERE fk_establishment = permit_number AND fk_slot_machines = $serial_number;";
+            if ($result = $connect->query($query)) {
+              if ($result->num_rows > 0) {
+                $row = $result->fetch_assoc();
+                $license_number_establishment = $row["fk_establishment"];
+                $establishment = $row["name"];
+              }
+            }
+
+            $query = "SELECT company_name FROM operator WHERE license_number = " . $license_number_operator . "";
+            if ($result = $connect->query($query)) {
+              if ($result->num_rows > 0) {
+                $row = $result->fetch_assoc();
+                $operator_name = $row["company_name"];
+              }
+            }
+          }
+        } else {
+          echo $connect->error;
+        }
+      }
     }
 
 
     ?>
   </div>
 
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  +wqq`44
+  96
+  hnhn  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 
   <script type="text/javascript">
     $(window).on("load", function() {
@@ -394,105 +444,121 @@
     <div class="modal-div-content">
       <div class="container">
         <div class="row">
-          <div class="col-50">
+          <div class="col-6">
             <h1 style="margin-top: 20px; float : center;"><b>EGM Details</b></h1>
-            <div class="row">
-              <label style="margin-top: 20px;">Serial Number: <?php echo $serial_number; ?></label></br>
-            </div>
-            <div class="row">
-              <label>Regulator Number: <?php echo $regulator_number; ?></label></br>
-            </div>
-            <div class="row">
-              <label>Operator Number: <?php echo $operator_number; ?></label></br>
-            </div>
-            <div class="row">
-              <label>Operator: <?php echo $operator_name; ?></label></br>
-            </div>
-            <div class="row">
-              <label>Establishment: <?php if ($establishment != "") echo $establishment;
-                                    else echo  " ~ "; ?></label></br>
-            </div>
-            <div class="row">
-              <label>Manufacturer: <?php echo $manufacturer; ?></label></br>
-            </div>
-            <div class="row">
-              <label>Date of manufacturing: <?php echo $date_manufacturing; ?></label></br>
-            </div>
-            <div class="row">
-              <label>Model: <?php echo $model; ?></label></br>
-            </div>
-            <div class="row">
-              <label>Type: <?php echo $type; ?></label></br>
-            </div>
-            <div class="row">
-              <label>Multi Game: <?php if ($type_player == "1") echo "YES";
-                                  else echo "NO"; ?></label></br>
-            </div>
-            <div class="row">
-              <label>Multi-terminal: <?php if ($multiterminal == "1") echo "YES";
-                                      else echo "NO"; ?></label></br>
-            </div>
-            <div class="row">
-              <label>State: <?php if ($state == 1) echo "Commissioned";
-                            else echo "Decommissioned"; ?></label></br>
-            </div>
-            <div class="row">
-              <label>Date commission: <?php echo $date_commission; ?></label></br>
-            </div>
-            <div class="row">
-              <?php
-              if ($state == 0) {
-                echo "<label>Date decommission: " . $date_decommission . "</label></br>";
-              }  ?>
-            </div>
+            <table class="w3-table-all">
+              <tr>
+                <td> Serial Number:</td>
+                <td> <?php echo $serial_number; ?></td>
+              </tr>
+          </div>
+          <tr>
+            <td>Regulator Number:</td>
+            <td> <?php echo $regulator_number; ?></td>
+          </tr>
+          <tr>
+            <td>Operator Number:</td>
+            <td> <?php echo $operator_number; ?></td>
+          </tr>
+          <tr>
+            <td>Operator: </td>
+            <td><?php echo $operator_name; ?></td>
+          </tr>
+          <tr>
+            <td>Establishment:</td>
+            <td> <?php if ($establishment != "") echo $establishment;
+                  else echo  " ~ "; ?></td>
+          </tr>
+          <tr>
+            <td>Manufacturer: </td>
+            <td> <?php echo $manufacturer; ?></td>
+          </tr>
+          <tr>
+            <td>Date of manufacturing: </td>
+            <td> <?php echo $date_manufacturing; ?></td>
+          </tr>
+          <tr>
+            <td>Model:</td>
+            <td> <?php echo $model; ?></td>
+          </tr>
+          <tr>
+            <td>Type: </td>
+            <td> <?php echo $type; ?></td>
+          </tr>
+          <tr>
+            <td>Multi Game: </td>
+            <td> <?php if ($type_player == "1") echo "YES";
+                  else echo "NO"; ?></td>
+          </tr>
+          <tr>
+            <td>Multi-terminal:</td>
+            <td> <?php if ($multiterminal == "1") echo "YES";
+                  else echo "NO"; ?></td>
+          </tr>
+          <tr>
+            <td>State: </td>
+            <td> <?php if ($state == 1) echo "Commissioned";
+                  else echo "Decommissioned"; ?></td>
+          </tr>
+          <tr>
+            <td>Date commission:</td>
+            <td> <?php echo $date_commission; ?></td>
+          </tr>
+          <tr>
+            <?php
+            if ($state == 0) {
+              echo "<label>Date decommission: " . $date_decommission . "</td>";
+            }  ?>
+          </tr>
+          </table>
+        </div>
+        <div class="col-6">
+          <h1>&nbsp;</h1>
+          <div class="row">
+          </div>
+          <div class="row">
+            <h2 style="margin-top: 20px; float : center;"><b>Motherboard Details</b></h2>
+          </div>
+          <label style="margin-top: 20px;">Original: <?php if ($is_original == "1") echo "YES";
+                                                      else echo "NO"; ?></label></br>
+          <label>Serial Number: <?php echo $serial_number_motherboard; ?></label></br>
+
+          <?php
+          if ($id_manufacturer_motherboard) {
+            $query = "SELECT name_manufacturer FROM manufacturer WHERE id_manufacturer = " . $id_manufacturer_motherboard . ";";
+            if ($result = $connect->query($query)) {
+              $row = $result->fetch_assoc();
+              echo "<label>Manufacturer Motherboard: " . $row["name_manufacturer"] . "</label></br>";
+            }
+          } else {
+            echo "<label>Manufacturer: </label> Unknown </br>";
+          }
+
+          ?>
+
+          <div class="col-50">
+            <fieldset>
+              <legend style="text-align: left;">Power port</legend>
+              <label>Jumper number: <?php echo $power_jumper_number; ?></label></br>
+              <label>Jumper type: <?php echo $power_jumper_type; ?></label>
+            </fieldset>
           </div>
           <div class="col-50">
-            <h1>&nbsp;</h1>
-            <div class="row">
-            </div>
-            <div class="row">
-              <h2 style="margin-top: 20px; float : center;"><b>Motherboard Details</b></h2>
-            </div>
-            <label style="margin-top: 20px;">Original: <?php if ($is_original == "1") echo "YES";
-                                                        else echo "NO"; ?></label></br>
-            <label>Serial Number: <?php echo $serial_number_motherboard; ?></label></br>
-
-            <?php
-            if ($id_manufacturer_motherboard) {
-              $query = "SELECT name_manufacturer FROM manufacturer WHERE id_manufacturer = " . $id_manufacturer_motherboard . ";";
-              if ($result = $connect->query($query)) {
-                $row = $result->fetch_assoc();
-                echo "<label>Manufacturer Motherboard: " . $row["name_manufacturer"] . "</label></br>";
-              }
-            } else {
-              echo "<label>Manufacturer: </label> Unknown </br>";
-            }
-
-            ?>
-
-            <div class="col-50">
-              <fieldset>
-                <legend style="text-align: left;">Power port</legend>
-                <label>Jumper number: <?php echo $power_jumper_number; ?></label></br>
-                <label>Jumper type: <?php echo $power_jumper_type; ?></label>
-              </fieldset>
-            </div>
-            <div class="col-50">
-              <fieldset>
-                <legend style="text-align: left;">Com port</legend>
-                <label>Jumper number: <?php echo $com_jumper_number; ?></label></br>
-                <label>Jumper type: <?php echo $com_jumper_type; ?></label>
-              </fieldset>
-            </div>
-            <div class="col-100-top">
-              <label>Location in the Establishment:</label></br>
-              <label><?php if ($est_location != "") echo $est_location;
-                      else echo "~"; ?>
-            </div>
+            <fieldset>
+              <legend style="text-align: left;">Com port</legend>
+              <label>Jumper number: <?php echo $com_jumper_number; ?></label></br>
+              <label>Jumper type: <?php echo $com_jumper_type; ?></label>
+            </fieldset>
+          </div>
+          <div class="col-100-top">
+            <label>Location in the Establishment:</label></br>
+            <label><?php if ($est_location != "") echo $est_location;
+                    else echo "~"; ?>
           </div>
         </div>
       </div>
     </div>
+  </div>
   </div>
   <div id="id_add_slot" class="modal-div">
     <span onclick="closeAdd()" class="close_add" title="Close">&times;</span>
@@ -612,7 +678,8 @@
           <select id="model_id" class="input-add" name="model" required>
             <option value=""></option>
             <?php
-            $query = "SELECT * FROM slot_model WHERE fk_id_manufacturer = " . $id_manufacturer . ";";
+            $query = "SELECT * FROM slot_model;";
+            print_r($query);
             if ($result = $connect->query($query)) {
               while ($row = $result->fetch_assoc()) {
                 echo "<option value=\"" . $row['id_model'] . "\" ";

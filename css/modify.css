@@ -41,6 +41,6 @@
   display: none;
 }
 
-#manufacturerSlotPHP, #typeSlotsPHP, #typeEstablishmentPHP, #brandOperatorPHP, #modelSlotsPHP{
+#manufacturerSlotPHP, #typeSlotsPHP, #typeEstablishmentPHP, #brandOperatorPHP {
   display: none;
 }

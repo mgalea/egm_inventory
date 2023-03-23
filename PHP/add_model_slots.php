@@ -3,7 +3,7 @@
   $connect = connectDB();
 
   if($connect){
-    $modelPHP = $_POST['modelSlotPHP'];
+    $modelPHP = $_POST['modelSlotsPHP'];
     $manufacturerPHP = $_POST['manufacturerModelSlotsPHP'];
     $models = explode(",", $modelPHP);
 
