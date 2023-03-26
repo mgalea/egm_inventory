@@ -2,15 +2,13 @@
 <html>
 
 <head>
-  <title>Administrator</title>
+
   <meta charset="utf-8">
   <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
   <link rel="stylesheet" href="css/style.css">
   <link rel="stylesheet" href="css/modify.css">
 
   <link rel="icon" href="favicon/favicon.png">
-
   <script src="https://www.w3schools.com/lib/w3.js"></script>
 
   <script type="text/javascript">
@@ -292,7 +290,7 @@
                 if ($result = $connect->query($query)) {
                   if ($result->num_rows > 0) {
                     while ($row = $result->fetch_assoc()) {
-                      echo "<tr style=\"cursor:pointer\" onclick=\"selectManufacturerModel(" . $row["id_manufacturer"] . ",'" . $row["name_manufacturer"] . "')\" class=\"item float-right\"><td>" . $row["name_manufacturer"] . "</td></tr>";
+                      echo "<tr style=\"cursor:pointer\" onclick=\"selectManufacturerModel(" . $row["id_manufacturer"] . ",'" . $row["name_manufacturer"] . "')\" class=\"item float-end\"><td>" . $row["name_manufacturer"] . "</td></tr>";
                     }
                   }
                 }
@@ -346,58 +344,59 @@
 
         <button class="btn btn-secondary btn-default w-100" onclick="document.getElementById('id_add_type_slots').style.display='block'">Add Slots Type</button>
       </div>
-    </div>
 
-    <div class="col-100">
+
+
       <h1 class="pt-4 pb-2">Users</h1>
-    </div>
 
-    <div class="col-100">
-      <div class="col-50">
-        <input type="text" id="myInput" onkeyup="searchInUsers()" placeholder="Search Users ...">
+
+      <div class="row mb-3">
+        <div class="col-6">
+          <input type="text" id="myInput" onkeyup="searchInUsers()" placeholder="Search Users ...">
+        </div>
+        <div class="col-6 ">
+          <button class="btn btn-lg btn-primary float-end" onclick="document.getElementById('id_add_user').style.display='block'">Add User</button>
+        </div>
       </div>
-      <div class="float-right">
-        <button class="btn btn-lg btn-primary " onclick="document.getElementById('id_add_user').style.display='block'">Add User</button>
-      </div>
-    </div>
-    <div class="col-100">
-      <table id="myTable" class="w3-table-all">
-        <tr>
-          <th class="w3-dark-grey w3-hover-black" onclick="w3.sortHTML('#myTable', '.item', 'td:nth-child(1)')" style="cursor:pointer">Username <i class="fa fa-sort" style="font-size:13px;"></i></th>
-          <th class="w3-dark-grey w3-hover-black" onclick="w3.sortHTML('#myTable', '.item', 'td:nth-child(2)')" style="cursor:pointer">User Type <i class="fa fa-sort" style="font-size:13px;"></i></th>
-          <th class="w3-dark-grey w3-hover-black" onclick="w3.sortHTML('#myTable', '.item', 'td:nth-child(3)')" style="cursor:pointer">Email <i class="fa fa-sort" style="font-size:13px;"></i></th>
-          <th class="w3-dark-grey w3-hover-black" onclick="w3.sortHTML('#myTable', '.item', 'td:nth-child(4)')" style="cursor:pointer">Telephone <i class="fa fa-sort" style="font-size:13px;"></i></th>
-          <th class="w3-dark-grey w3-hover-black" onclick="w3.sortHTML('#myTable', '.item', 'td:nth-child(5)')" style="cursor:pointer">Organization <i class="fa fa-sort" style="font-size:13px;"></i></th>
-          <th class="w3-dark-grey w3-hover-black" onclick="w3.sortHTML('#myTable', '.item', 'td:nth-child(6)')" style="cursor:pointer">State <i class="fa fa-sort" style="font-size:13px;"></i></th>
-          <th class="w3-dark-grey w3-hover-black">Edit</th>
-        </tr>
-        <?php
-        if ($connect) {
-          $query = "SELECT * from users, type_user WHERE user_type = id_type_user;";
-          if ($result = $connect->query($query)) {
-            if ($result->num_rows > 0) {
-              while ($row = $result->fetch_assoc()) {
-                $state = "";
-                if ($row["active"] == "1") {
-                  $state = "Active";
-                } else {
-                  $state = "Unactive";
+
+      <div class="row mb-5">
+        <div class="col-12">
+          <table id="myTable" class="w3-table-all">
+            <tr>
+              <th class="w3-dark-grey w3-hover-black" onclick="w3.sortHTML('#myTable', '.item', 'td:nth-child(1)')" style="cursor:pointer">Username <i class="fa fa-sort" style="font-size:13px;"></i></th>
+              <th class="w3-dark-grey w3-hover-black" onclick="w3.sortHTML('#myTable', '.item', 'td:nth-child(2)')" style="cursor:pointer">User Type <i class="fa fa-sort" style="font-size:13px;"></i></th>
+              <th class="w3-dark-grey w3-hover-black" onclick="w3.sortHTML('#myTable', '.item', 'td:nth-child(3)')" style="cursor:pointer">Email <i class="fa fa-sort" style="font-size:13px;"></i></th>
+              <th class="w3-dark-grey w3-hover-black" onclick="w3.sortHTML('#myTable', '.item', 'td:nth-child(4)')" style="cursor:pointer">Telephone <i class="fa fa-sort" style="font-size:13px;"></i></th>
+              <th class="w3-dark-grey w3-hover-black" onclick="w3.sortHTML('#myTable', '.item', 'td:nth-child(5)')" style="cursor:pointer">Organization <i class="fa fa-sort" style="font-size:13px;"></i></th>
+              <th class="w3-dark-grey w3-hover-black" onclick="w3.sortHTML('#myTable', '.item', 'td:nth-child(6)')" style="cursor:pointer">State <i class="fa fa-sort" style="font-size:13px;"></i></th>
+              <th class="w3-dark-grey w3-hover-black">Edit</th>
+            </tr>
+            <?php
+            if ($connect) {
+              $query = "SELECT * from users, type_user WHERE user_type = id_type_user;";
+              if ($result = $connect->query($query)) {
+                if ($result->num_rows > 0) {
+                  while ($row = $result->fetch_assoc()) {
+                    $state = "";
+                    if ($row["active"] == "1") {
+                      $state = "Active";
+                    } else {
+                      $state = "Unactive";
+                    }
+                    echo "<tr class=\"item\"><td>" . $row["username"] . "</td><td>" . $row["type_value"] . "</td><td>" . $row["email"] . "</td><td>" . $row["telephone"] . "</td><td>" . $row["organization"] . "</td><td>" . $state . "</td><td onclick=\"edit_user(" . $row["id"] . ")\"><img class=\"icon\" src=\"images/edit.png\" alt=\"Edit\"></td></tr>";
+                  }
                 }
-                echo "<tr class=\"item\"><td>" . $row["username"] . "</td><td>" . $row["type_value"] . "</td><td>" . $row["email"] . "</td><td>" . $row["telephone"] . "</td><td>" . $row["organization"] . "</td><td>" . $state . "</td><td onclick=\"edit_user(" . $row["id"] . ")\"><img class=\"icon\" src=\"images/edit.png\" alt=\"Edit\"></td></tr>";
               }
             }
-          }
-        }
-        ?>
-      </table>
+            ?>
+          </table>
+        </div>
+      </div>
     </div>
-  </div>
-  </div>
-  <div class="footer">
     <?php
     include 'footer.php';
     ?>
-  </div>
+
 </body>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 <script type="text/javascript">

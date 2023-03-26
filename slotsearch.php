@@ -1,162 +1,18 @@
-<!DOCTYPE html>
-<html>
-
-<head>
-
-  <meta charset="utf-8">
-  <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
-  <link rel="stylesheet" href="css/style.css">
-  <link rel="icon" href="favicon/favicon.png">
-  <script src="https://www.w3schools.com/lib/w3.js"></script>
-  <script src="https://kit.fontawesome.com/8be26e49e1.js" crossorigin="anonymous"></script>
-  <script type="text/javascript">
-    function searchInSlots() {
-      // Declare variables
-      var input, filter, table, tr, td, i;
-      input = document.getElementById("myInput");
-      filter = input.value.toUpperCase();
-      table = document.getElementById("myTable");
-      tr = table.getElementsByTagName("tr");
-
-      // Loop through all table rows, and hide those who don't match the search query
-      <?php if (!isset($_POST['establishment']) && !isset($_POST['operator'])) { ?>
-        for (i = 0; i < tr.length; i++) {
-          td1 = tr[i].getElementsByTagName("td")[0];
-          td2 = tr[i].getElementsByTagName("td")[1];
-          td3 = tr[i].getElementsByTagName("td")[2];
-          td4 = tr[i].getElementsByTagName("td")[3];
-          td5 = tr[i].getElementsByTagName("td")[4];
-          td6 = tr[i].getElementsByTagName("td")[5];
-          if (td1) {
-            if ((td1.innerHTML.toUpperCase().indexOf(filter) > -1) || (td2.innerHTML.toUpperCase().indexOf(filter) > -1) || (td3.innerHTML.toUpperCase().indexOf(filter) > -1) || (td4.innerHTML.toUpperCase().indexOf(filter) > -1) || (td5.innerHTML.toUpperCase().indexOf(filter) > -1) || (td6.innerHTML.toUpperCase().indexOf(filter) > -1)) {
-              tr[i].style.display = "";
-            } else {
-              tr[i].style.display = "none";
-            }
-          }
-        }
-      <?php } else { ?>
-        for (i = 0; i < tr.length; i++) {
-          td1 = tr[i].getElementsByTagName("td")[0];
-          td2 = tr[i].getElementsByTagName("td")[1];
-          td3 = tr[i].getElementsByTagName("td")[2];
-          td4 = tr[i].getElementsByTagName("td")[3];
-          td5 = tr[i].getElementsByTagName("td")[4];
-          if (td1) {
-            if ((td1.innerHTML.toUpperCase().indexOf(filter) > -1) || (td2.innerHTML.toUpperCase().indexOf(filter) > -1) || (td3.innerHTML.toUpperCase().indexOf(filter) > -1) || (td4.innerHTML.toUpperCase().indexOf(filter) > -1) || (td5.innerHTML.toUpperCase().indexOf(filter) > -1)) {
-              tr[i].style.display = "";
-            } else {
-              tr[i].style.display = "none";
-            }
-          }
-        }
-      <?php } ?>
-    }
-  </script>
-
-</head>
-
-<body>
-  <div class="header">
-    <?php
-    include 'header.php';
-    ?>
-  </div>
   <div class="container-fluid">
-    <div class="col-100">
-      <div class="col-75">
-        <h1>Slots</h1>
-        <?php 
-        if (isset($_POST['establishment'])){
-          $query = "SELECT * from establishment where  permit_number = ".$_POST['establishment'].";";
-          $result = $connect->query($query);
-          $row = $result->fetch_assoc();
-          echo "<h4><b>Establishment: </b>".$row['name']."</h4>";
-          $query = "SELECT * from operator where  license_number = ".$row['fk_license_number_operator']." LIMIT 1;";
-          $result = $connect->query($query);
-          $row = $result->fetch_assoc();
-          echo "<h4><b>Operator: </b>".$row['company_name']."</h4>";
-        }
-        ?>
-      </div>
-      <div class="col-25">
-        <?php if (isset($_POST['operator'])) { ?>
-          <button class="button" onclick="showEstablishment()">Show Establishment</button>
-        <?php } ?>
+    <div class="row pt-5">
+      <div class="col-4"></div>
+      <div class="col-4">
+        <input type="text" id="searchbox" placeholder="Search Slot Machine by Seal Number ...">
       </div>
     </div>
-    <div class="col-100">
-      <div class="col-75">
-        <input type="text" id="myInput" onkeyup="searchInSlots()" placeholder="Search ...">
+    <div class="col-4"></div>
+    <div class="row pt-5">
+      <div class="col-4"></div>
+      <div class="col-4">
+        <button class="button" onclick="document.getElementById('id_add_slot').style.display='block'">Search Slot</button>
       </div>
-      <div class="col-25">
-        <button class="button" onclick="document.getElementById('id_add_slot').style.display='block'">Add Slot</button>
-      </div>
+      <div class="col-4"></div>
     </div>
-    <div class="col-100">
-      <table id="myTable" class="w3-table-all">
-        <tr>
-          <?php if (!isset($_POST['establishment']) && !isset($_POST['operator'])) { ?>
-            <th class="w3-dark-grey w3-hover-black" onclick="w3.sortHTML('#myTable', '.item', 'td:nth-child(1)')" style="cursor:pointer">Operator <i class="fa fa-sort" style="font-size:13px;"></i></th>
-            <th class="w3-dark-grey w3-hover-black" onclick="w3.sortHTML('#myTable', '.item', 'td:nth-child(2)')" style="cursor:pointer">Operator Number <i class="fa fa-sort" style="font-size:13px;"></i></th>
-            <th class="w3-dark-grey w3-hover-black" onclick="w3.sortHTML('#myTable', '.item', 'td:nth-child(3)')" style="cursor:pointer">Manufacturer <i class="fa fa-sort" style="font-size:13px;"></i></th>
-            <th class="w3-dark-grey w3-hover-black" onclick="w3.sortHTML('#myTable', '.item', 'td:nth-child(4)')" style="cursor:pointer">Serial Number <i class="fa fa-sort" style="font-size:13px;"></i></th>
-            <th class="w3-dark-grey w3-hover-black" onclick="w3.sortHTML('#myTable', '.item', 'td:nth-child(5)')" style="cursor:pointer">Type <i class="fa fa-sort" style="font-size:13px;"></i></th>
-            <th class="w3-dark-grey w3-hover-black" onclick="w3.sortHTML('#myTable', '.item', 'td:nth-child(6)')" style="cursor:pointer">Model <i class="fa fa-sort" style="font-size:13px;"></i></th>
-          <?php } else { ?>
-            <th class="w3-dark-grey w3-hover-black" onclick="w3.sortHTML('#myTable', '.item', 'td:nth-child(1)')" style="cursor:pointer">Operator Number <i class="fa fa-sort" style="font-size:13px;"></i></th>
-            <th class="w3-dark-grey w3-hover-black" onclick="w3.sortHTML('#myTable', '.item', 'td:nth-child(2)')" style="cursor:pointer">Manufacturer <i class="fa fa-sort" style="font-size:13px;"></i></th>
-            <th class="w3-dark-grey w3-hover-black" onclick="w3.sortHTML('#myTable', '.item', 'td:nth-child(3)')" style="cursor:pointer">Serial Number <i class="fa fa-sort" style="font-size:13px;"></i></th>
-            <th class="w3-dark-grey w3-hover-black" onclick="w3.sortHTML('#myTable', '.item', 'td:nth-child(4)')" style="cursor:pointer">Type <i class="fa fa-sort" style="font-size:13px;"></i></th>
-            <th class="w3-dark-grey w3-hover-black" onclick="w3.sortHTML('#myTable', '.item', 'td:nth-child(5)')" style="cursor:pointer">Model <i class="fa fa-sort" style="font-size:13px;"></i></th>
-          <?php } ?>
-          <th class="w3-dark-grey w3-hover-black">Seal</th>
-          <th class="w3-dark-grey w3-hover-black">Edit</th>
-          <th class="w3-dark-grey w3-hover-black">Info</th>
-        </tr>
-        <?php
-        if ($connect) {
-          if (isset($_POST['establishment'])) {
-            $query = "SELECT * from slot_machines, slot_model, type_slot_machines, slot_machines_establishment, manufacturer where fk_model = id_model AND fk_id_manufacturer = id_manufacturer AND fk_slot_type = id_type_slot_machines AND fk_slot_machines = serial_number AND fk_establishment = ".$_POST['establishment'].";";
-            if ($result = $connect->query($query)) {
-              if ($result->num_rows > 0) {
-                while ($row = $result->fetch_assoc()) {
-                  echo "<tr class=\"item\"><td>" . $row["operator_number"] . "</td><td>" . $row["name_manufacturer"] . "</td><td>" . $row["serial_number"] . "</td><td>" . $row["name_type"] . "</td><td>" . $row["name_model"] . "</td><td></td><td onclick=\"edit_slot('" . $row["serial_number"] . "')\"><img class=\"icon\" src=\"images/edit.png\" alt=\"Edit\"></td><td onclick=\"info_slot('" . $row["serial_number"] . "')\"><img class=\"icon\" src=\"images/info.png\" alt=\"Info\"></td></tr>";
-                }
-              }
-            }
-          } else if (isset($_POST['operator'])) {
-            $query = "SELECT * from slot_machines, slot_model, type_slot_machines, manufacturer, operator where fk_model = id_model AND fk_id_manufacturer = id_manufacturer AND fk_slot_type = id_type_slot_machines AND fk_license_number = license_number AND official_license_number = \"" . $_POST['operator'] . "\";";
-            if ($result = $connect->query($query)) {
-              if ($result->num_rows > 0) {
-                while ($row = $result->fetch_assoc()) {
-                  echo "<tr class=\"item\"><td>" . $row["operator_number"] . "</td><td>" . $row["name_manufacturer"] . "</td><td>" . $row["serial_number"] . "</td><td>" . $row["name_type"] . "</td><td>" . $row["name_model"] . "</td><td><i class=\"fa-regular fa-seal seal\"></i></td><td onclick=\"edit_slot('" . $row["serial_number"] . "')\"><img class=\"icon\" src=\"images/edit.png\" alt=\"Edit\"></td><td onclick=\"info_slot('" . $row["serial_number"] . "')\"><img class=\"icon\" src=\"images/info.png\" alt=\"Info\"></td></tr>";
-                }
-              }
-            }
-          } else {
-            $query = "SELECT * from slot_machines, slot_model, type_slot_machines, manufacturer, operator where fk_model = id_model AND fk_id_manufacturer = id_manufacturer AND fk_slot_type = id_type_slot_machines AND fk_license_number = license_number LIMIT 100;";
-            if ($result = $connect->query($query)) {
-              if ($result->num_rows > 0) {
-                while ($row = $result->fetch_assoc()) {
-                  $query = "SELECT * from seal  where fk_serial_number = \"" . $row["serial_number"] . "\";";
-                  $seal = $connect->query($query);
-
-                  echo "<tr class=\"item\"><td>" . $row["company_name"] . "</td><td>" . $row["operator_number"] . "</td><td>" . $row["name_manufacturer"] . "</td><td>" . $row["serial_number"] . "</td><td>" . $row["name_type"] . "</td><td>" . $row["name_model"] . "</td><td>" . $seal->num_rows . "</td><td onclick=\"edit_slot('" . $row["serial_number"] . "')\"><img class=\"icon\" src=\"images/edit.png\" alt=\"Edit\"></td><td onclick=\"info_slot('" . $row["serial_number"] . "')\"><img class=\"icon\" src=\"images/info.png\" alt=\"Info\"></td></tr>";
-                }
-              }
-            }
-          }
-        }
-        ?>
-      </table>
-    </div>
-  </div>
-  <div class="footer">
-    <?php
-    include 'footer.php';
-    ?>
   </div>
 
   <div class="div-body">
@@ -317,6 +173,8 @@
     ?>
   </div>
 
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
   <div id="id_info_slot" class="modal-div-info">
     <span onclick="closeAdd()" class="close_add" title="Close">&times;</span>
     <div class="modal-div-content">
@@ -457,7 +315,6 @@
     </div>
   </div>
 
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 
   <script type="text/javascript">
     $(window).on("load", function() {
@@ -517,151 +374,16 @@
     }
 
 
-
-    var bool = 0;
     $(document).ready(function() {
 
+      $(function() {
+        $("#searchbox").focus();
 
-
-      function showEstablishment() {
-        var form = document.createElement("form");
-        form.setAttribute("method", "post");
-        form.setAttribute("action", "establishment.php");
-        var hiddenField2 = document.createElement("input");
-        hiddenField2.setAttribute("type", "hidden");
-        hiddenField2.setAttribute("name", "operator");
-        hiddenField2.setAttribute("value", "<?php if (isset($_POST['operator'])) echo $_POST['operator']; ?>");
-        form.appendChild(hiddenField2);
-        document.body.appendChild(form);
-        form.submit();
-      }
-
-      $("#id_is_original").change(function() {
-        if (this.checked) {
-          $('#id_manufacturer_motherboard').val($("#manufacturerSelect").val());
-          $('#id_manufacturer_motherboard_text').val($("#manufacturerSelect").val());
-          $('#id_manufacturer_motherboard').attr('disabled', 'disabled');
-        } else {
-          $('#id_manufacturer_motherboard').attr('disabled', false);
-        }
-      });
-
-
-
-      $("#state_id").change(function() {
-        if ($(this).val() == "1") {
-          document.getElementById('decommission').disabled = true;
-          document.getElementById("decommission-div").style.display = "none";
-        } else {
-          document.getElementById('decommission').disabled = false;
-          document.getElementById("decommission-div").style.display = "block";
-        }
-      });
-
-      $("#id_manufacturer_motherboard").change(function() {
-        $('#id_manufacturer_motherboard_text').val($("#id_manufacturer_motherboard").val());
-      });
-
-      $("#manufacturerSelect").change(function() {
-        if ($("#id_is_original").is(':checked')) {
-          $('#id_manufacturer_motherboard').val($("#manufacturerSelect").val());
-          $('#id_manufacturer_motherboard_text').val($("#manufacturerSelect").val());
-        }
-        $("#model_id").empty();
-        var value = $(this).val();
-        if (value) {
-          $.post('PHP/selectSlotModel.php', {
-            manufacturer: value
-          }, function(data) {
-            if (data) {
-
-              $("#model_id").append('<option></option>');
-              data = data.substring(0, data.length - 1);
-              var res = data.split(":");
-              for (var i = 0; i < res.length; i += 2) {
-                $("#model_id").append('<option value=' + res[i] + '>' + res[i + 1] + '</option>');
-              }
-            }
-          }).fail(function() {
-            alert("Server error!");
-          });
-        }
-      });
-
-      $("#operator_id").change(function() {
-        console.log("changed!")
-        var operatorVal = $(this).val();
-        $('#establishment_id option').remove()
-        if (operatorVal) {
-          document.getElementById("idDivShow").style.display = 'block';
-          $("#establishment_id").attr('disabled', false);
-          $.post('PHP/selectEstablishment.php', {
-            operator: operatorVal
-          }, function(data) {
-            $('#establishment_id option').remove()
-            if (data) {
-              $("#establishment_id").append('<option></option>');
-              data = data.substring(0, data.length - 1);
-              var res = data.split(":");
-              for (var i = 0; i < res.length; i += 2) {
-                $("#establishment_id").append('<option value=' + res[i] + '>' + res[i + 1] + '</option>');
-              }
-            } else {
-              $("#establishment_id").attr('disabled', true);
-            }
-          }).fail(function() {
-            alert("Server error!");
-          });
-        } else {
-          document.getElementById("idDivShow").style.display = 'none';
-          $("#establishment_id").attr('disabled', true);
-        }
+        $("#searchbox").on("input", function() {
+          
+        });
 
       });
-
-      $("#myTable tr td:eq(0)").click(function() {
-        $(this).addClass('selected').siblings().removeClass('selected');
-        var value = $(this).find('td:nth-child(<?php if (isset($_POST['operator']) || isset($_POST['establishment'])) echo "1";
-                                                else echo "2"; ?>)').html();
-        if ($(this).find('td:first') && bool == 0) {
-          if (typeof value !== 'undefined' && value !== null) {
-            var form = document.createElement("form");
-            form.setAttribute("method", "post");
-            form.setAttribute("action", "slot_images.php");
-            var hiddenField = document.createElement("input");
-            hiddenField.setAttribute("type", "hidden");
-            hiddenField.setAttribute("name", "slot");
-            hiddenField.setAttribute("value", value);
-            form.appendChild(hiddenField);
-            document.body.appendChild(form);
-            form.submit();
-          }
-        } else if (bool == 1) {
-          bool = 0;
-        }
-      });
-    });
-
-    $("#myTable seal").click(function() {
-      $(this).addClass('selected').siblings().removeClass('selected');
-      var value = $(this).find('td:nth-child(<?php if (isset($_POST['operator']) || isset($_POST['establishment'])) echo "1";
-                                              else echo "2"; ?>)').html();
-      if ($(this).find('td:first') && bool == 0) {
-        if (typeof value !== 'undefined' && value !== null) {
-          var form = document.createElement("form");
-          form.setAttribute("method", "post");
-          form.setAttribute("action", "slot_images.php");
-          var hiddenField = document.createElement("input");
-          hiddenField.setAttribute("type", "hidden");
-          hiddenField.setAttribute("name", "slot");
-          hiddenField.setAttribute("value", value);
-          form.appendChild(hiddenField);
-          document.body.appendChild(form);
-          form.submit();
-        }
-      } else if (bool == 1) {
-        bool = 0;
-      }
     });
   </script>
 
@@ -904,7 +626,3 @@
       </div>
     </form>
   </div>
-
-</body>
-
-</html>

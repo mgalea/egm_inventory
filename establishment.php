@@ -1,10 +1,9 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Establishments</title>
+
     <meta charset="utf-8">
     <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
     <link rel="stylesheet" href="https://www.w3schools.com/w3js/w3js_sort.asp">
     <link rel="stylesheet" href="css/style.css">
@@ -303,6 +302,7 @@
       <div class="col-100">
         <table id="myTable" class="w3-table-all">
           <tr>
+            <th>Index</th>
             <th class="w3-dark-grey w3-hover-black" onclick="w3.sortHTML('#myTable', '.item', 'td:nth-child(1)')" style="cursor:pointer">Permit Number <i class="fa fa-sort" style="font-size:13px;"></i></th>
             <th class="w3-dark-grey w3-hover-black" onclick="w3.sortHTML('#myTable', '.item', 'td:nth-child(2)')" style="cursor:pointer">Name <i class="fa fa-sort" style="font-size:13px;"></i></th>
             <th class="w3-dark-grey w3-hover-black" onclick="w3.sortHTML('#myTable', '.item', 'td:nth-child(3)')" style="cursor:pointer">Town <i class="fa fa-sort" style="font-size:13px;"></i></th>
@@ -317,7 +317,7 @@
               if($result = $connect->query($query)){
                 if($result->num_rows > 0){
                   while ($row = $result->fetch_assoc()) {
-                      echo "<tr class=\"item\"><td>".$row["official_permit_number"]."</td><td>".$row["name"]."</td><td>".$row["twn_nm"]."</td><td><img class=\"icon\" onclick=\"edit_establishment(".$row["permit_number"].")\" src=\"images/edit.png\" alt=\"Edit\"></td><td><img class=\"icon\" onclick=\"info_establishment(".$row["permit_number"].")\" src=\"images/info.png\" alt=\"Info\"></td></tr>";
+                      echo "<tr class=\"item\"><td>".$row["permit_number"]."</td><td>".$row["official_permit_number"]."</td><td>".$row["name"]."</td><td>".$row["twn_nm"]."</td><td><img class=\"icon\" onclick=\"edit_establishment(".$row["permit_number"].")\" src=\"images/edit.png\" alt=\"Edit\"></td><td><img class=\"icon\" onclick=\"info_establishment(".$row["permit_number"].")\" src=\"images/info.png\" alt=\"Info\"></td></tr>";
                   }
                 }
               }
@@ -327,7 +327,7 @@
               if($result = $connect->query($query)){
                 if($result->num_rows > 0){
                   while ($row = $result->fetch_assoc()) {
-                      echo "<tr class=\"item\"><td>".$row["official_permit_number"]."</td><td>".$row["name"]."</td><td>".$row["twn_nm"]."</td><td>".$row["company_name"]."</td><td onclick=\"edit_establishment(".$row["permit_number"].")\"><img class=\"icon\" src=\"images/edit.png\" alt=\"Edit\"></td><td onclick=\"info_establishment(".$row["permit_number"].")\"><img class=\"icon\" src=\"images/info.png\" alt=\"Info\"></td></tr>";
+                      echo "<tr class=\"item\"><td>".$row["permit_number"]."</td><td>".$row["official_permit_number"]."</td><td>".$row["name"]."</td><td>".$row["twn_nm"]."</td><td>".$row["company_name"]."</td><td onclick=\"edit_establishment(".$row["permit_number"].")\"><img class=\"icon\" src=\"images/edit.png\" alt=\"Edit\"></td><td onclick=\"info_establishment(".$row["permit_number"].")\"><img class=\"icon\" src=\"images/info.png\" alt=\"Info\"></td></tr>";
                   }
                 }
               }
