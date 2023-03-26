@@ -380,7 +380,7 @@
         $("#searchbox").focus();
 
         $("#searchbox").on("input", function() {
-          
+          alert("Handler for c called." + $(this).val());
         });
 
       });
