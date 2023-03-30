@@ -47,318 +47,318 @@
 
   <main class="flex-shrink-0">
 
-  <div class="div-body">
+    <div class="div-body">
 
-    <style media="screen">
-      <?php
-      if (isset($_POST['user'])) {
-        echo "
+      <style media="screen">
+        <?php
+        if (isset($_POST['user'])) {
+          echo "
           .modal-div {
             display: block;
           }";
-      };
-      ?>
-    </style>
-    <?php
-    $id_user = "";
-    $user_type = "";
-    $username = "";
-    $email = "";
-    $telephone = "";
-    $organization = "";
-    $active = "";
-    $username = "";
-    $firstname = "";
-    $lastname = "";
-    $user_role = "";
-    $personalid = "";
-    $image = "";
+        };
+        ?>
+      </style>
+      <?php
+      $id_user = "";
+      $user_type = "";
+      $username = "";
+      $email = "";
+      $telephone = "";
+      $organization = "";
+      $active = "";
+      $username = "";
+      $firstname = "";
+      $lastname = "";
+      $user_role = "";
+      $personalid = "";
+      $image = "";
 
-    if (isset($_POST['user'])) {
-      $id_user = $_POST['user'];
-    }
-    if ($id_user != "") {
-      $query = "SELECT * FROM users WHERE id = " . $id_user . ";";
-      if ($result = $connect->query($query)) {
-        $row = $result->fetch_assoc();
-        $user_type = $row['user_type'];
-        $username = $row['username'];
-        $email = $row['email'];
-        $telephone = $row['telephone'];
-        $organization = $row['organization'];
-        $active = $row['active'];
-        $firstname = $row['first_name'];
-        $lastname = $row['last_name'];
-        $user_role = $row['role'];
-        $personalid = $row['personal_id'];
-        $image = $row['image'];
+      if (isset($_POST['user'])) {
+        $id_user = $_POST['user'];
       }
-    }
-
-    if (isset($_POST['user_delete'])) {
-      $id_user = $_POST['user_delete'];
       if ($id_user != "") {
-        $query = "DELETE FROM users WHERE id = " . $id_user . ";";
-        $connect->query($query);
+        $query = "SELECT * FROM users WHERE id = " . $id_user . ";";
+        if ($result = $connect->query($query)) {
+          $row = $result->fetch_assoc();
+          $user_type = $row['user_type'];
+          $username = $row['username'];
+          $email = $row['email'];
+          $telephone = $row['telephone'];
+          $organization = $row['organization'];
+          $active = $row['active'];
+          $firstname = $row['first_name'];
+          $lastname = $row['last_name'];
+          $user_role = $row['role'];
+          $personalid = $row['personal_id'];
+          $image = $row['image'];
+        }
       }
-    }
+
+      if (isset($_POST['user_delete'])) {
+        $id_user = $_POST['user_delete'];
+        if ($id_user != "") {
+          $query = "DELETE FROM users WHERE id = " . $id_user . ";";
+          $connect->query($query);
+        }
+      }
 
 
 
-    ?>
+      ?>
 
-    <div id="id_add_user" class="modal-div">
-      <span onclick="closeAdd()" class="close_add" title="Close">&times;</span>
-      <form id="formAdd" onsubmit="return onSubmitFunction()" class="modal-div-content" action="PHP/<?php if (isset($_POST['user'])) echo "editUser.php";
-                                                                                                    else echo "addUser.php"; ?>" method="POST">
-        <div class="container">
-          <h1><?php if (isset($_POST['user'])) echo "Edit User";
-              else echo "New User"; ?></h1>
-          <hr>
-          <?php if (isset($_POST['user'])) { ?>
-            <input type="text" name="id_user" value="<?php echo $id_user; ?>" style="display:none;">
-          <?php } ?>
-          <label><b>Username</b></label>
-          <input class="input-add" type="text" name="username" value="<?php echo $username; ?>" required>
+      <div id="id_add_user" class="modal-div">
+        <span onclick="closeAdd()" class="close_add" title="Close">&times;</span>
+        <form id="formAdd" onsubmit="return onSubmitFunction()" class="modal-div-content" action="PHP/<?php if (isset($_POST['user'])) echo "editUser.php";
+                                                                                                      else echo "addUser.php"; ?>" method="POST">
+          <div class="container">
+            <h1><?php if (isset($_POST['user'])) echo "Edit User";
+                else echo "New User"; ?></h1>
+            <hr>
+            <?php if (isset($_POST['user'])) { ?>
+              <input type="text" name="id_user" value="<?php echo $id_user; ?>" style="display:none;">
+            <?php } ?>
+            <label><b>Username</b></label>
+            <input class="input-add" type="text" name="username" value="<?php echo $username; ?>" required>
 
-          <label><b>First Name</b></label>
-          <input class="input-add" type="text" name="firstname" value="<?php echo $firstname; ?>" required>
+            <label><b>First Name</b></label>
+            <input class="input-add" type="text" name="firstname" value="<?php echo $firstname; ?>" required>
 
-          <label><b>Last Name</b></label>
-          <input class="input-add" type="text" name="lastname" value="<?php echo $lastname; ?>" required>
+            <label><b>Last Name</b></label>
+            <input class="input-add" type="text" name="lastname" value="<?php echo $lastname; ?>" required>
 
-          <label><b>Personal ID</b></label>
-          <input class="input-add" type="text" name="personalid" value="<?php echo $personalid; ?>" required>
+            <label><b>Personal ID</b></label>
+            <input class="input-add" type="text" name="personalid" value="<?php echo $personalid; ?>" required>
 
 
-          <label><b>Password</b></label>
-          <input id="password" class="input-add" type="password" name="password" pattern="(?=^.{8,}$)((?=.*\d)|(?=.*\W+))(?![.\n])(?=.*[A-Z])(?=.*[a-z]).*$" required>
-          <label><b>Confirm Password</b></label>
-          <input id="password_confirm" class="input-add" type="password" name="confirm-password" pattern="(?=^.{8,}$)((?=.*\d)|(?=.*\W+))(?![.\n])(?=.*[A-Z])(?=.*[a-z]).*$" required>
+            <label><b>Password</b></label>
+            <input id="password" class="input-add" type="password" name="password" pattern="(?=^.{8,}$)((?=.*\d)|(?=.*\W+))(?![.\n])(?=.*[A-Z])(?=.*[a-z]).*$" required>
+            <label><b>Confirm Password</b></label>
+            <input id="password_confirm" class="input-add" type="password" name="confirm-password" pattern="(?=^.{8,}$)((?=.*\d)|(?=.*\W+))(?![.\n])(?=.*[A-Z])(?=.*[a-z]).*$" required>
 
-          <label><b>Type of User</b></label>
-          <select class="input-add" name="type-user">
-            <?php
-            $query = "SELECT * FROM type_user;";
-            if ($result = $connect->query($query)) {
-              while ($row = $result->fetch_assoc()) {
-                echo "<option value=\"" . $row['id_type_user'] . "\" ";
-                if ($row['id_type_user'] == $user_type) {
-                  echo "selected ";
-                }
-                echo ">" . $row['type_value'] . "</option>";
-              }
-            }
-            ?>
-          </select>
-          <label><b>Email</b></label>
-          <input class="input-add" type="text" name="email" value="<?php echo $email; ?>" required>
-          <label><b>Telephone</b></label>
-          <input class="input-add" type="text" name="telephone" value="<?php echo $telephone; ?>" required>
-          <label><b>Organization</b></label>
-          <input class="input-add" type="text" name="organization" value="<?php echo $organization; ?>" required>
-          <label><b>State</b></label></br>
-          <input type="checkbox" name="active" value="1" <?php if (!isset($_POST['user']) || $active == "1") echo "checked"; ?>> Active
-          <div class="clearfix">
-            <button type="button" onclick="closeAdd()" class="mx-3 cancelbtn btn btn-lg btn-warning">Cancel</button>
-            <button type="submit" class="mx-3 btn btn-lg btn-success savebtn">Save</button>
-          </div>
-        </div>
-      </form>
-    </div>
-
-    <div id="id_add_brand_operator" class="modal-div-modify">
-      <span onclick="closeModify()" class="close_add" title="Close">&times;</span>
-      <form id="formAddBrandOperator" class="modal-div-content" action="PHP/add_brand_operator.php" method="POST">
-        <div class="container-fluid">
-          <h1>Operators Brand</h1>
-          <hr>
-          <?php
-          $query = "SELECT * FROM brand;";
-          $result = $connect->query($query);
-          while ($row = $result->fetch_assoc()) {
-            echo "<input type=\"text\" class=\"input-disabled\" value=\"" . $row["name"] . "\" disabled>";
-          }
-          ?>
-
-          <input id="brandOperatorPHP" name="brandOperatorPHP" type="text">
-          <div class="col-100-add">
-            <div id="div-new-brand-operator" class="col-100-add"></div>
-            <div class="col-100-add input-add">
-              <div class="col-100-58">
-                <input id="brandOperator" type="text" class="input-select-add">
-              </div>
-              <div class="col-58">
-                <button id="addBrandOperator" type="button"></button>
-              </div>
-            </div>
-          </div>
-          <div class="clearfix">
-            <button type="submit" class="m-3 btn btn-lg btn-primary savebtn">Save</button>
-            <button type="button" onclick="closeModify()" class="m-3 cancelbtn btn btn-lg btn-warning">Cancel</button>
-
-          </div>
-        </div>
-      </form>
-    </div>
-
-    <div id="id_add_type_establishment" class="modal-div-modify">
-      <span onclick="closeModify()" class="close_add" title="Close">&times;</span>
-      <form id="formAddTypeEstablishment" class="modal-div-content" action="PHP/add_type_establishment.php" method="POST">
-        <div class="container">
-          <h1>Establishments Types</h1>
-          <hr>
-          <?php
-          $query = "SELECT * FROM type;";
-          $result = $connect->query($query);
-          while ($row = $result->fetch_assoc()) {
-            echo "<input type=\"text\" class=\"input-disabled\" value=\"" . $row["namet"] . "\" disabled>";
-          }
-          ?>
-
-          <input id="typeEstablishmentPHP" name="typeEstablishmentPHP" type="text">
-          <div class="col-100-add">
-            <div id="div-new-type-establishment" class="col-100-add"></div>
-            <div class="col-100-add input-add">
-              <div class="col-100-58">
-                <input id="typeEstablishment" type="text" class="input-select-add">
-              </div>
-              <div class="col-58">
-                <button id="addTypeEstablishment" type="button"></button>
-              </div>
-            </div>
-          </div>
-          <div class="clearfix">
-            <button type="submit" class="m-3 btn btn-lg btn-primary savebtn">Save</button>
-            <button type="button" onclick="closeModify()" class="m-3 cancelbtn btn btn-lg btn-warning">Cancel</button>
-
-          </div>
-        </div>
-      </form>
-    </div>
-
-    <div id="id_add_manufacturer_slots" class="modal-div-modify">
-      <span onclick="closeModify()" class="close_add" title="Close">&times;</span>
-      <form id="formAddManufacturerSlots" class="modal-div-content" action="PHP/add_manufacturer_slots.php" method="POST">
-        <div class="container">
-          <h1>Slots Manufacturer</h1>
-          <hr>
-          <?php
-          $query = "SELECT * FROM manufacturer;";
-          $result = $connect->query($query);
-          while ($row = $result->fetch_assoc()) {
-            echo "<input type=\"text\" class=\"input-disabled\" value=\"" . $row["name_manufacturer"] . "\" disabled>";
-          }
-          ?>
-
-          <input id="manufacturerSlotPHP" name="manufacturerSlotPHP" type="text">
-          <div class="col-100-add">
-            <div id="div-new-manufacturer-slots" class="col-100-add"></div>
-            <div class="col-100-add input-add">
-              <div class="col-100-58">
-                <input id="manufacturerSlot" type="text" class="input-select-add">
-              </div>
-              <div class="col-58">
-                <button id="addManufacturerSlot" type="button"></button>
-              </div>
-            </div>
-          </div>
-          <div class="clearfix">
-            <button type="button" onclick="closeModify()" class="m-3 btn btn-lg btn-warning cancelbtn">Cancel</button>
-            <button type="submit" class="m-3 btn btn-lg btn-primary savebtn">Save</button>
-          </div>
-        </div>
-      </form>
-    </div>
-
-    <div id="id_add_type_slots" class="modal-div-modify">
-      <span onclick="closeModify()" class="close_add" title="Close">&times;</span>
-      <form id="formAddTypeSlots" class="modal-div-content" action="PHP/add_type_slots.php" method="POST">
-        <div class="container">
-          <h1>Slots Types</h1>
-          <hr>
-          <?php
-          $query = "SELECT * FROM type_slot_machines;";
-          $result = $connect->query($query);
-          while ($row = $result->fetch_assoc()) {
-            echo "<input type=\"text\" class=\"input-disabled\" value=\"" . $row["name_type"] . "\" disabled>";
-          }
-          ?>
-
-          <input id="typeSlotsPHP" name="typeSlotsPHP" type="text">
-          <div class="col-100-add">
-            <div id="div-new-type-slots" class="col-100-add"></div>
-            <div class="col-100-add input-add">
-              <div class="col-100-58">
-                <input id="typeSlots" type="text" class="input-select-add">
-              </div>
-              <div class="col-58">
-                <button id="addTypeSlots" type="button"></button>
-              </div>
-            </div>
-          </div>
-          <div class="clearfix">
-            <button type="submit" class="m-3 btn btn-lg btn-success savebtn">Save</button>
-            <button type="button" onclick="closeModify()" class="m-3 cancelbtn btn btn-lg btn-warning">Cancel</button>
-          </div>
-        </div>
-      </form>
-    </div>
-
-    <div id="id_add_model_slots" class="modal-div-modify">
-      <span onclick="closeModify()" class="close_add" title="Close">&times;</span>
-
-      <form id="formAddModelSlots" class="modal-div-content" action="PHP/add_model_slots.php" method="POST">
-        <div class="container">
-          <h1 id="slot_model_title">EGM Model</h1>
-          <h2>Select the Slots manufacturer first.</h2>
-          <hr>
-
-          <div class="tab overflow-x:auto">
-            <table class="w3-table-all">
-              <tr>
-                <th class="w3-dark-grey w3-hover-black">Manufacturer</th>
-              </tr>
+            <label><b>Type of User</b></label>
+            <select class="input-add" name="type-user">
               <?php
-              if ($connect) {
-                $query = "SELECT * from manufacturer;";
-                if ($result = $connect->query($query)) {
-                  if ($result->num_rows > 0) {
-                    while ($row = $result->fetch_assoc()) {
-                      echo "<tr style=\"cursor:pointer\" onclick=\"selectManufacturerModel(" . $row["id_manufacturer"] . ",'" . $row["name_manufacturer"] . "')\" class=\"item float-end\"><td>" . $row["name_manufacturer"] . "</td></tr>";
-                    }
+              $query = "SELECT * FROM type_user;";
+              if ($result = $connect->query($query)) {
+                while ($row = $result->fetch_assoc()) {
+                  echo "<option value=\"" . $row['id_type_user'] . "\" ";
+                  if ($row['id_type_user'] == $user_type) {
+                    echo "selected ";
                   }
+                  echo ">" . $row['type_value'] . "</option>";
                 }
               }
               ?>
-            </table>
+            </select>
+            <label><b>Email</b></label>
+            <input class="input-add" type="text" name="email" value="<?php echo $email; ?>" required>
+            <label><b>Telephone</b></label>
+            <input class="input-add" type="text" name="telephone" value="<?php echo $telephone; ?>" required>
+            <label><b>Organization</b></label>
+            <input class="input-add" type="text" name="organization" value="<?php echo $organization; ?>" required>
+            <label><b>State</b></label></br>
+            <input type="checkbox" name="active" value="1" <?php if (!isset($_POST['user']) || $active == "1") echo "checked"; ?>> Active
             <div class="clearfix">
-              <button type="button" onclick="closeModify()" class="m-3 btn btn-lg btn-warning cancelbtn">Cancel</button>
+              <button type="button" onclick="closeAdd()" class="mx-3 cancelbtn btn btn-lg btn-warning">Cancel</button>
+              <button type="submit" class="mx-3 btn btn-lg btn-success savebtn">Save</button>
             </div>
           </div>
-          <div class="tab">
-            <input id="manufacturerModelSlotsPHP" name="manufacturerModelSlotsPHP" type="text" value="">
-            <input id="modelSlotsPHP" name="modelSlotsPHP" type="text" value="">
+        </form>
+      </div>
+
+      <div id="id_add_brand_operator" class="modal-div-modify">
+        <span onclick="closeModify()" class="close_add" title="Close">&times;</span>
+        <form id="formAddBrandOperator" class="modal-div-content" action="PHP/add_brand_operator.php" method="POST">
+          <div class="container-fluid">
+            <h1>Operators Brand</h1>
+            <hr>
+            <?php
+            $query = "SELECT * FROM brand;";
+            $result = $connect->query($query);
+            while ($row = $result->fetch_assoc()) {
+              echo "<input type=\"text\" class=\"input-disabled\" value=\"" . $row["name"] . "\" disabled>";
+            }
+            ?>
+
+            <input id="brandOperatorPHP" name="brandOperatorPHP" type="text">
             <div class="col-100-add">
-              <div id="div-new-model-slots" class="col-100-add"></div>
+              <div id="div-new-brand-operator" class="col-100-add"></div>
               <div class="col-100-add input-add">
                 <div class="col-100-58">
-                  <input id="modelSlots" type="text" class="input-select-add">
+                  <input id="brandOperator" type="text" class="input-select-add">
                 </div>
                 <div class="col-58">
-                  <button id="addModelSlots" type="button">
+                  <button id="addBrandOperator" type="button"></button>
                 </div>
               </div>
             </div>
             <div class="clearfix">
-              <button type="button" onclick="backSelectManufacturerModel()" class="cancelbtn btn btn-lg btn-warning m-3">Cancel</button>
-              <button type="submit" class="btn btn-lg btn-primary savebtn m-3">Save</button>
+              <button type="submit" class="m-3 btn btn-lg btn-primary savebtn">Save</button>
+              <button type="button" onclick="closeModify()" class="m-3 cancelbtn btn btn-lg btn-warning">Cancel</button>
+
             </div>
           </div>
-        </div>
-      </form>
-    </div>
-   
+        </form>
+      </div>
+
+      <div id="id_add_type_establishment" class="modal-div-modify">
+        <span onclick="closeModify()" class="close_add" title="Close">&times;</span>
+        <form id="formAddTypeEstablishment" class="modal-div-content" action="PHP/add_type_establishment.php" method="POST">
+          <div class="container">
+            <h1>Establishments Types</h1>
+            <hr>
+            <?php
+            $query = "SELECT * FROM type;";
+            $result = $connect->query($query);
+            while ($row = $result->fetch_assoc()) {
+              echo "<input type=\"text\" class=\"input-disabled\" value=\"" . $row["namet"] . "\" disabled>";
+            }
+            ?>
+
+            <input id="typeEstablishmentPHP" name="typeEstablishmentPHP" type="text">
+            <div class="col-100-add">
+              <div id="div-new-type-establishment" class="col-100-add"></div>
+              <div class="col-100-add input-add">
+                <div class="col-100-58">
+                  <input id="typeEstablishment" type="text" class="input-select-add">
+                </div>
+                <div class="col-58">
+                  <button id="addTypeEstablishment" type="button"></button>
+                </div>
+              </div>
+            </div>
+            <div class="clearfix">
+              <button type="submit" class="m-3 btn btn-lg btn-primary savebtn">Save</button>
+              <button type="button" onclick="closeModify()" class="m-3 cancelbtn btn btn-lg btn-warning">Cancel</button>
+
+            </div>
+          </div>
+        </form>
+      </div>
+
+      <div id="id_add_manufacturer_slots" class="modal-div-modify">
+        <span onclick="closeModify()" class="close_add" title="Close">&times;</span>
+        <form id="formAddManufacturerSlots" class="modal-div-content" action="PHP/add_manufacturer_slots.php" method="POST">
+          <div class="container">
+            <h1>Slots Manufacturer</h1>
+            <hr>
+            <?php
+            $query = "SELECT * FROM manufacturer;";
+            $result = $connect->query($query);
+            while ($row = $result->fetch_assoc()) {
+              echo "<input type=\"text\" class=\"input-disabled\" value=\"" . $row["name_manufacturer"] . "\" disabled>";
+            }
+            ?>
+
+            <input id="manufacturerSlotPHP" name="manufacturerSlotPHP" type="text">
+            <div class="col-100-add">
+              <div id="div-new-manufacturer-slots" class="col-100-add"></div>
+              <div class="col-100-add input-add">
+                <div class="col-100-58">
+                  <input id="manufacturerSlot" type="text" class="input-select-add">
+                </div>
+                <div class="col-58">
+                  <button id="addManufacturerSlot" type="button"></button>
+                </div>
+              </div>
+            </div>
+            <div class="clearfix">
+              <button type="button" onclick="closeModify()" class="m-3 btn btn-lg btn-warning cancelbtn">Cancel</button>
+              <button type="submit" class="m-3 btn btn-lg btn-primary savebtn">Save</button>
+            </div>
+          </div>
+        </form>
+      </div>
+
+      <div id="id_add_type_slots" class="modal-div-modify">
+        <span onclick="closeModify()" class="close_add" title="Close">&times;</span>
+        <form id="formAddTypeSlots" class="modal-div-content" action="PHP/add_type_slots.php" method="POST">
+          <div class="container">
+            <h1>Slots Types</h1>
+            <hr>
+            <?php
+            $query = "SELECT * FROM type_slot_machines;";
+            $result = $connect->query($query);
+            while ($row = $result->fetch_assoc()) {
+              echo "<input type=\"text\" class=\"input-disabled\" value=\"" . $row["name_type"] . "\" disabled>";
+            }
+            ?>
+
+            <input id="typeSlotsPHP" name="typeSlotsPHP" type="text">
+            <div class="col-100-add">
+              <div id="div-new-type-slots" class="col-100-add"></div>
+              <div class="col-100-add input-add">
+                <div class="col-100-58">
+                  <input id="typeSlots" type="text" class="input-select-add">
+                </div>
+                <div class="col-58">
+                  <button id="addTypeSlots" type="button"></button>
+                </div>
+              </div>
+            </div>
+            <div class="clearfix">
+              <button type="submit" class="m-3 btn btn-lg btn-success savebtn">Save</button>
+              <button type="button" onclick="closeModify()" class="m-3 cancelbtn btn btn-lg btn-warning">Cancel</button>
+            </div>
+          </div>
+        </form>
+      </div>
+
+      <div id="id_add_model_slots" class="modal-div-modify">
+        <span onclick="closeModify()" class="close_add" title="Close">&times;</span>
+
+        <form id="formAddModelSlots" class="modal-div-content" action="PHP/add_model_slots.php" method="POST">
+          <div class="container">
+            <h1 id="slot_model_title">EGM Model</h1>
+            <h2>Select the Slots manufacturer first.</h2>
+            <hr>
+
+            <div class="tab overflow-x:auto">
+              <table class="w3-table-all">
+                <tr>
+                  <th class="w3-dark-grey w3-hover-black">Manufacturer</th>
+                </tr>
+                <?php
+                if ($connect) {
+                  $query = "SELECT * from manufacturer;";
+                  if ($result = $connect->query($query)) {
+                    if ($result->num_rows > 0) {
+                      while ($row = $result->fetch_assoc()) {
+                        echo "<tr style=\"cursor:pointer\" onclick=\"selectManufacturerModel(" . $row["id_manufacturer"] . ",'" . $row["name_manufacturer"] . "')\" class=\"item float-end\"><td>" . $row["name_manufacturer"] . "</td></tr>";
+                      }
+                    }
+                  }
+                }
+                ?>
+              </table>
+              <div class="clearfix">
+                <button type="button" onclick="closeModify()" class="m-3 btn btn-lg btn-warning cancelbtn">Cancel</button>
+              </div>
+            </div>
+            <div class="tab">
+              <input id="manufacturerModelSlotsPHP" name="manufacturerModelSlotsPHP" type="text" value="">
+              <input id="modelSlotsPHP" name="modelSlotsPHP" type="text" value="">
+              <div class="col-100-add">
+                <div id="div-new-model-slots" class="col-100-add"></div>
+                <div class="col-100-add input-add">
+                  <div class="col-100-58">
+                    <input id="modelSlots" type="text" class="input-select-add">
+                  </div>
+                  <div class="col-58">
+                    <button id="addModelSlots" type="button">
+                  </div>
+                </div>
+              </div>
+              <div class="clearfix">
+                <button type="button" onclick="backSelectManufacturerModel()" class="cancelbtn btn btn-lg btn-warning m-3">Cancel</button>
+                <button type="submit" class="btn btn-lg btn-primary savebtn m-3">Save</button>
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+
       <div class="container-fluid">
 
         <div class="btn-group d-flex btn-group-lg" role="group" aria-label="Settings">
@@ -428,14 +428,16 @@
           </div>
         </div>
       </div>
-    </main>
-      <div class="footer mt-auto">
-        <?php
-        include 'footer.php';
-        ?>
-      </div>
+  </main>
+  <div class="footer mt-auto">
+    <?php
+    include 'footer.php';
+    ?>
+  </div>
 </body>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4" crossorigin="anonymous"></script>
+
 <script type="text/javascript">
   var currentTab = 0; // Current tab is set to be the first tab (0)
   showTab(currentTab); // Display the crurrent tab

@@ -157,29 +157,46 @@
               <h2>Info <?php echo $name; ?></h2>
               <table class="w3-table-all">
 
-                <tr><td>Permit Number:</td><td> <?php echo $official_permit_number; ?></td>
+                <tr>
+                  <td>Permit Number:</td>
+                  <td> <?php echo $official_permit_number; ?></td>
                 </tr>
-                <tr><td>Name:</td><td> <?php echo $name; ?></td>
+                <tr>
+                  <td>Name:</td>
+                  <td> <?php echo $name; ?></td>
                 </tr>
-                <tr><td>Operator:</td><td> <?php echo $operator_name; ?></td>
+                <tr>
+                  <td>Operator:</td>
+                  <td> <?php echo $operator_name; ?></td>
                 </tr>
-                <tr><td>Namber of Machines:</td><td> <?php echo $n_slot_machines; ?></td>
+                <tr>
+                  <td>Namber of Machines:</td>
+                  <td> <?php echo $n_slot_machines; ?></td>
                 </tr>
-                <tr><td>State:</td><td><?php echo $state; ?></td>
+                <tr>
+                  <td>State:</td>
+                  <td><?php echo $state; ?></td>
                 </tr>
-                <tr><td>Establishment Type:</td><td> <?php echo $typeNameString; ?></td>
+                <tr>
+                  <td>Establishment Type:</td>
+                  <td> <?php echo $typeNameString; ?></td>
                 </tr>
               </table>
               <h3 style="margin-top: 40px;"><b>Address:</b></h3>
               <table>
-                <tr><td><?php echo $strt_nm; ?>, <?php echo $bldg_nm; ?></td>
+                <tr>
+                  <td><?php echo $strt_nm; ?>, <?php echo $bldg_nm; ?></td>
                 </tr>
-                <tr><td><?php echo $twn_nm; ?></tr>
-                <tr><td><?php echo $pstl_code_number; ?></td>
-                
-                <tr><td> <?php echo $ctry; ?></td>
+                <tr>
+                  <td><?php echo $twn_nm; ?>
                 </tr>
-                
+                <tr>
+                  <td><?php echo $pstl_code_number; ?></td>
+
+                <tr>
+                  <td> <?php echo $ctry; ?></td>
+                </tr>
+
                 </tr>
               </table>
             </div>
@@ -289,7 +306,7 @@
                                                                                     else echo "Nigeria"; ?>" required>
                   <label>Postal Code</label>
                   <input id="zip" class="input-add" type="text" name="zip" value="<?php echo $pstl_code_number; ?>" required>
-                  <input id="checkbox" type="checkbox" name="coordinates" value="<?php echo $latitude.":". $longitude ?>" <?php if ($latitude != "" && $longitude != "") echo "checked"; ?>> Include Latitude and Longitude<br>
+                  <input id="checkbox" type="checkbox" name="coordinates" value="<?php echo $latitude . ":" . $longitude ?>" <?php if ($latitude != "" && $longitude != "") echo "checked"; ?>> Include Latitude and Longitude<br>
                 </div>
               </div>
               <div class="col-50">
@@ -381,6 +398,8 @@
 </body>
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4" crossorigin="anonymous"></script>
+
 <script type="text/javascript">
   var markers = [];
   var bool = 0;
