@@ -63,97 +63,108 @@
     include 'header.php';
     ?>
   </div>
-  <div class="container-fluid">
-    <div class="col-100">
-      <div class="col-75">
-        <h1>Slots</h1>
-        <?php 
-        if (isset($_POST['establishment'])){
-          $query = "SELECT * from establishment where  permit_number = ".$_POST['establishment'].";";
-          $result = $connect->query($query);
-          $row = $result->fetch_assoc();
-          echo "<h4><b>Establishment: </b>".$row['name']."</h4>";
-          $query = "SELECT * from operator where  license_number = ".$row['fk_license_number_operator']." LIMIT 1;";
-          $result = $connect->query($query);
-          $row = $result->fetch_assoc();
-          echo "<h4><b>Operator: </b>".$row['company_name']."</h4>";
-        }
-        ?>
-      </div>
-      <div class="col-25">
-        <?php if (isset($_POST['operator'])) { ?>
-          <button class="button" onclick="showEstablishment()">Show Establishment</button>
-        <?php } ?>
-      </div>
-    </div>
-    <div class="col-100">
-      <div class="col-75">
-        <input type="text" id="myInput" onkeyup="searchInSlots()" placeholder="Search ...">
-      </div>
-      <div class="col-25">
-        <button class="button" onclick="document.getElementById('id_add_slot').style.display='block'">Add Slot</button>
-      </div>
-    </div>
-    <div class="col-100">
-      <table id="myTable" class="w3-table-all">
-        <tr>
-          <?php if (!isset($_POST['establishment']) && !isset($_POST['operator'])) { ?>
-            <th class="w3-dark-grey w3-hover-black" onclick="w3.sortHTML('#myTable', '.item', 'td:nth-child(1)')" style="cursor:pointer">Operator <i class="fa fa-sort" style="font-size:13px;"></i></th>
-            <th class="w3-dark-grey w3-hover-black" onclick="w3.sortHTML('#myTable', '.item', 'td:nth-child(2)')" style="cursor:pointer">Operator Number <i class="fa fa-sort" style="font-size:13px;"></i></th>
-            <th class="w3-dark-grey w3-hover-black" onclick="w3.sortHTML('#myTable', '.item', 'td:nth-child(3)')" style="cursor:pointer">Manufacturer <i class="fa fa-sort" style="font-size:13px;"></i></th>
-            <th class="w3-dark-grey w3-hover-black" onclick="w3.sortHTML('#myTable', '.item', 'td:nth-child(4)')" style="cursor:pointer">Serial Number <i class="fa fa-sort" style="font-size:13px;"></i></th>
-            <th class="w3-dark-grey w3-hover-black" onclick="w3.sortHTML('#myTable', '.item', 'td:nth-child(5)')" style="cursor:pointer">Type <i class="fa fa-sort" style="font-size:13px;"></i></th>
-            <th class="w3-dark-grey w3-hover-black" onclick="w3.sortHTML('#myTable', '.item', 'td:nth-child(6)')" style="cursor:pointer">Model <i class="fa fa-sort" style="font-size:13px;"></i></th>
-          <?php } else { ?>
-            <th class="w3-dark-grey w3-hover-black" onclick="w3.sortHTML('#myTable', '.item', 'td:nth-child(1)')" style="cursor:pointer">Operator Number <i class="fa fa-sort" style="font-size:13px;"></i></th>
-            <th class="w3-dark-grey w3-hover-black" onclick="w3.sortHTML('#myTable', '.item', 'td:nth-child(2)')" style="cursor:pointer">Manufacturer <i class="fa fa-sort" style="font-size:13px;"></i></th>
-            <th class="w3-dark-grey w3-hover-black" onclick="w3.sortHTML('#myTable', '.item', 'td:nth-child(3)')" style="cursor:pointer">Serial Number <i class="fa fa-sort" style="font-size:13px;"></i></th>
-            <th class="w3-dark-grey w3-hover-black" onclick="w3.sortHTML('#myTable', '.item', 'td:nth-child(4)')" style="cursor:pointer">Type <i class="fa fa-sort" style="font-size:13px;"></i></th>
-            <th class="w3-dark-grey w3-hover-black" onclick="w3.sortHTML('#myTable', '.item', 'td:nth-child(5)')" style="cursor:pointer">Model <i class="fa fa-sort" style="font-size:13px;"></i></th>
-          <?php } ?>
-          <th class="w3-dark-grey w3-hover-black">Seal</th>
-          <th class="w3-dark-grey w3-hover-black">Edit</th>
-          <th class="w3-dark-grey w3-hover-black">Info</th>
-        </tr>
-        <?php
-        if ($connect) {
+  <main class="flex-shrink-0">
+    <div class="container-fluid">
+      <div class="row my-3">
+        <div class="col-8">
+          <h1>Slots</h1>
+          <?php
           if (isset($_POST['establishment'])) {
-            $query = "SELECT * from slot_machines, slot_model, type_slot_machines, slot_machines_establishment, manufacturer where fk_model = id_model AND fk_id_manufacturer = id_manufacturer AND fk_slot_type = id_type_slot_machines AND fk_slot_machines = serial_number AND fk_establishment = ".$_POST['establishment'].";";
-            if ($result = $connect->query($query)) {
-              if ($result->num_rows > 0) {
-                while ($row = $result->fetch_assoc()) {
-                  echo "<tr class=\"item\"><td>" . $row["operator_number"] . "</td><td>" . $row["name_manufacturer"] . "</td><td>" . $row["serial_number"] . "</td><td>" . $row["name_type"] . "</td><td>" . $row["name_model"] . "</td><td></td><td onclick=\"edit_slot('" . $row["serial_number"] . "')\"><img class=\"icon\" src=\"images/edit.png\" alt=\"Edit\"></td><td onclick=\"info_slot('" . $row["serial_number"] . "')\"><img class=\"icon\" src=\"images/info.png\" alt=\"Info\"></td></tr>";
-                }
-              }
-            }
-          } else if (isset($_POST['operator'])) {
-            $query = "SELECT * from slot_machines, slot_model, type_slot_machines, manufacturer, operator where fk_model = id_model AND fk_id_manufacturer = id_manufacturer AND fk_slot_type = id_type_slot_machines AND fk_license_number = license_number AND official_license_number = \"" . $_POST['operator'] . "\";";
-            if ($result = $connect->query($query)) {
-              if ($result->num_rows > 0) {
-                while ($row = $result->fetch_assoc()) {
-                  echo "<tr class=\"item\"><td>" . $row["operator_number"] . "</td><td>" . $row["name_manufacturer"] . "</td><td>" . $row["serial_number"] . "</td><td>" . $row["name_type"] . "</td><td>" . $row["name_model"] . "</td><td><i class=\"fa-regular fa-seal seal\"></i></td><td onclick=\"edit_slot('" . $row["serial_number"] . "')\"><img class=\"icon\" src=\"images/edit.png\" alt=\"Edit\"></td><td onclick=\"info_slot('" . $row["serial_number"] . "')\"><img class=\"icon\" src=\"images/info.png\" alt=\"Info\"></td></tr>";
-                }
-              }
-            }
-          } else {
-            $query = "SELECT * from slot_machines, slot_model, type_slot_machines, manufacturer, operator where fk_model = id_model AND fk_id_manufacturer = id_manufacturer AND fk_slot_type = id_type_slot_machines AND fk_license_number = license_number LIMIT 100;";
-            if ($result = $connect->query($query)) {
-              if ($result->num_rows > 0) {
-                while ($row = $result->fetch_assoc()) {
-                  $query = "SELECT * from seal  where fk_serial_number = \"" . $row["serial_number"] . "\";";
-                  $seal = $connect->query($query);
-
-                  echo "<tr class=\"item\"><td>" . $row["company_name"] . "</td><td>" . $row["operator_number"] . "</td><td>" . $row["name_manufacturer"] . "</td><td>" . $row["serial_number"] . "</td><td>" . $row["name_type"] . "</td><td>" . $row["name_model"] . "</td><td>" . $seal->num_rows . "</td><td onclick=\"edit_slot('" . $row["serial_number"] . "')\"><img class=\"icon\" src=\"images/edit.png\" alt=\"Edit\"></td><td onclick=\"info_slot('" . $row["serial_number"] . "')\"><img class=\"icon\" src=\"images/info.png\" alt=\"Info\"></td></tr>";
-                }
-              }
-            }
+            $query = "SELECT * from establishment where  permit_number = " . $_POST['establishment'] . ";";
+            $result = $connect->query($query);
+            $row = $result->fetch_assoc();
+            echo "<h4><b>Establishment: </b>" . $row['name'] . "</h4>";
+            $query = "SELECT * from operator where  license_number = " . $row['fk_license_number_operator'] . " LIMIT 1;";
+            $result = $connect->query($query);
+            $row = $result->fetch_assoc();
+            echo "<h4><b>Operator: </b>" . $row['company_name'] . "</h4>";
           }
-        }
+          ?>
+        </div>
+
+        <?php if (isset($_POST['operator'])) {
+          $query = "SELECT company_name from operator where  official_license_number LIKE \"" . $_POST['operator'] . "\" LIMIT 1;";
+          $result = $connect->query($query);
+          $row = $result->fetch_assoc();
         ?>
-      </table>
-    </div>
-  </div>
-  <div class="footer">
+          <div class="row">
+            <div class="col-8">
+              <p class="fs-2"><b>Operator: <?php echo $row['company_name'] ?></b>
+
+                <button class="ms-3 btn btn-lg btn-primary" onclick="showEstablishment()">Show Establishments</button>
+              </p>
+            </div>
+
+          </div>
+        <?php } ?>
+
+      </div>
+      <div class="row my-3">
+        <div class="col-10">
+          <input type="text" id="myInput" onkeyup="searchInSlots()" placeholder="Search ...">
+        </div>
+        <div class="col-2">
+          <button class="btn btn-lg btn-success float-end" onclick="document.getElementById('id_add_slot').style.display='block'">Add Slot</button>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-12">
+          <table id="myTable" class="w3-table-all">
+            <tr>
+              <?php if (!isset($_POST['establishment']) && !isset($_POST['operator'])) { ?>
+                <th class="w3-dark-grey w3-hover-black" onclick="w3.sortHTML('#myTable', '.item', 'td:nth-child(1)')" style="cursor:pointer">Operator <i class="fa fa-sort" style="font-size:13px;"></i></th>
+                <th class="w3-dark-grey w3-hover-black" onclick="w3.sortHTML('#myTable', '.item', 'td:nth-child(2)')" style="cursor:pointer">Operator Number <i class="fa fa-sort" style="font-size:13px;"></i></th>
+                <th class="w3-dark-grey w3-hover-black" onclick="w3.sortHTML('#myTable', '.item', 'td:nth-child(3)')" style="cursor:pointer">Manufacturer <i class="fa fa-sort" style="font-size:13px;"></i></th>
+                <th class="w3-dark-grey w3-hover-black" onclick="w3.sortHTML('#myTable', '.item', 'td:nth-child(4)')" style="cursor:pointer">Serial Number <i class="fa fa-sort" style="font-size:13px;"></i></th>
+                <th class="w3-dark-grey w3-hover-black" onclick="w3.sortHTML('#myTable', '.item', 'td:nth-child(5)')" style="cursor:pointer">Type <i class="fa fa-sort" style="font-size:13px;"></i></th>
+                <th class="w3-dark-grey w3-hover-black" onclick="w3.sortHTML('#myTable', '.item', 'td:nth-child(6)')" style="cursor:pointer">Model <i class="fa fa-sort" style="font-size:13px;"></i></th>
+              <?php } else { ?>
+                <th class="w3-dark-grey w3-hover-black" onclick="w3.sortHTML('#myTable', '.item', 'td:nth-child(1)')" style="cursor:pointer">Operator Number <i class="fa fa-sort" style="font-size:13px;"></i></th>
+                <th class="w3-dark-grey w3-hover-black" onclick="w3.sortHTML('#myTable', '.item', 'td:nth-child(2)')" style="cursor:pointer">Manufacturer <i class="fa fa-sort" style="font-size:13px;"></i></th>
+                <th class="w3-dark-grey w3-hover-black" onclick="w3.sortHTML('#myTable', '.item', 'td:nth-child(3)')" style="cursor:pointer">Serial Number <i class="fa fa-sort" style="font-size:13px;"></i></th>
+                <th class="w3-dark-grey w3-hover-black" onclick="w3.sortHTML('#myTable', '.item', 'td:nth-child(4)')" style="cursor:pointer">Type <i class="fa fa-sort" style="font-size:13px;"></i></th>
+                <th class="w3-dark-grey w3-hover-black" onclick="w3.sortHTML('#myTable', '.item', 'td:nth-child(5)')" style="cursor:pointer">Model <i class="fa fa-sort" style="font-size:13px;"></i></th>
+              <?php } ?>
+              <th class="w3-dark-grey w3-hover-black">Actions</th>
+            </tr>
+            <?php
+            if ($connect) {
+              if (isset($_POST['establishment'])) {
+                $query = "SELECT * from slot_machines, slot_model, type_slot_machines, slot_machines_establishment, manufacturer where fk_model = id_model AND fk_id_manufacturer = id_manufacturer AND fk_slot_type = id_type_slot_machines AND fk_slot_machines = serial_number AND fk_establishment = " . $_POST['establishment'] . ";";
+                if ($result = $connect->query($query)) {
+                  if ($result->num_rows > 0) {
+                    while ($row = $result->fetch_assoc()) {
+                      echo "<tr class=\"item\"><td>" . $row["operator_number"] . "</td><td>" . $row["name_manufacturer"] . "</td><td>" . $row["serial_number"] . "</td><td>" . $row["name_type"] . "</td><td>" . $row["name_model"] . "</td><td><i class='fa-light fa-2x fa-tag'></i></td><td onclick=\"edit_slot('" . $row["serial_number"] . "')\"><img class=\"icon\" src=\"images/edit.png\" alt=\"Edit\"></td><td onclick=\"info_slot('" . $row["serial_number"] . "')\"><img class=\"icon\" src=\"images/info.png\" alt=\"Info\"></td></tr>";
+                    }
+                  }
+                }
+              } else if (isset($_POST['operator'])) {
+                $query = "SELECT * from slot_machines, slot_model, type_slot_machines, manufacturer, operator where fk_model = id_model AND fk_id_manufacturer = id_manufacturer AND fk_slot_type = id_type_slot_machines AND fk_license_number = license_number AND official_license_number = \"" . $_POST['operator'] . "\";";
+                if ($result = $connect->query($query)) {
+                  if ($result->num_rows > 0) {
+                    while ($row = $result->fetch_assoc()) {
+                      echo "<tr class=\"item\"><td>" . $row["operator_number"] . "</td><td>" . $row["name_manufacturer"] . "</td><td>" . $row["serial_number"] . "</td><td>" . $row["name_type"] . "</td><td>" . $row["name_model"] . "</td><td><i class=\"fa-light fa-2x fa-tag seal\"></i></td><td onclick=\"edit_slot('" . $row["serial_number"] . "')\"><img class=\"icon\" src=\"images/edit.png\" alt=\"Edit\"></td><td onclick=\"info_slot('" . $row["serial_number"] . "')\"><img class=\"icon\" src=\"images/info.png\" alt=\"Info\"></td></tr>";
+                    }
+                  }
+                }
+              } else {
+                $query = "SELECT * from slot_machines, slot_model, type_slot_machines, manufacturer, operator where fk_model = id_model AND fk_id_manufacturer = id_manufacturer AND fk_slot_type = id_type_slot_machines AND fk_license_number = license_number LIMIT 100;";
+                if ($result = $connect->query($query)) {
+                  if ($result->num_rows > 0) {
+                    while ($row = $result->fetch_assoc()) {
+                      echo "<tr class=\"item\"><td>" . $row["company_name"] . "</td><td>" . $row["operator_number"] . "</td><td>" . $row["name_manufacturer"] . "</td><td>" . $row["serial_number"] . "</td><td>" . $row["name_type"] . "</td><td>" . $row["name_model"] . "</td><td><i class='fa-duotone fa-2x fa-image p-2' onclick=\"show_image('" . $row["serial_number"] . "')\"></i><i class='fa-duotone fa-2x fa-tag p-2' onclick=\"show_tag('" . $row["serial_number"] . "')\"></i><i class='fa-duotone fa-2x fa-square-pen p-2' onclick=\"edit_slot('" . $row["serial_number"] . "')\"></i> <i class='fa-duotone fa-2x  fa-square-info p-2' onclick=\"info_slot('" . $row["serial_number"] . "')\"></i></td></tr>";
+                    }
+                  }
+                }
+              }
+            }
+            ?>
+          </table>
+        </div>
+      </div>
+  </main>
+
+  <div class="footer mt-auto">
     <?php
     include 'footer.php';
     ?>
@@ -206,12 +217,16 @@
     $est_location = "";
     $is_original = "";
     $model_motherboard = "";
+    $tag_namber = "";
 
     if (isset($_POST['establishment'])) {
       $query = "SELECT * FROM establishment WHERE official_permit_number = \"" . $_POST['establishment'] . "\";";
-      $result = $connect->query($query);
-      $row = $result->fetch_assoc();
-      $official_permit_license = $row["permit_number"];
+      if ($result = $connect->query($query)) {
+        if ($result->num_rows > 0) {
+          $row = $result->fetch_assoc();
+          $official_permit_license = $row["permit_number"];
+        }
+      }
     }
 
     if (isset($_POST['slot'])) {
@@ -290,6 +305,15 @@
             $est_location = $row["est_location"];
             $is_original = $row["is_original"];
 
+            $query = "SELECT * from tag where fk_serial_number = $serial_number;";
+            if ($result = $connect->query($query)) {
+              if ($result->num_rows > 0) {
+                $tag_number = $row["tag_number"];
+              } else {
+                $tag_number = "<span class='badge bg-danger'>NO TAG <span>";
+              }
+            }
+
             $query = "SELECT fk_establishment, name FROM slot_machines_establishment, establishment WHERE fk_establishment = permit_number AND fk_slot_machines = $serial_number;";
             if ($result = $connect->query($query)) {
               if ($result->num_rows > 0) {
@@ -329,199 +353,210 @@
                 <td><b> Serial Number:</b></td>
                 <td> <?php echo $serial_number; ?></td>
               </tr>
-          </div>
-          <tr>
-            <td><b>Regulator Number:</b></td>
-            <td> <?php echo $regulator_number; ?></td>
-          </tr>
-          <tr>
-            <td><b>Operator Number:</b></td>
-            <td> <?php echo $operator_number; ?></td>
-          </tr>
-          <tr>
-            <td><b>Operator:</b> </td>
-            <td><?php echo $operator_name; ?></td>
-          </tr>
-          <tr>
-            <td><b>Establishment:</b></td>
-            <td> <?php if ($establishment != "") echo $establishment;
-                  else echo  " ~ "; ?></td>
-          </tr>
-          <tr>
-            <td><b>Manufacturer:</b> </td>
-            <td> <?php echo $manufacturer; ?></td>
-          </tr>
-          <tr>
-            <td><b>Date of manufacturing:</b> </td>
-            <td> <?php echo $date_manufacturing; ?></td>
-          </tr>
-          <tr>
-            <td><b>Model:</b></td>
-            <td> <?php echo $model; ?></td>
-          </tr>
-          <tr>
-            <td><b>Type:</b> </td>
-            <td> <?php echo $type; ?></td>
-          </tr>
-          <tr>
-            <td><b>Multi Game:</b> </td>
-            <td> <?php if ($type_player == "1") echo "YES";
-                  else echo "NO"; ?></td>
-          </tr>
-          <tr>
-            <td><b>Multi-terminal:</b></td>
-            <td> <?php if ($multiterminal == "1") echo "YES";
-                  else echo "NO"; ?></td>
-          </tr>
-          <tr>
-            <td><b>State:</b> </td>
-            <td> <?php if ($state == 1) echo "Commissioned";
-                  else echo "Decommissioned"; ?></td>
-          </tr>
-          <tr>
-            <td><b>Date commission:</b></td>
-            <td> <?php echo $date_commission; ?></td>
-          </tr>
-          <tr>
-            <?php
-            if ($state == 0) {
-              echo "<label>Date decommission: " . $date_decommission . "</td>";
-            }  ?>
-          </tr>
-          </table>
-        </div>
-        <div class="col-6">
-          <h1>&nbsp;</h1>
-          <div class="row">
-          </div>
-          <div class="row">
-            <h2 style="margin-top: 20px; float : center;"><b>Motherboard Details</b></h2>
-          </div>
-          <div class="row mb-5">
-            <table class="w3-table-all">
               <tr>
-                <td><b>Original:</td>
-                <td> <?php if ($is_original == "1") echo "YES";
-                      else echo "NO"; ?></td>
-              </tr>
-              <tr>
-                <td><b>Serial Number:</td>
-                <td> <?php echo $serial_number_motherboard; ?></td>
+                <td><b> Tag Number:</b></td>
+                <td> <?php echo $tag_number; ?></td>
               </tr>
 
               <tr>
-                <td><b>Manufacturer Motherboard:</td>
-                <td>
-                  <?php
-                  if ($id_manufacturer_motherboard) {
-                    $query = "SELECT name_manufacturer FROM manufacturer WHERE id_manufacturer = " . $id_manufacturer_motherboard . ";";
-                    if ($result = $connect->query($query)) {
-                      $row = $result->fetch_assoc();
-                      echo  $row["name_manufacturer"];
+                <td><b>Regulator Number:</b></td>
+                <td> <?php echo $regulator_number; ?></td>
+              </tr>
+              <tr>
+                <td><b>Operator Number:</b></td>
+                <td> <?php echo $operator_number; ?></td>
+              </tr>
+              <tr>
+                <td><b>Operator:</b> </td>
+                <td><?php echo $operator_name; ?></td>
+              </tr>
+              <tr>
+                <td><b>Establishment:</b></td>
+                <td> <?php if ($establishment != "") echo $establishment;
+                      else echo  " ~ "; ?></td>
+              </tr>
+              <tr>
+                <td><b>Manufacturer:</b> </td>
+                <td> <?php echo $manufacturer; ?></td>
+              </tr>
+              <tr>
+                <td><b>Date of manufacturing:</b> </td>
+                <td> <?php echo $date_manufacturing; ?></td>
+              </tr>
+              <tr>
+                <td><b>Model:</b></td>
+                <td> <?php echo $model; ?></td>
+              </tr>
+              <tr>
+                <td><b>Type:</b> </td>
+                <td> <?php echo $type; ?></td>
+              </tr>
+              <tr>
+                <td><b>Multi Game:</b> </td>
+                <td> <?php if ($type_player == "1") echo "YES";
+                      else echo "NO"; ?></td>
+              </tr>
+              <tr>
+                <td><b>Multi-terminal:</b></td>
+                <td> <?php if ($multiterminal == "1") echo "YES";
+                      else echo "NO"; ?></td>
+              </tr>
+              <tr>
+                <td><b>State:</b> </td>
+                <td> <?php if ($state == 1) echo "Commissioned";
+                      else echo "Decommissioned"; ?></td>
+              </tr>
+              <tr>
+                <td><b>Date commission:</b></td>
+                <td> <?php echo $date_commission; ?></td>
+              </tr>
+              <tr>
+                <?php
+                if ($state == 0) {
+                  echo "<label>Date decommission: " . $date_decommission . "</td>";
+                }  ?>
+              </tr>
+            </table>
+          </div>
+          <div class="col-6">
+            <h1>&nbsp;</h1>
+            <div class="row">
+            </div>
+            <div class="row">
+              <h2 style="margin-top: 20px; float : center;"><b>Motherboard Details</b></h2>
+            </div>
+            <div class="row mb-5">
+              <table class="w3-table-all">
+                <tr>
+                  <td><b>Original:</td>
+                  <td> <?php if ($is_original == "1") echo "YES";
+                        else echo "NO"; ?></td>
+                </tr>
+                <tr>
+                  <td><b>Serial Number:</td>
+                  <td> <?php echo $serial_number_motherboard; ?></td>
+                </tr>
+
+                <tr>
+                  <td><b>Manufacturer Motherboard:</td>
+                  <td>
+                    <?php
+                    if ($id_manufacturer_motherboard) {
+                      $query = "SELECT name_manufacturer FROM manufacturer WHERE id_manufacturer = " . $id_manufacturer_motherboard . ";";
+                      if ($result = $connect->query($query)) {
+                        $row = $result->fetch_assoc();
+                        echo  $row["name_manufacturer"];
+                      }
+                    } else {
+                      echo "Unknown";
                     }
-                  } else {
-                    echo "Unknown";
-                  }
-                  ?>
-                </td>
-              </tr>
-            </table>
-          </div>
-          <div class="col-50">
-            <fieldset>
-              <legend style="text-align: left;">Power port</legend>
-              <label>Jumper number: <?php echo $power_jumper_number; ?></label></br>
-              <label>Jumper type: <?php echo $power_jumper_type; ?></label>
-            </fieldset>
-          </div>
-          <div class="col-50">
-            <fieldset>
-              <legend style="text-align: left;">Com port</legend>
-              <label>Jumper number: <?php echo $com_jumper_number; ?></label></br>
-              <label>Jumper type: <?php echo $com_jumper_type; ?></label>
-            </fieldset>
-          </div>
-          <div class="col-100-top">
-            <table class="w3-table-all">
-              <tr>
-                <td><b>Location in the Establishment:</b></td>
-              </tr>
-              <tr>
-                <td><?php if ($est_location != "") echo $est_location;
-                    else echo "~"; ?></td>
-              </tr>
-            </table>
+                    ?>
+                  </td>
+                </tr>
+              </table>
+            </div>
+            <div class="col-50">
+              <fieldset>
+                <legend style="text-align: left;">Power port</legend>
+                <label>Jumper number: <?php echo $power_jumper_number; ?></label></br>
+                <label>Jumper type: <?php echo $power_jumper_type; ?></label>
+              </fieldset>
+            </div>
+            <div class="col-50">
+              <fieldset>
+                <legend style="text-align: left;">Com port</legend>
+                <label>Jumper number: <?php echo $com_jumper_number; ?></label></br>
+                <label>Jumper type: <?php echo $com_jumper_type; ?></label>
+              </fieldset>
+            </div>
+            <div class="col-100-top">
+              <table class="w3-table-all">
+                <tr>
+                  <td><b>Location in the Establishment:</b></td>
+                </tr>
+                <tr>
+                  <td><?php if ($est_location != "") echo $est_location;
+                      else echo "~"; ?></td>
+                </tr>
+              </table>
+            </div>
           </div>
         </div>
       </div>
     </div>
-  </div>
 
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 
-  <script type="text/javascript">
-    $(window).on("load", function() {
-      <?php if (isset($_GET["error"])) { ?>
-        alert("<?php echo $_GET["error"]; ?>");
-      <?php } ?>
-    });
+    <script type="text/javascript">
+      $(window).on("load", function() {
+        <?php if (isset($_GET["error"])) { ?>
+          alert("<?php echo $_GET["error"]; ?>");
+        <?php } ?>
+      });
 
-    function closeAdd() {
-      var form = document.createElement("form");
-      form.setAttribute("method", "post");
-      form.setAttribute("action", "slot.php");
-      <?php if (isset($_POST['operator'])) { ?>
-        var hiddenField2 = document.createElement("input");
-        hiddenField2.setAttribute("type", "hidden");
-        hiddenField2.setAttribute("name", "operator");
-        hiddenField2.setAttribute("value", "<?php echo $_POST['operator']; ?>");
-        form.appendChild(hiddenField2);
-      <?php }
-      if (isset($_POST['establishment'])) {  ?>
+      function closeAdd() {
+        var form = document.createElement("form");
+        form.setAttribute("method", "post");
+        form.setAttribute("action", "slot.php");
+        <?php if (isset($_POST['operator'])) { ?>
+          var hiddenField2 = document.createElement("input");
+          hiddenField2.setAttribute("type", "hidden");
+          hiddenField2.setAttribute("name", "operator");
+          hiddenField2.setAttribute("value", "<?php echo $_POST['operator']; ?>");
+          form.appendChild(hiddenField2);
+        <?php }
+        if (isset($_POST['establishment'])) {  ?>
+          var hiddenField = document.createElement("input");
+          hiddenField.setAttribute("type", "hidden");
+          hiddenField.setAttribute("name", "establishment");
+          hiddenField.setAttribute("value", "<?php echo $_POST['establishment']; ?>");
+          form.appendChild(hiddenField);
+        <?php } ?>
+        document.body.appendChild(form);
+        form.submit();
+      }
+
+      function edit_slot(license) {
+        bool = 1;
+        var form = document.createElement("form");
+        form.setAttribute("method", "post");
+        form.setAttribute("action", "slot.php");
         var hiddenField = document.createElement("input");
         hiddenField.setAttribute("type", "hidden");
-        hiddenField.setAttribute("name", "establishment");
-        hiddenField.setAttribute("value", "<?php echo $_POST['establishment']; ?>");
+        hiddenField.setAttribute("name", "slot");
+        hiddenField.setAttribute("value", license);
         form.appendChild(hiddenField);
-      <?php } ?>
-      document.body.appendChild(form);
-      form.submit();
-    }
+        document.body.appendChild(form);
+        form.submit();
+      }
 
-    function edit_slot(license) {
-      bool = 1;
-      var form = document.createElement("form");
-      form.setAttribute("method", "post");
-      form.setAttribute("action", "slot.php");
-      var hiddenField = document.createElement("input");
-      hiddenField.setAttribute("type", "hidden");
-      hiddenField.setAttribute("name", "slot");
-      hiddenField.setAttribute("value", license);
-      form.appendChild(hiddenField);
-      document.body.appendChild(form);
-      form.submit();
-    }
+      function show_tag(id) {
+        bool = 1;
+        var form = document.createElement("form");
+        form.setAttribute("method", "post");
+        form.setAttribute("action", "tag.php");
+        var hiddenField = document.createElement("input");
+        hiddenField.setAttribute("type", "hidden");
+        hiddenField.setAttribute("name", "slot");
+        hiddenField.setAttribute("value", id);
+        form.appendChild(hiddenField);
+        document.body.appendChild(form);
+        form.submit();
+      }
 
-    function info_slot(license) {
-      bool = 1;
-      var form = document.createElement("form");
-      form.setAttribute("method", "post");
-      form.setAttribute("action", "slot.php");
-      var hiddenField = document.createElement("input");
-      hiddenField.setAttribute("type", "hidden");
-      hiddenField.setAttribute("name", "slot_info");
-      hiddenField.setAttribute("value", license);
-      form.appendChild(hiddenField);
-      document.body.appendChild(form);
-      form.submit();
-    }
-
-
-
-    var bool = 0;
-    $(document).ready(function() {
-
-
+      function info_slot(license) {
+        bool = 1;
+        var form = document.createElement("form");
+        form.setAttribute("method", "post");
+        form.setAttribute("action", "slot.php");
+        var hiddenField = document.createElement("input");
+        hiddenField.setAttribute("type", "hidden");
+        hiddenField.setAttribute("name", "slot_info");
+        hiddenField.setAttribute("value", license);
+        form.appendChild(hiddenField);
+        document.body.appendChild(form);
+        form.submit();
+      }
 
       function showEstablishment() {
         var form = document.createElement("form");
@@ -535,135 +570,127 @@
         document.body.appendChild(form);
         form.submit();
       }
-
-      $("#id_is_original").change(function() {
-        if (this.checked) {
-          $('#id_manufacturer_motherboard').val($("#manufacturerSelect").val());
-          $('#id_manufacturer_motherboard_text').val($("#manufacturerSelect").val());
-          $('#id_manufacturer_motherboard').attr('disabled', 'disabled');
-        } else {
-          $('#id_manufacturer_motherboard').attr('disabled', false);
-        }
-      });
-
-
-
-      $("#state_id").change(function() {
-        if ($(this).val() == "1") {
-          document.getElementById('decommission').disabled = true;
-          document.getElementById("decommission-div").style.display = "none";
-        } else {
-          document.getElementById('decommission').disabled = false;
-          document.getElementById("decommission-div").style.display = "block";
-        }
-      });
-
-      $("#id_manufacturer_motherboard").change(function() {
-        $('#id_manufacturer_motherboard_text').val($("#id_manufacturer_motherboard").val());
-      });
-
-      $("#manufacturerSelect").change(function() {
-        if ($("#id_is_original").is(':checked')) {
-          $('#id_manufacturer_motherboard').val($("#manufacturerSelect").val());
-          $('#id_manufacturer_motherboard_text').val($("#manufacturerSelect").val());
-        }
-        $("#model_id").empty();
-        var value = $(this).val();
-        if (value) {
-          $.post('PHP/selectSlotModel.php', {
-            manufacturer: value
-          }, function(data) {
-            if (data) {
-
-              $("#model_id").append('<option></option>');
-              data = data.substring(0, data.length - 1);
-              var res = data.split(":");
-              for (var i = 0; i < res.length; i += 2) {
-                $("#model_id").append('<option value=' + res[i] + '>' + res[i + 1] + '</option>');
-              }
-            }
-          }).fail(function() {
-            alert("Server error!");
-          });
-        }
-      });
-
-      $("#operator_id").change(function() {
-        console.log("changed!")
-        var operatorVal = $(this).val();
-        $('#establishment_id option').remove()
-        if (operatorVal) {
-          document.getElementById("idDivShow").style.display = 'block';
-          $("#establishment_id").attr('disabled', false);
-          $.post('PHP/selectEstablishment.php', {
-            operator: operatorVal
-          }, function(data) {
-            $('#establishment_id option').remove()
-            if (data) {
-              $("#establishment_id").append('<option></option>');
-              data = data.substring(0, data.length - 1);
-              var res = data.split(":");
-              for (var i = 0; i < res.length; i += 2) {
-                $("#establishment_id").append('<option value=' + res[i] + '>' + res[i + 1] + '</option>');
-              }
-            } else {
-              $("#establishment_id").attr('disabled', true);
-            }
-          }).fail(function() {
-            alert("Server error!");
-          });
-        } else {
-          document.getElementById("idDivShow").style.display = 'none';
-          $("#establishment_id").attr('disabled', true);
-        }
-
-      });
-
-      $("#myTable tr td:eq(0)").click(function() {
-        $(this).addClass('selected').siblings().removeClass('selected');
-        var value = $(this).find('td:nth-child(<?php if (isset($_POST['operator']) || isset($_POST['establishment'])) echo "1";
-                                                else echo "2"; ?>)').html();
-        if ($(this).find('td:first') && bool == 0) {
-          if (typeof value !== 'undefined' && value !== null) {
-            var form = document.createElement("form");
-            form.setAttribute("method", "post");
-            form.setAttribute("action", "slot_images.php");
-            var hiddenField = document.createElement("input");
-            hiddenField.setAttribute("type", "hidden");
-            hiddenField.setAttribute("name", "slot");
-            hiddenField.setAttribute("value", value);
-            form.appendChild(hiddenField);
-            document.body.appendChild(form);
-            form.submit();
-          }
-        } else if (bool == 1) {
-          bool = 0;
-        }
-      });
-    });
-
-    $("#myTable seal").click(function() {
-      $(this).addClass('selected').siblings().removeClass('selected');
-      var value = $(this).find('td:nth-child(<?php if (isset($_POST['operator']) || isset($_POST['establishment'])) echo "1";
-                                              else echo "2"; ?>)').html();
-      if ($(this).find('td:first') && bool == 0) {
-        if (typeof value !== 'undefined' && value !== null) {
-          var form = document.createElement("form");
-          form.setAttribute("method", "post");
-          form.setAttribute("action", "slot_images.php");
-          var hiddenField = document.createElement("input");
-          hiddenField.setAttribute("type", "hidden");
-          hiddenField.setAttribute("name", "slot");
-          hiddenField.setAttribute("value", value);
-          form.appendChild(hiddenField);
-          document.body.appendChild(form);
-          form.submit();
-        }
-      } else if (bool == 1) {
-        bool = 0;
+      
+      function show_image(id){
+        var form = document.createElement("form");
+              form.setAttribute("method", "post");
+              form.setAttribute("action", "slot_images.php");
+              var hiddenField = document.createElement("input");
+              hiddenField.setAttribute("type", "hidden");
+              hiddenField.setAttribute("name", "slot");
+              hiddenField.setAttribute("value", id);
+              form.appendChild(hiddenField);
+              document.body.appendChild(form);
+              form.submit();
       }
-    });
-  </script>
+      var bool = 0;
+      $(document).ready(function() {
+
+        $("#id_is_original").change(function() {
+          if (this.checked) {
+            $('#id_manufacturer_motherboard').val($("#manufacturerSelect").val());
+            $('#id_manufacturer_motherboard_text').val($("#manufacturerSelect").val());
+            $('#id_manufacturer_motherboard').attr('disabled', 'disabled');
+          } else {
+            $('#id_manufacturer_motherboard').attr('disabled', false);
+          }
+        });
+
+        $("#state_id").change(function() {
+          if ($(this).val() == "1") {
+            document.getElementById('decommission').disabled = true;
+            document.getElementById("decommission-div").style.display = "none";
+          } else {
+            document.getElementById('decommission').disabled = false;
+            document.getElementById("decommission-div").style.display = "block";
+          }
+        });
+
+        $("#id_manufacturer_motherboard").change(function() {
+          $('#id_manufacturer_motherboard_text').val($("#id_manufacturer_motherboard").val());
+        });
+
+        $("#manufacturerSelect").change(function() {
+          if ($("#id_is_original").is(':checked')) {
+            $('#id_manufacturer_motherboard').val($("#manufacturerSelect").val());
+            $('#id_manufacturer_motherboard_text').val($("#manufacturerSelect").val());
+          }
+          $("#model_id").empty();
+          var value = $(this).val();
+          if (value) {
+            $.post('PHP/selectSlotModel.php', {
+              manufacturer: value
+            }, function(data) {
+              if (data) {
+
+                $("#model_id").append('<option></option>');
+                data = data.substring(0, data.length - 1);
+                var res = data.split(":");
+                for (var i = 0; i < res.length; i += 2) {
+                  $("#model_id").append('<option value=' + res[i] + '>' + res[i + 1] + '</option>');
+                }
+              }
+            }).fail(function() {
+              alert("Server error!");
+            });
+          }
+        });
+
+        $("#operator_id").change(function() {
+          console.log("changed!")
+          var operatorVal = $(this).val();
+          $('#establishment_id option').remove()
+          if (operatorVal) {
+            document.getElementById("idDivShow").style.display = 'block';
+            $("#establishment_id").attr('disabled', false);
+            $.post('PHP/selectEstablishment.php', {
+              operator: operatorVal
+            }, function(data) {
+              $('#establishment_id option').remove()
+              if (data) {
+                $("#establishment_id").append('<option></option>');
+                data = data.substring(0, data.length - 1);
+                var res = data.split(":");
+                for (var i = 0; i < res.length; i += 2) {
+                  $("#establishment_id").append('<option value=' + res[i] + '>' + res[i + 1] + '</option>');
+                }
+              } else {
+                $("#establishment_id").attr('disabled', true);
+              }
+            }).fail(function() {
+              alert("Server error!");
+            });
+          } else {
+            document.getElementById("idDivShow").style.display = 'none';
+            $("#establishment_id").attr('disabled', true);
+          }
+
+        });
+
+        $("#myTable tr td:eq(0)").click(function() {
+          $(this).addClass('selected').siblings().removeClass('selected');
+          var value = $(this).find('td:nth-child(<?php if (isset($_POST['operator']) || isset($_POST['establishment'])) echo "1";
+                                                  else echo "2"; ?>)').html();
+          if ($(this).find('td:first') && bool == 0) {
+            if (typeof value !== 'undefined' && value !== null) {
+              var form = document.createElement("form");
+              form.setAttribute("method", "post");
+              form.setAttribute("action", "slot_images.php");
+              var hiddenField = document.createElement("input");
+              hiddenField.setAttribute("type", "hidden");
+              hiddenField.setAttribute("name", "slot");
+              hiddenField.setAttribute("value", value);
+              form.appendChild(hiddenField);
+              document.body.appendChild(form);
+              form.submit();
+            }
+          } else if (bool == 1) {
+            bool = 0;
+          }
+        });
+      });
+
+    </script>
 
 
   </div>

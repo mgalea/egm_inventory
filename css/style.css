@@ -181,7 +181,7 @@ body {
 .coordinates {
   float: left;
   position: relative;
-  top: 32px;
+  top: 20px;
   margin-left: 10px;
   text-align: left;
   width: calc(100% - 58px);
@@ -223,6 +223,14 @@ select {
   border-radius: 5px;
 }
 
+@media screen and (max-width: 400px) {
+
+input {
+    font-size: 2rem !important;
+  }
+
+}
+
 
 textarea {
   width: 100%;
@@ -251,7 +259,8 @@ input[type=date]:focus {
 
 .modal-div,
 .modal-div-modify,
-.modal-div-info {
+.modal-div-info,
+.modal-div-error{
   display: none;
   position: fixed;
   z-index: 2030;

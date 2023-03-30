@@ -15,10 +15,12 @@ if($connect){
           }
         }
       }
-      header("Location: ../slot.php");
+      header("Location: ../slot_images.php");
+  }else{
+    header("Location: ../slot_images.php?error=No Images Deleted.");
   }
 }
 else{
-  header("Location: ../slot.php?error=Server Error ".$connect->error);
+  header("Location: ../slot_images.php?error=Server Error ".$connect->error);
 }
 ?>

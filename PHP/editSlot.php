@@ -49,8 +49,8 @@
         $is_original = 0;
       }
       if($result->num_rows > 0){
-        $query= "UPDATE motherboard SET com_jumper_number = ".$com_jumper_number.", com_jumper_type = \"" . $com_jumper_type . "\", power_jumper_number = ".$power_jumper_number.",power_jumper_type = \"".$power_jumper_type."\", model_motherboard = \"".$_POST["model_motherboard"]."\", fk_manufacturer = ".$_POST["manufacturer_motherboard"]." WHERE serial_number_motherboard = \"" .$_POST["serial_number_motherboard"]. "\";";
-
+        $query= "UPDATE motherboard SET com_jumper_number = \"".$com_jumper_number."\", com_jumper_type = \"" . $com_jumper_type . "\", power_jumper_number = \"".$power_jumper_number."\",power_jumper_type = \"".$power_jumper_type."\", model_motherboard = \"".$_POST["model_motherboard"]."\" WHERE serial_number_motherboard = \"" .$_POST["serial_number_motherboard"]. "\";";
+        echo $query;
         if(!$connect->query($query)){
           header("location: ../slot.php?error=11".$connect->error);
         }

@@ -37,13 +37,13 @@
     if($success){
       $query = "INSERT INTO photos (image, fk_serial_number) VALUES (\"".$actualpath."\", \"".$fk_slot_machines."\")";
       $connect->query($query);
-      header("Location: ../slot.php");
+      header("Location: ../slot_images.php");
     } else {
-      header("Location: ../slot.php?error=Server Error ".$connect->error);
+      header("Location: ../slot_images.php?error=Server Error ".$connect->error);
     }
   }
   else{
-    header("Location: ../slot.php?error=Server Error ".$connect->error);
+    header("Location: ../slot_images.php?error=Server Error ".$connect->error);
   }
 
 ?>

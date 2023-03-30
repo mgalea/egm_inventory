@@ -45,6 +45,8 @@
     ?>
   </div>
 
+  <main class="flex-shrink-0">
+
   <div class="div-body">
 
     <style media="screen">
@@ -65,6 +67,13 @@
     $telephone = "";
     $organization = "";
     $active = "";
+    $username = "";
+    $firstname = "";
+    $lastname = "";
+    $user_role = "";
+    $personalid = "";
+    $image = "";
+
     if (isset($_POST['user'])) {
       $id_user = $_POST['user'];
     }
@@ -78,8 +87,24 @@
         $telephone = $row['telephone'];
         $organization = $row['organization'];
         $active = $row['active'];
+        $firstname = $row['first_name'];
+        $lastname = $row['last_name'];
+        $user_role = $row['role'];
+        $personalid = $row['personal_id'];
+        $image = $row['image'];
       }
     }
+
+    if (isset($_POST['user_delete'])) {
+      $id_user = $_POST['user_delete'];
+      if ($id_user != "") {
+        $query = "DELETE FROM users WHERE id = " . $id_user . ";";
+        $connect->query($query);
+      }
+    }
+
+
+
     ?>
 
     <div id="id_add_user" class="modal-div">
@@ -95,12 +120,22 @@
           <?php } ?>
           <label><b>Username</b></label>
           <input class="input-add" type="text" name="username" value="<?php echo $username; ?>" required>
-          <?php if (!isset($_POST['user'])) { ?>
-            <label><b>Password</b></label>
-            <input id="password" class="input-add" type="password" name="password" pattern="(?=^.{8,}$)((?=.*\d)|(?=.*\W+))(?![.\n])(?=.*[A-Z])(?=.*[a-z]).*$" required>
-            <label><b>Confirm Password</b></label>
-            <input id="password_confirm" class="input-add" type="password" name="confirm-password" pattern="(?=^.{8,}$)((?=.*\d)|(?=.*\W+))(?![.\n])(?=.*[A-Z])(?=.*[a-z]).*$" required>
-          <?php } ?>
+
+          <label><b>First Name</b></label>
+          <input class="input-add" type="text" name="firstname" value="<?php echo $firstname; ?>" required>
+
+          <label><b>Last Name</b></label>
+          <input class="input-add" type="text" name="lastname" value="<?php echo $lastname; ?>" required>
+
+          <label><b>Personal ID</b></label>
+          <input class="input-add" type="text" name="personalid" value="<?php echo $personalid; ?>" required>
+
+
+          <label><b>Password</b></label>
+          <input id="password" class="input-add" type="password" name="password" pattern="(?=^.{8,}$)((?=.*\d)|(?=.*\W+))(?![.\n])(?=.*[A-Z])(?=.*[a-z]).*$" required>
+          <label><b>Confirm Password</b></label>
+          <input id="password_confirm" class="input-add" type="password" name="confirm-password" pattern="(?=^.{8,}$)((?=.*\d)|(?=.*\W+))(?![.\n])(?=.*[A-Z])(?=.*[a-z]).*$" required>
+
           <label><b>Type of User</b></label>
           <select class="input-add" name="type-user">
             <?php
@@ -125,8 +160,8 @@
           <label><b>State</b></label></br>
           <input type="checkbox" name="active" value="1" <?php if (!isset($_POST['user']) || $active == "1") echo "checked"; ?>> Active
           <div class="clearfix">
-            <button type="button" onclick="closeAdd()" class="cancelbtn button">Cancel</button>
-            <button type="submit" class="button savebtn">Save</button>
+            <button type="button" onclick="closeAdd()" class="mx-3 cancelbtn btn btn-lg btn-warning">Cancel</button>
+            <button type="submit" class="mx-3 btn btn-lg btn-success savebtn">Save</button>
           </div>
         </div>
       </form>
@@ -323,80 +358,82 @@
         </div>
       </form>
     </div>
+   
+      <div class="container-fluid">
 
-    <div class="container-fluid">
+        <div class="btn-group d-flex btn-group-lg" role="group" aria-label="Settings">
 
-      <div class="btn-group d-flex btn-group-lg" role="group" aria-label="Settings">
-
-        <button class="btn btn-secondary btn-default w-100" onclick="document.getElementById('id_add_brand_operator').style.display='block'">Add Operators Brand</button>
-
-
-        <button class="btn btn-secondary btn-default w-100" onclick="document.getElementById('id_add_type_establishment').style.display='block'">Add Establishment Type</button>
+          <button class="btn btn-secondary btn-default w-100" onclick="document.getElementById('id_add_brand_operator').style.display='block'">Add Operators Brand</button>
 
 
-        <button class="btn btn-secondary btn-default w-100" onclick="document.getElementById('id_add_manufacturer_slots').style.display='block'">Add Slots Manufacturer</button>
-
-        <button class="btn btn-secondary btn-default w-100" onclick="document.getElementById('id_add_model_slots').style.display='block'">Add Slots Model</button>
+          <button class="btn btn-secondary btn-default w-100" onclick="document.getElementById('id_add_type_establishment').style.display='block'">Add Establishment Type</button>
 
 
-        <button class="btn btn-secondary btn-default w-100" onclick="document.getElementById('id_add_manual_slots').style.display='block'">Add Slots Manual</button>
+          <button class="btn btn-secondary btn-default w-100" onclick="document.getElementById('id_add_manufacturer_slots').style.display='block'">Add Slots Manufacturer</button>
+
+          <button class="btn btn-secondary btn-default w-100" onclick="document.getElementById('id_add_model_slots').style.display='block'">Add Slots Model</button>
 
 
-        <button class="btn btn-secondary btn-default w-100" onclick="document.getElementById('id_add_type_slots').style.display='block'">Add Slots Type</button>
-      </div>
+          <button class="btn btn-secondary btn-default w-100" onclick="document.getElementById('id_add_manual_slots').style.display='block'">Add Slots Manual</button>
 
 
-
-      <h1 class="pt-4 pb-2">Users</h1>
-
-
-      <div class="row mb-3">
-        <div class="col-6">
-          <input type="text" id="myInput" onkeyup="searchInUsers()" placeholder="Search Users ...">
+          <button class="btn btn-secondary btn-default w-100" onclick="document.getElementById('id_add_type_slots').style.display='block'">Add Slots Type</button>
         </div>
-        <div class="col-6 ">
-          <button class="btn btn-lg btn-primary float-end" onclick="document.getElementById('id_add_user').style.display='block'">Add User</button>
-        </div>
-      </div>
 
-      <div class="row mb-5">
-        <div class="col-12">
-          <table id="myTable" class="w3-table-all">
-            <tr>
-              <th class="w3-dark-grey w3-hover-black" onclick="w3.sortHTML('#myTable', '.item', 'td:nth-child(1)')" style="cursor:pointer">Username <i class="fa fa-sort" style="font-size:13px;"></i></th>
-              <th class="w3-dark-grey w3-hover-black" onclick="w3.sortHTML('#myTable', '.item', 'td:nth-child(2)')" style="cursor:pointer">User Type <i class="fa fa-sort" style="font-size:13px;"></i></th>
-              <th class="w3-dark-grey w3-hover-black" onclick="w3.sortHTML('#myTable', '.item', 'td:nth-child(3)')" style="cursor:pointer">Email <i class="fa fa-sort" style="font-size:13px;"></i></th>
-              <th class="w3-dark-grey w3-hover-black" onclick="w3.sortHTML('#myTable', '.item', 'td:nth-child(4)')" style="cursor:pointer">Telephone <i class="fa fa-sort" style="font-size:13px;"></i></th>
-              <th class="w3-dark-grey w3-hover-black" onclick="w3.sortHTML('#myTable', '.item', 'td:nth-child(5)')" style="cursor:pointer">Organization <i class="fa fa-sort" style="font-size:13px;"></i></th>
-              <th class="w3-dark-grey w3-hover-black" onclick="w3.sortHTML('#myTable', '.item', 'td:nth-child(6)')" style="cursor:pointer">State <i class="fa fa-sort" style="font-size:13px;"></i></th>
-              <th class="w3-dark-grey w3-hover-black">Edit</th>
-            </tr>
-            <?php
-            if ($connect) {
-              $query = "SELECT * from users, type_user WHERE user_type = id_type_user;";
-              if ($result = $connect->query($query)) {
-                if ($result->num_rows > 0) {
-                  while ($row = $result->fetch_assoc()) {
-                    $state = "";
-                    if ($row["active"] == "1") {
-                      $state = "Active";
-                    } else {
-                      $state = "Unactive";
+
+
+        <h1 class="pt-4 pb-2">Users</h1>
+
+
+        <div class="row mb-3">
+          <div class="col-6">
+            <input type="text" id="myInput" onkeyup="searchInUsers()" placeholder="Search Users ...">
+          </div>
+          <div class="col-6 ">
+            <button class="btn btn-lg btn-primary float-end" onclick="document.getElementById('id_add_user').style.display='block'">Add User</button>
+          </div>
+        </div>
+
+        <div class="row mb-5">
+          <div class="col-12">
+            <table id="myTable" class="w3-table-all">
+              <tr>
+                <th class="w3-dark-grey w3-hover-black" onclick="w3.sortHTML('#myTable', '.item', 'td:nth-child(1)')" style="cursor:pointer">Username <i class="fa fa-sort" style="font-size:13px;"></i></th>
+                <th class="w3-dark-grey w3-hover-black" onclick="w3.sortHTML('#myTable', '.item', 'td:nth-child(2)')" style="cursor:pointer">User Type <i class="fa fa-sort" style="font-size:13px;"></i></th>
+                <th class="w3-dark-grey w3-hover-black" onclick="w3.sortHTML('#myTable', '.item', 'td:nth-child(3)')" style="cursor:pointer">Email <i class="fa fa-sort" style="font-size:13px;"></i></th>
+                <th class="w3-dark-grey w3-hover-black" onclick="w3.sortHTML('#myTable', '.item', 'td:nth-child(4)')" style="cursor:pointer">Telephone <i class="fa fa-sort" style="font-size:13px;"></i></th>
+                <th class="w3-dark-grey w3-hover-black" onclick="w3.sortHTML('#myTable', '.item', 'td:nth-child(5)')" style="cursor:pointer">Organization <i class="fa fa-sort" style="font-size:13px;"></i></th>
+                <th class="w3-dark-grey w3-hover-black" onclick="w3.sortHTML('#myTable', '.item', 'td:nth-child(6)')" style="cursor:pointer">State <i class="fa fa-sort" style="font-size:13px;"></i></th>
+                <th class="w3-dark-grey w3-hover-black">Action</th>
+              </tr>
+              <?php
+              if ($connect) {
+                $query = "SELECT * from users, type_user WHERE user_type = id_type_user;";
+                if ($result = $connect->query($query)) {
+                  if ($result->num_rows > 0) {
+                    while ($row = $result->fetch_assoc()) {
+                      $state = "";
+                      if ($row["active"] == "1") {
+                        $state = "Active";
+                      } else {
+                        $state = "Unactive";
+                      }
+                      echo "<tr class=\"item\"><td>" . $row["username"] . "</td><td>" . $row["type_value"] . "</td><td>" . $row["email"] . "</td><td>" . $row["telephone"] . "</td><td>" . $row["organization"] . "</td><td>" . $state . "</td><td ><i onclick=\"edit_user(" . $row["id"] . ")\" class='fa-light fa-2x fa-pencil px-2' data-toggle='tooltip' data-placement='bottom' title='Edit'></i><i onclick=\"delete_user(" . $row["id"] . ")\" class='fa-light fa-2x fa-trash px-2' data-toggle='tooltip' data-placement='bottom' title='Delete'></i></td></tr>";
                     }
-                    echo "<tr class=\"item\"><td>" . $row["username"] . "</td><td>" . $row["type_value"] . "</td><td>" . $row["email"] . "</td><td>" . $row["telephone"] . "</td><td>" . $row["organization"] . "</td><td>" . $state . "</td><td onclick=\"edit_user(" . $row["id"] . ")\"><img class=\"icon\" src=\"images/edit.png\" alt=\"Edit\"></td></tr>";
                   }
                 }
               }
-            }
-            ?>
-          </table>
+              ?>
+            </table>
+          </div>
         </div>
       </div>
-    </div>
-    <?php
-    include 'footer.php';
-    ?>
-
+    </main>
+      <div class="footer mt-auto">
+        <?php
+        include 'footer.php';
+        ?>
+      </div>
 </body>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 <script type="text/javascript">
@@ -665,6 +702,25 @@
     hiddenField.setAttribute("type", "hidden");
     hiddenField.setAttribute("name", "user");
     hiddenField.setAttribute("value", license);
+    form.appendChild(hiddenField);
+    document.body.appendChild(form);
+    form.submit();
+  }
+
+  function delete_user(id) {
+    if (id == 1) {
+      alert("You cannot delete Administrator?");
+      return;
+    }
+    alert("Are you sure you want to delete User?");
+    bool = 1;
+    var form = document.createElement("form");
+    form.setAttribute("method", "post");
+    form.setAttribute("action", "modify.php");
+    var hiddenField = document.createElement("input");
+    hiddenField.setAttribute("type", "hidden");
+    hiddenField.setAttribute("name", "user_delete");
+    hiddenField.setAttribute("value", id);
     form.appendChild(hiddenField);
     document.body.appendChild(form);
     form.submit();

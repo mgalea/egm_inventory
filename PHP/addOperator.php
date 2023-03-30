@@ -4,6 +4,7 @@ $connect = connectDB();
 
 $lat = "";
 $lng = "";
+
 $brandString = $_POST['brandPHP'];
 $brands = explode(",", $brandString);
 
@@ -41,6 +42,8 @@ if ($connect) {
 
     if ($connect->query($query)) {
 
+      if (count($brands)>1){
+
       $last_id = $connect->insert_id;
       $query = "INSERT INTO brand_operator(`fk_operator`,`fk_brand`) VALUES ";
       for ($i = 0; $i < count($brands); $i++) {
@@ -51,8 +54,10 @@ if ($connect) {
           $query = $query . ";";
         }
       }
+      $result=$connect->query($query);
+    }
 
-      if (!empty($brands) && $connect->query($query)) {
+      if (!empty($brands)) {
         header("location: ../operator.php");
       } else {
         header("location: ../operator.php?error=" . $connect->error);

@@ -4,12 +4,12 @@
 
     <meta charset="utf-8">
     <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
     <link rel="icon" href="favicon/favicon.png">
-
   </head>
-  <body>
-
+  <body class="d-flex flex-column h-100">
+  <main class="flex-shrink-0">
       <?php
         include 'header.php';
       ?>
@@ -18,8 +18,8 @@
     <?php
         include 'slotsearch.php';
       ?>
-
-    <div class="footer">
+  </main>
+    <div class="footer mt-auto">
       <?php
         include 'footer.php';
       ?>

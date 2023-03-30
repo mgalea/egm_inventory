@@ -3,13 +3,15 @@
 <head>
   <meta charset="utf-8">
   <title>Slots IMS</title>
+  <link rel="icon" href="favicon/favicon.png">
   <link rel="stylesheet" href="css/header.css">
+  <link rel="stylesheet" href="css/style.css">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css" integrity="sha512-SzlrxWUlpfuzQ+pcUCosxcglQRNAq/DZjVsC0lE40xsADsfeQoEypE+enwcOiGjk/bSuGGKHEyjSoQ1zVisanQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-
+  <script src="https://kit.fontawesome.com/8be26e49e1.js" crossorigin="anonymous"></script>
 </head>
 
-<body>
+<body class="d-flex flex-column h-100">
   <?php
   session_start();
 
@@ -31,6 +33,7 @@
   }
 
   ?>
+  <header>
   <nav class="navbar fixed-top navbar-expand-lg navbar-dark bg-dark fs-5">
     <div class="container-fluid">
       <a class="navbar-brand" href="#">
@@ -55,7 +58,7 @@
             <a class="font-display nav-link ms-2" href="#"><span class="font-display" onclick="window.location.assign('slot.php');">Slots</a>
           </li>
           <li class="nav-item ">
-            <a class="font-display nav-link ms-2 " href="#"><span class="font-display" onclick="window.location.assign('device.php');">Tags</a>
+            <a class="font-display nav-link ms-2 " href="#"><span class="font-display" onclick="window.location.assign('tag.php');">Tags</a>
           </li>
           <?php if (isset($type_user) && $type_user == "1") { ?>
             <a class="font-display nav-link ms-2 " onclick="window.location.assign('modify.php');">Settings</a>
@@ -69,7 +72,7 @@
       </div>
     </div>
   </nav>
-
+  </header>
   <div class="header-spacer"></div>
   </div>
 

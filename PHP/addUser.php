@@ -14,8 +14,8 @@
     $salt = uniqid(mt_rand(), false);
     $pw_encrypted=hash("sha512", $salt.$pw);
     $password=$salt.":".$pw_encrypted;
-    $query= "INSERT INTO users(`user_pasw`, `user_type`, `username`, `email`, `telephone`, `organization`, `active`)";
-    $query=$query." VALUES(\"".$password."\",".$_POST["type-user"].",\"".$_POST["username"]."\",\"".$_POST["email"]."\",\"".$_POST["telephone"]."\",\"".$_POST["organization"]."\",".$active.")";
+    $query= "INSERT INTO users(`user_pasw`, `user_type`, `username`, `first_name`,`last_name`,`personal_id`,`email`, `telephone`, `organization`, `active`)";
+    $query=$query." VALUES(\"".$password."\",".$_POST["type-user"].",\"".$_POST["username"]."\",\"".$_POST["firstname"]."\",\"".$_POST["lastname"]."\",\"".$_POST["personalid"]."\",\"".$_POST["email"]."\",\"".$_POST["telephone"]."\",\"".$_POST["organization"]."\",".$active.")";
     if($connect->query($query)){
       header("location: ../modify.php");
     }
@@ -26,4 +26,3 @@
   else{
     header("location: ../modify.php?error=".$connect->error);
   }
-?>
