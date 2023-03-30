@@ -44,24 +44,24 @@
         <span class="navbar-toggler-icon"></span>
       </button>
       <div class="collapse navbar-collapse" id="navbarSupportedContent">
-        <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+        <ul class="navbar-nav ms-auto mb-2 mb-lg-0 ">
           <li class="nav-item">
-            <a class="nav-link active font-display ms-2" aria-current="page" href="#" onclick="window.location.assign('index.php');"><span class="font-display">Home</a>
+            <a class="nav-link active  ms-2 " aria-current="page" href="#" onclick="window.location.assign('index.php');" >Home</a>
           </li>
           <li class="nav-item">
-            <a class="font-display nav-link ms-2 " href="#"><span class="font-display" onclick="window.location.assign('operator.php');">Operators</a>
+            <a class="nav-link ms-2 " href="#" onclick="window.location.assign('operator.php');">Operators</a>
           </li>
           <li class="nav-item">
-            <a class="font-display nav-link ms-2" href="#"><span class="font-display" onclick="window.location.assign('establishment.php');">Establishments</a>
+            <a class="nav-link ms-2" href="#" onclick="window.location.assign('establishment.php');">Establishments</h1></a>
           </li>
           <li class="nav-item">
-            <a class="font-display nav-link ms-2" href="#"><span class="font-display" onclick="window.location.assign('slot.php');">Slots</a>
+            <a class="nav-link ms-2" href="#" onclick="window.location.assign('slot.php');">Slots</a>
           </li>
           <li class="nav-item ">
-            <a class="font-display nav-link ms-2 " href="#"><span class="font-display" onclick="window.location.assign('tag.php');">Tags</a>
+            <a class="nav-link ms-2 " href="#"  onclick="window.location.assign('tag.php');">Tags</a>
           </li>
           <?php if (isset($type_user) && $type_user == "1") { ?>
-            <a class="font-display nav-link ms-2 " onclick="window.location.assign('modify.php');">Settings</a>
+            <a class="nav-link ms-2 " onclick="window.location.assign('modify.php');">Settings</a>
           <?php } ?>
 
         </ul>

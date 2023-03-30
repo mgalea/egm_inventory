@@ -80,6 +80,16 @@ body {
   font-size: 1 rem;
 }
 
+.nav-link {
+  font-size: 2rem !important;
+}
+@media screen and (max-width: 600px)  {
+  
+  .nav-link {
+    font-size: 3rem !important;
+  }
+}
+
 .lds-spinner {
   color: #FFF;
   display: none;
