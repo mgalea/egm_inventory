@@ -7,10 +7,13 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
-  <link rel="stylesheet" href="css/style.css">
-  <link rel="icon" href="favicon/favicon.png">
-  <script src="https://www.w3schools.com/lib/w3.js"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css" integrity="sha512-SzlrxWUlpfuzQ+pcUCosxcglQRNAq/DZjVsC0lE40xsADsfeQoEypE+enwcOiGjk/bSuGGKHEyjSoQ1zVisanQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
   <script src="https://kit.fontawesome.com/8be26e49e1.js" crossorigin="anonymous"></script>
+  <link rel="icon" href="favicon/favicon.png">
+
+  <script src="https://www.w3schools.com/lib/w3.js"></script>
+  <link rel="stylesheet" href="css/header.css">
+  <link rel="stylesheet" href="css/style.css">
   <script type="text/javascript">
     function searchInSlots() {
       // Declare variables
@@ -110,7 +113,7 @@
       </div>
       <div class="row">
         <div class="col-12">
-          <table id="myTable" class="w3-table-all">
+          <table id="myTable" class="w3-table-all w3-small w3-responsive">
             <tr>
               <?php if (!isset($_POST['establishment']) && !isset($_POST['operator'])) { ?>
                 <th class="w3-dark-grey w3-hover-black" onclick="w3.sortHTML('#myTable', '.item', 'td:nth-child(1)')" style="cursor:pointer">Operator <i class="fa fa-sort" style="font-size:13px;"></i></th>
@@ -927,7 +930,7 @@
           </div>
           <div class="clearfix">
             <button type="submit" class="m-3 savebtn btn btn-lg btn-success">Save</button>
-            <button type="button" onclick="closeAdd()" class="m-3 cancelbtn btn btn-lg btn-warning">Cancel</button>
+            <button type="button" onclick="closeAdd()" class="m-3  btn btn-lg btn-warning">Cancel</button>
 
           </div>
       </div>

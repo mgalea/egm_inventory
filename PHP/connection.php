@@ -1,7 +1,7 @@
 <?php
 function connectDB()
 {
-  $servername = "slots.rsi.ge";
+  $servername = "127.0.0.1";
   $username = "root";
   $password = "4pXePY8LRcGA";
   $dbname = "dblagos";

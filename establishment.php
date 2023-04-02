@@ -3,15 +3,17 @@
 
 <head>
 
-  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
   <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
-
-  <link rel="stylesheet" href="https://www.w3schools.com/w3js/w3js_sort.asp">
-  <link rel="stylesheet" href="css/style.css">
-
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css" integrity="sha512-SzlrxWUlpfuzQ+pcUCosxcglQRNAq/DZjVsC0lE40xsADsfeQoEypE+enwcOiGjk/bSuGGKHEyjSoQ1zVisanQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <script src="https://kit.fontawesome.com/8be26e49e1.js" crossorigin="anonymous"></script>
   <link rel="icon" href="favicon/favicon.png">
 
   <script src="https://www.w3schools.com/lib/w3.js"></script>
+  <link rel="stylesheet" href="css/header.css">
+  <link rel="stylesheet" href="css/style.css">
   <script type="text/javascript">
     function searchInEstablishments() {
       // Declare variables
@@ -46,292 +48,293 @@
     include 'header.php';
     ?>
   </div>
-  <div class="div-body">
-    <style media="screen">
-      <?php
-      if (isset($_POST['establishment'])) {
-        echo "
+  <main class="flex-shrink-0">
+    <div class="container-fluid">
+      <div class="div-body">
+        <style media="screen">
+          <?php
+          if (isset($_POST['establishment'])) {
+            echo "
           .modal-div {
             display: block;
           }";
-      };
-      if (isset($_POST['establishment_info'])) {
-        echo "
+          };
+          if (isset($_POST['establishment_info'])) {
+            echo "
           .modal-div-info {
             display: block;
           }";
-      };
-      ?>
-    </style>
-    <?php
-    $official_operator_license = "";
-    $permit_number = "";
-    $official_permit_number = "";
-    $operator_name = "";
-    $name = "";
-    $types = "";
-    $fk_license_number_operator = "";
-    $strt_nm = "";
-    $bldg_nm = "";
-    $twn_nm = "";
-    $ctry = "";
-    $latitude = "";
-    $longitude = "";
-    $pstl_code_number = "";
-    $state = "";
-    $typeString = "";
-    $typeNameString = "";
-    $n_slot_machines = "";
-    if (isset($_POST['operator'])) {
-      $query = "SELECT * FROM operator WHERE official_license_number = \"" . $_POST['operator'] . "\";";
-      $result = $connect->query($query);
-      $row = $result->fetch_assoc();
-      $official_operator_license = $row["license_number"];
-    }
-    if (isset($_POST['establishment'])) {
-      $permit_number = $_POST['establishment'];
-    }
-    if (isset($_POST['establishment_info'])) {
-      $permit_number = $_POST['establishment_info'];
-    }
-    if ($permit_number != "") {
-      $query = "SELECT * from establishment, pstl_adr where fk_id_pstl_adr = id_pstl_adr AND permit_number = " . $permit_number . ";";
-      if ($result = $connect->query($query)) {
-        if ($result->num_rows > 0) {
+          };
+          ?>
+        </style>
+        <?php
+        $official_operator_license = "";
+        $permit_number = "";
+        $official_permit_number = "";
+        $operator_name = "";
+        $name = "";
+        $types = "";
+        $fk_license_number_operator = "";
+        $strt_nm = "";
+        $bldg_nm = "";
+        $twn_nm = "";
+        $ctry = "";
+        $latitude = "";
+        $longitude = "";
+        $pstl_code_number = "";
+        $state = "";
+        $typeString = "";
+        $typeNameString = "";
+        $n_slot_machines = "";
+        if (isset($_POST['operator'])) {
+          $query = "SELECT * FROM operator WHERE official_license_number = \"" . $_POST['operator'] . "\";";
+          $result = $connect->query($query);
           $row = $result->fetch_assoc();
-          $official_permit_number = $row["official_permit_number"];
-          $name = $row["name"];
-          $fk_license_number_operator = $row["fk_license_number_operator"];
-          $strt_nm = $row["strt_nm"];
-          $bldg_nm = $row["bldg_nm"];
-          $twn_nm = $row["twn_nm"];
-          $ctry = $row["ctry"];
-          $latitude = $row["latitude"];
-          $longitude = $row["longitude"];
-          $pstl_code_number = $row["pstl_code_number"];
-          switch ($row["active"]) {
-            case "0":
-              $state = "Cancelled";
-              break;
-            case "1":
-              $state = "Active";
-              break;
-            case "2":
-              $state = "Suspended";
-              break;
-          }
+          $official_operator_license = $row["license_number"];
         }
-        $query = "SELECT * FROM establishment_type, type WHERE fk_establishment_type = id_type AND fk_permit_number = " . $permit_number . ";";
-        if ($result = $connect->query($query)) {
-          if ($result->num_rows > 0) {
-            $typeString = "";
-            while ($row = $result->fetch_assoc()) {
-              if (!empty($row["fk_establishment_type"])) {
-                $typeString = $typeString . $row["fk_establishment_type"] . ",";
-                $typeNameString = $typeNameString . $row["namet"] . "</br>";
+        if (isset($_POST['establishment'])) {
+          $permit_number = $_POST['establishment'];
+        }
+        if (isset($_POST['establishment_info'])) {
+          $permit_number = $_POST['establishment_info'];
+        }
+        if ($permit_number != "") {
+          $query = "SELECT * from establishment, pstl_adr where fk_id_pstl_adr = id_pstl_adr AND permit_number = " . $permit_number . ";";
+          if ($result = $connect->query($query)) {
+            if ($result->num_rows > 0) {
+              $row = $result->fetch_assoc();
+              $official_permit_number = $row["official_permit_number"];
+              $name = $row["name"];
+              $fk_license_number_operator = $row["fk_license_number_operator"];
+              $strt_nm = $row["strt_nm"];
+              $bldg_nm = $row["bldg_nm"];
+              $twn_nm = $row["twn_nm"];
+              $ctry = $row["ctry"];
+              $latitude = $row["latitude"];
+              $longitude = $row["longitude"];
+              $pstl_code_number = $row["pstl_code_number"];
+              switch ($row["active"]) {
+                case "0":
+                  $state = "Cancelled";
+                  break;
+                case "1":
+                  $state = "Active";
+                  break;
+                case "2":
+                  $state = "Suspended";
+                  break;
               }
+            }
+            $query = "SELECT * FROM establishment_type, type WHERE fk_establishment_type = id_type AND fk_permit_number = " . $permit_number . ";";
+            if ($result = $connect->query($query)) {
+              if ($result->num_rows > 0) {
+                $typeString = "";
+                while ($row = $result->fetch_assoc()) {
+                  if (!empty($row["fk_establishment_type"])) {
+                    $typeString = $typeString . $row["fk_establishment_type"] . ",";
+                    $typeNameString = $typeNameString . $row["namet"] . "</br>";
+                  }
+                }
+              }
+            }
+            $query = "SELECT count(*) AS count_slot_machines FROM slot_machines_establishment WHERE fk_establishment = " . $permit_number . ";";
+            if ($result = $connect->query($query)) {
+              $row = $result->fetch_assoc();
+              $n_slot_machines = $row["count_slot_machines"];
+            }
+            $query = "SELECT company_name FROM operator, establishment WHERE license_number = " . $fk_license_number_operator . ";";
+            if ($result = $connect->query($query)) {
+              $row = $result->fetch_assoc();
+              $operator_name = $row["company_name"];
             }
           }
         }
-        $query = "SELECT count(*) AS count_slot_machines FROM slot_machines_establishment WHERE fk_establishment = " . $permit_number . ";";
-        if ($result = $connect->query($query)) {
-          $row = $result->fetch_assoc();
-          $n_slot_machines = $row["count_slot_machines"];
-        }
-        $query = "SELECT company_name FROM operator, establishment WHERE license_number = " . $fk_license_number_operator . ";";
-        if ($result = $connect->query($query)) {
-          $row = $result->fetch_assoc();
-          $operator_name = $row["company_name"];
-        }
-      }
-    }
-    ?>
+        ?>
 
 
-    <div id="id_info_establishment" class="modal-div-info">
-      <span onclick="closeAdd()" class="close_add" title="Close">&times;</span>
-      <div class="modal-div-content">
-        <div class="container">
-          <div class="row">
-            <div class="col-6">
-              <h2>Info <?php echo $name; ?></h2>
-              <table class="w3-table-all">
+        <div id="id_info_establishment" class="modal-div-info">
+          <span onclick="closeAdd()" class="close_add" title="Close">&times;</span>
+          <div class="modal-div-content">
+            <div class="container">
+              <div class="row">
+                <div class="col-6">
+                  <h2>Info <?php echo $name; ?></h2>
+                  <table class="w3-table-all w3-responsive">
 
-                <tr>
-                  <td>Permit Number:</td>
-                  <td> <?php echo $official_permit_number; ?></td>
-                </tr>
-                <tr>
-                  <td>Name:</td>
-                  <td> <?php echo $name; ?></td>
-                </tr>
-                <tr>
-                  <td>Operator:</td>
-                  <td> <?php echo $operator_name; ?></td>
-                </tr>
-                <tr>
-                  <td>Namber of Machines:</td>
-                  <td> <?php echo $n_slot_machines; ?></td>
-                </tr>
-                <tr>
-                  <td>State:</td>
-                  <td><?php echo $state; ?></td>
-                </tr>
-                <tr>
-                  <td>Establishment Type:</td>
-                  <td> <?php echo $typeNameString; ?></td>
-                </tr>
-              </table>
-              <h3 style="margin-top: 40px;"><b>Address:</b></h3>
-              <table>
-                <tr>
-                  <td><?php echo $strt_nm; ?>, <?php echo $bldg_nm; ?></td>
-                </tr>
-                <tr>
-                  <td><?php echo $twn_nm; ?>
-                </tr>
-                <tr>
-                  <td><?php echo $pstl_code_number; ?></td>
+                    <tr>
+                      <td>Permit Number:</td>
+                      <td> <?php echo $official_permit_number; ?></td>
+                    </tr>
+                    <tr>
+                      <td>Name:</td>
+                      <td> <?php echo $name; ?></td>
+                    </tr>
+                    <tr>
+                      <td>Operator:</td>
+                      <td> <?php echo $operator_name; ?></td>
+                    </tr>
+                    <tr>
+                      <td>Namber of Machines:</td>
+                      <td> <?php echo $n_slot_machines; ?></td>
+                    </tr>
+                    <tr>
+                      <td>State:</td>
+                      <td><?php echo $state; ?></td>
+                    </tr>
+                    <tr>
+                      <td>Establishment Type:</td>
+                      <td> <?php echo $typeNameString; ?></td>
+                    </tr>
+                  </table>
+                  <h3 style="margin-top: 40px;"><b>Address:</b></h3>
+                  <table>
+                    <tr>
+                      <td><?php echo $strt_nm; ?>, <?php echo $bldg_nm; ?></td>
+                    </tr>
+                    <tr>
+                      <td><?php echo $twn_nm; ?>
+                    </tr>
+                    <tr>
+                      <td><?php echo $pstl_code_number; ?></td>
 
-                <tr>
-                  <td> <?php echo $ctry; ?></td>
-                </tr>
+                    <tr>
+                      <td> <?php echo $ctry; ?></td>
+                    </tr>
 
-                </tr>
-              </table>
-            </div>
-            <div class="col-6">
-              <div class="col-100-coordinates">
-                <label><span class="badge bg-dark m-1 p-2"><?php echo " Coordinates: Lat:" . $latitude . ", Lon: " . $longitude; ?></span></label>
+                    </tr>
+                  </table>
+                </div>
+                <div class="col-6">
+                  <div class="col-100-coordinates">
+                    <label><span class="badge bg-dark m-1 p-2"><?php echo " Coordinates: Lat:" . $latitude . ", Lon: " . $longitude; ?></span></label>
+                  </div>
+
+                  <div id="map-info"></div>
+
+                </div>
               </div>
-
-              <div id="map-info"></div>
-
             </div>
           </div>
         </div>
-      </div>
-    </div>
 
-    <div id="id_add_establishment" class="modal-div">
-      <span onclick="closeAdd()" class="close_add" title="Close">&times;</span>
-      <form id="formAdd" class="modal-div-content" action="PHP/<?php if (isset($_POST['establishment'])) echo "editEstablishment.php";
-                                                                else echo "addEstablishment.php"; ?>" method="POST">
-        <div class="container">
-          <h1><?php if (isset($_POST['establishment'])) echo "Edit Establishment";
-              else echo "New Establishment"; ?></h1>
-          <hr>
+        <div id="id_add_establishment" class="modal-div">
+          <span onclick="closeAdd()" class="close_add" title="Close">&times;</span>
+          <form id="formAdd" class="modal-div-content" action="PHP/<?php if (isset($_POST['establishment'])) echo "editEstablishment.php";
+                                                                    else echo "addEstablishment.php"; ?>" method="POST">
+            <div class="container">
+              <h1><?php if (isset($_POST['establishment'])) echo "Edit Establishment";
+                  else echo "New Establishment"; ?></h1>
+              <hr>
 
-          <label><b>Permit Number</b></label>
+              <label><b>Permit Number</b></label>
 
-          <?php if (isset($_POST['establishment'])) { ?>
-            <input class="input-add" type="text" name="permit_number" value="<?php echo $permit_number; ?>" style="display:none;">
-            <input class="input-add" type="text" value="<?php echo $official_permit_number; ?>" readonly>
-          <?php } else { ?>
-            <input class="input-add" type="text" name="permit_number" value="" required>
-          <?php } ?>
+              <?php if (isset($_POST['establishment'])) { ?>
+                <input class="input-add" type="text" name="permit_number" value="<?php echo $permit_number; ?>" style="display:none;">
+                <input class="input-add" type="text" value="<?php echo $official_permit_number; ?>" readonly>
+              <?php } else { ?>
+                <input class="input-add" type="text" name="permit_number" value="" required>
+              <?php } ?>
 
-          <label><b>Operator</b></label>
-          <?php
-          if (isset($_POST['operator'])) {
-            $query = "SELECT * FROM operator WHERE license_number = " . $official_operator_license . ";";
-            $result = $connect->query($query);
-            $row = $result->fetch_assoc(); ?>
-            <input class="input-add" type="text" value="<?php echo $row['company_name']; ?>" readonly>
-            <input id="fk_operator" type="text" name="fk_license_number_operator" value="<?php echo $row['license_number']; ?>">
-          <?php } else if (isset($_POST['establishment'])) {
-            $query = "SELECT * FROM establishment, operator WHERE license_number = fk_license_number_operator AND permit_number = " . $_POST['establishment'] . ";";
-            $result = $connect->query($query);
-            $row = $result->fetch_assoc(); ?>
-            <input class="input-add" type="text" value="<?php echo $row['company_name']; ?>" readonly>
-            <input id="fk_operator" type="text" name="fk_license_number_operator" value="<?php echo $row['license_number']; ?>">
-          <?php } else { ?>
-            <select class="input-add" name="fk_license_number_operator">
-            <?php
-            $query = "SELECT * FROM operator;";
-            if ($result = $connect->query($query)) {
-              while ($row = $result->fetch_assoc()) {
-                echo "<option value=\"" . $row['license_number'] . "\">" . $row['company_name'] . "</option>";
+              <label><b>Operator</b></label>
+              <?php
+              if (isset($_POST['operator'])) {
+                $query = "SELECT * FROM operator WHERE license_number = " . $official_operator_license . ";";
+                $result = $connect->query($query);
+                $row = $result->fetch_assoc(); ?>
+                <input class="input-add" type="text" value="<?php echo $row['company_name']; ?>" readonly>
+                <input id="fk_operator" type="text" name="fk_license_number_operator" value="<?php echo $row['license_number']; ?>">
+              <?php } else if (isset($_POST['establishment'])) {
+                $query = "SELECT * FROM establishment, operator WHERE license_number = fk_license_number_operator AND permit_number = " . $_POST['establishment'] . ";";
+                $result = $connect->query($query);
+                $row = $result->fetch_assoc(); ?>
+                <input class="input-add" type="text" value="<?php echo $row['company_name']; ?>" readonly>
+                <input id="fk_operator" type="text" name="fk_license_number_operator" value="<?php echo $row['license_number']; ?>">
+              <?php } else { ?>
+                <select class="input-add" name="fk_license_number_operator">
+                <?php
+                $query = "SELECT * FROM operator;";
+                if ($result = $connect->query($query)) {
+                  while ($row = $result->fetch_assoc()) {
+                    echo "<option value=\"" . $row['license_number'] . "\">" . $row['company_name'] . "</option>";
+                  }
+                }
+                echo "</select>";
               }
-            }
-            echo "</select>";
-          }
-            ?>
-            <label><b>Name</b></label>
-            <input class="input-add" type="text" name="name" value="<?php echo $name; ?>" required>
-            <label><b>State</b></label>
-            <select class="input-add" name="state">
-              <option value="1" <?php if ($state == "1") echo "selected"; ?>>Active</option>
-              <option value="2" <?php if ($state == "2") echo "selected"; ?>>Suspended</option>
-              <option value="0" <?php if ($state == "0") echo "selected"; ?>>Cancelled</option>
-            </select>
-            <div class="col-100">
-              <label><b>Establishment Types</b></label>
-              <input id="typePHP" name="typePHP" type="hidden" value="<?php echo $typeString; ?>" required>
+                ?>
+                <label><b>Name</b></label>
+                <input class="input-add" type="text" name="name" value="<?php echo $name; ?>" required>
+                <label><b>State</b></label>
+                <select class="input-add" name="state">
+                  <option value="1" <?php if ($state == "1") echo "selected"; ?>>Active</option>
+                  <option value="2" <?php if ($state == "2") echo "selected"; ?>>Suspended</option>
+                  <option value="0" <?php if ($state == "0") echo "selected"; ?>>Cancelled</option>
+                </select>
+                <div class="col-100">
+                  <label><b>Establishment Types</b></label>
+                  <input id="typePHP" name="typePHP" type="hidden" value="<?php echo $typeString; ?>" required>
 
 
-              <div class="col-100-add">
+                  <div class="col-100-add">
 
-                <div id="div-new" class="col-100-add"></div>
+                    <div id="div-new" class="col-100-add"></div>
 
-                <div class="col-100-add input-add">
-                  <select name="type" id="type" class="input-select-add" placeholder="Select Type">
-                    <option value="0" disabled selected>Add an Establishment Type</option>
-                    <?php
-                    $query = "SELECT * FROM type;";
-                    if ($result = $connect->query($query)) {
-                      while ($row = $result->fetch_assoc()) {
-                        echo "<option value=\"" . $row['id_type'] . "\">" . $row['namet'] . "</option>";
-                      }
-                    }
-                    ?>
-                  </select>
-                  <button id="addType" type="button"></button>
-                </div>
-              </div>
-            </div>
-
-            <label><b>Address</b></label>
-            <div class="col-99">
-              <div class="col-50">
-                <div>
-                  <label>Street Name</label>
-                  <input id="strt_nm" class="input-add" type="text" name="strt_nm" value="<?php echo $strt_nm; ?>" required>
-                  <label>Building Number</label>
-                  <input id="bldgNb" class="input-add" type="text" name="bldgNb" value="<?php echo $bldg_nm; ?>" required>
-                  <label>Town Name</label>
-                  <input id="twnNm" class="input-add" type="text" name="twnNm" value="<?php echo $twn_nm; ?>" required>
-                  <label>Country</label>
-                  <input id="ctry" class="input-add" type="text" name="ctry" value="<?php if ($ctry != "") echo $ctry;
-                                                                                    else echo "Nigeria"; ?>" required>
-                  <label>Postal Code</label>
-                  <input id="zip" class="input-add" type="text" name="zip" value="<?php echo $pstl_code_number; ?>" required>
-                  <input id="checkbox" type="checkbox" name="coordinates" value="<?php echo $latitude . ":" . $longitude ?>" <?php if ($latitude != "" && $longitude != "") echo "checked"; ?>> Include Latitude and Longitude<br>
-                </div>
-              </div>
-              <div class="col-50">
-                <div class="col-100-add">
-                  <div class="coordinates">
-                    <label id="latlng"><?php if ($latitude != "" && $longitude != "") echo $latitude . " , " . $longitude; ?></label>
+                    <div class="col-100-add input-add">
+                      <select name="type" id="type" class="input-select-add" placeholder="Select Type">
+                        <option value="0" disabled selected>Add an Establishment Type</option>
+                        <?php
+                        $query = "SELECT * FROM type;";
+                        if ($result = $connect->query($query)) {
+                          while ($row = $result->fetch_assoc()) {
+                            echo "<option value=\"" . $row['id_type'] . "\">" . $row['namet'] . "</option>";
+                          }
+                        }
+                        ?>
+                      </select>
+                      <button id="addType" type="button"></button>
+                    </div>
                   </div>
-                  <input id="refresh" type="button">
                 </div>
-                <div id="map"></div>
-              </div>
-            </div>
-            <div class="clearfix">
-              <button type="submit" class="m-3 savebtn btn btn-lg btn-success">Save</button>
-              <button type="button" onclick="closeAdd()" class="m-3 cancelbtn btn btn-lg btn-warning">Cancel</button>
 
+                <label><b>Address</b></label>
+                <div class="col-99">
+                  <div class="col-50">
+                    <div>
+                      <label>Street Name</label>
+                      <input id="strt_nm" class="input-add" type="text" name="strt_nm" value="<?php echo $strt_nm; ?>" required>
+                      <label>Building Number</label>
+                      <input id="bldgNb" class="input-add" type="text" name="bldgNb" value="<?php echo $bldg_nm; ?>" required>
+                      <label>Town Name</label>
+                      <input id="twnNm" class="input-add" type="text" name="twnNm" value="<?php echo $twn_nm; ?>" required>
+                      <label>Country</label>
+                      <input id="ctry" class="input-add" type="text" name="ctry" value="<?php if ($ctry != "") echo $ctry;
+                                                                                        else echo "Nigeria"; ?>" required>
+                      <label>Postal Code</label>
+                      <input id="zip" class="input-add" type="text" name="zip" value="<?php echo $pstl_code_number; ?>" required>
+                      <input id="checkbox" type="checkbox" name="coordinates" value="<?php echo $latitude . ":" . $longitude ?>" <?php if ($latitude != "" && $longitude != "") echo "checked"; ?>> Include Latitude and Longitude<br>
+                    </div>
+                  </div>
+                  <div class="col-50">
+                    <div class="col-100-add">
+                      <div class="coordinates">
+                        <label id="latlng"><?php if ($latitude != "" && $longitude != "") echo $latitude . " , " . $longitude; ?></label>
+                      </div>
+                      <input id="refresh" type="button">
+                    </div>
+                    <div id="map"></div>
+                  </div>
+                </div>
+                <div class="clearfix">
+                  <button type="submit" class="m-3 savebtn btn btn-lg btn-success">Save</button>
+                  <button type="button" onclick="closeAdd()" class="m-3 cancelbtn btn btn-lg btn-warning">Cancel</button>
+
+                </div>
             </div>
+          </form>
         </div>
-      </form>
-    </div>
 
-    <main class="flex-shrink-0">
-      <div class="container-fluid">
-        <div class="row my-5">
-          <div class="col-6">
+
+        <div class="row mt-4">
+          <div class="col-12">
             <h1>Establishments</h1>
           </div>
           <div class="col-6">
@@ -340,17 +343,17 @@
             <?php } ?>
           </div>
         </div>
-        <div class="row my-5">
-          <div class="col-10">
+        <div class="row mt-4 mb-4">
+          <div class="col-6">
             <input type="text" id="myInput" onkeyup="searchInEstablishments()" placeholder="Search ...">
           </div>
-          <div class="col-2">
-            <button class="btn btn-lg btn-success" onclick="document.getElementById('id_add_establishment').style.display='block'">Add Establishment</button>
+          <div class="col-6 " >
+            <button class="btn btn-success float-end" onclick="document.getElementById('id_add_establishment').style.display='block'">Add Establishment</button>
           </div>
         </div>
         <div class="row">
           <div class="col-12">
-            <table id="myTable" class="w3-table-all">
+            <table id="myTable" class="w3-table-all w3-small w3-responsive">
               <tr>
                 <th>Index</th>
                 <th class="w3-dark-grey w3-hover-black" onclick="w3.sortHTML('#myTable', '.item', 'td:nth-child(1)')" style="cursor:pointer">Permit Number <i class="fa fa-sort" style="font-size:13px;"></i></th>
@@ -388,7 +391,7 @@
           </div>
         </div>
       </div>
-  </div>
+    </div>
   </main>
   <div class="footer mt-auto">
     <?php

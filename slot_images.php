@@ -3,12 +3,18 @@
 
 <head>
   <title>Slot Images</title>
-  <meta charset="utf-8">
-  <link rel="stylesheet" href="css/style.css">
-  <link rel="stylesheet" href="css/camera.css">
-  <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
 
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css" integrity="sha512-SzlrxWUlpfuzQ+pcUCosxcglQRNAq/DZjVsC0lE40xsADsfeQoEypE+enwcOiGjk/bSuGGKHEyjSoQ1zVisanQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <script src="https://kit.fontawesome.com/8be26e49e1.js" crossorigin="anonymous"></script>
   <link rel="icon" href="favicon/favicon.png">
+
+  <script src="https://www.w3schools.com/lib/w3.js"></script>
+  <link rel="stylesheet" href="css/header.css">
+  <link rel="stylesheet" href="css/style.css">
 
 </head>
 
@@ -19,45 +25,45 @@
     include 'header.php';
     ?>
   </div>
+  <main class="flex-shrink-0">
+    <div class="container-fluid">
+      <div class="div-body">
 
-  <div class="div-body">
+        <?php
+        $slot = "";
+        if (isset($_POST["slot"])) {
+          $slot = $_POST["slot"];
+        } else {
+          header("location: slot.php");
+        } ?>
 
-    <?php
-    $slot = "";
-    if (isset($_POST["slot"])) {
-      $slot = $_POST["slot"];
-    } else {
-      header("location: slot.php");
-    } ?>
-
-    <div id="id_camera" class="modal-div-info">
-      <style>
-        canvas {
-          width: 960px;
-          height: 540px;
-        }
-      </style>
-      <span onclick="closeFunction()" class="close_add" title="Close">&times;</span>
-      <div class="modal-div-content-camera">
-        <div class="container-camera">
-          <div class="col-100-camera">
-            <video onclick="snapshot(this);" id="video" autoplay></video>
-            <canvas style="display:none;" id="myCanvas" width="1920px"></canvas>
-          </div>
-          <div class="col-100-camera">
-            <button id="take-snapshot" onclick="snapshot();">Take Snapshot</button>
-            <div class="col-50-camera-padding">
-              <button id="cancel-snapshot" style="display:none;" onclick="cancelSnapshot();">Cancel</button>
-            </div>
-            <div class="col-50-camera-padding">
-              <button id="save-snapshot" style="display:none;" onclick="save();">Save</button>
+        <div id="id_camera" class="modal-div-info">
+          <style>
+            canvas {
+              width: 960px;
+              height: 540px;
+            }
+          </style>
+          <span onclick="closeFunction()" class="close_add" title="Close">&times;</span>
+          <div class="modal-div-content-camera">
+            <div class="container-camera">
+              <div class="col-100-camera">
+                <video onclick="snapshot(this);" id="video" autoplay></video>
+                <canvas style="display:none;" id="myCanvas" width="1920px"></canvas>
+              </div>
+              <div class="col-100-camera">
+                <button id="take-snapshot" onclick="snapshot();">Take Snapshot</button>
+                <div class="col-50-camera-padding">
+                  <button id="cancel-snapshot" style="display:none;" onclick="cancelSnapshot();">Cancel</button>
+                </div>
+                <div class="col-50-camera-padding">
+                  <button id="save-snapshot" style="display:none;" onclick="save();">Save</button>
+                </div>
+              </div>
             </div>
           </div>
         </div>
-      </div>
-    </div>
-    <main>
-      <div class="container-fluid">
+
         <h1>Images</h1>
 
 
@@ -73,6 +79,7 @@
 
             </form>
           </div>
+          <div class="col-sm-1 col-4-md"></div>
         </div>
         <div class="row text-center">
           <div class="col-sm-1 col-4-md"></div>
@@ -83,7 +90,7 @@
       </div>
 
 
-      <div class="col-100-camera-padding">
+      <div class="col-12">
         <form id="delForm" action="PHP/deleteImage.php" method="post">
           <?php
           $query = "SELECT * FROM photos WHERE fk_serial_number = \"" . $slot . "\";";
@@ -96,12 +103,12 @@
         </form>
       </div>
       <div class="row text-center">
-        <div class="col-12">
+        <div class="col-12 text-center">
           <button class="btn btn-lg btn-success" onclick="deleteImages()" type="button" name="button">Delete Images</button>
         </div>
       </div>
-  </div>
-  </div>
+    </div>
+
   </main>
 
   <div class="footer mt-auto">
