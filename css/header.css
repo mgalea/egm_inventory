@@ -18,29 +18,10 @@ body {
 }
 
 
-@media only screen and (max-width: 480px) {
-
-  .font-display {
-    font-size: 4rem !important;
-  }
-}
-
 .login-content {
   width: 50%;
 }
 
-
-
-@media (min-width: 481px) {
-
-  .font-display {
-    font-size: 1.2rem !important;
-  }
-
-  img.brand_img {
-    max-width: 120px;
-  }
-}
 
 .header-group {
   margin: 1px;
@@ -81,13 +62,13 @@ body {
 }
 
 .nav-link {
-  font-size: 2rem !important;
+  font-size: 1rem !important;
 }
 
 @media screen and (max-width: 600px)  {
   
   .nav-link {
-    font-size: 3rem !important;
+    font-size: 2rem !important;
   }
 }
 
