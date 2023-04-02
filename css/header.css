@@ -83,6 +83,7 @@ body {
 .nav-link {
   font-size: 2rem !important;
 }
+
 @media screen and (max-width: 600px)  {
   
   .nav-link {
