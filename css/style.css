@@ -136,19 +136,6 @@ body {
   background-position: center;
 }
 
-#refresh {
-  float: right;
-  font-size: 18px;
-  border: 1px solid #ddd;
-  border-radius: 5px;
-  width: 48px;
-  height: 48px;
-  margin-bottom: 5px;
-  background-color: #f2f2f2;
-  background-image: url(../images/refresh.png);
-  background-repeat: no-repeat;
-  background-position: center;
-}
 
 #map,
 #map-info {
@@ -179,10 +166,7 @@ body {
 }
 
 .coordinates {
-  float: left;
-  position: relative;
   top: 20px;
-  margin-left: 10px;
   text-align: left;
   width: calc(100% - 58px);
 }

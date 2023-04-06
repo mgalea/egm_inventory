@@ -17,6 +17,13 @@ body {
   background-color: #CCC !important;
 }
 
+.brand-img {
+  width:80px;
+}
+
+.name-img {
+  width:240px;
+}
 
 .login-content {
   width: 50%;
@@ -64,13 +71,18 @@ body {
 .nav-link {
   font-size: 2rem !important;
 }
+
 @media screen and (max-width: 600px)  {
+
+  .brand-img {
+    width:60px;
+  }
   
   .nav-link {
     font-size: 3rem !important;
   }
  .name-img {
-    width: 140px;
+    width: 120px;
   }
   
 }
