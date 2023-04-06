@@ -10,10 +10,11 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css" integrity="sha512-SzlrxWUlpfuzQ+pcUCosxcglQRNAq/DZjVsC0lE40xsADsfeQoEypE+enwcOiGjk/bSuGGKHEyjSoQ1zVisanQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
   <script src="https://kit.fontawesome.com/8be26e49e1.js" crossorigin="anonymous"></script>
   <link rel="icon" href="favicon/favicon.png">
-
-  <script src="https://www.w3schools.com/lib/w3.js"></script>
   <link rel="stylesheet" href="css/header.css">
   <link rel="stylesheet" href="css/style.css">
+
+  <script src="https://www.w3schools.com/lib/w3.js"></script>
+
   <script type="text/javascript">
     function searchInSlots() {
       // Declare variables

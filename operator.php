@@ -2,7 +2,7 @@
 <html>
 
 <head>
-<meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="css/header.css">
   <link rel="stylesheet" href="css/style.css">
   <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
@@ -211,53 +211,59 @@
       <form id="formAdd" class="modal-div-content" action="PHP/<?php if (isset($_POST['operator'])) echo "editOperator.php";
                                                                 else echo "addOperator.php"; ?>" method="POST">
         <div class="container">
-          <h1><?php if (isset($_POST['operator'])) echo "Edit Operator";
-              else echo "New Operator"; ?></h1>
-          <hr>
-
-          <label><b>License Number</b></label>
-          <?php if (isset($_POST['operator'])) { ?>
-            <input class="input-add" type="text" name="license_number" value="<?php echo $license; ?>" style="display:none;">
-            <input class="input-add" type="text" value="<?php echo $official_license; ?>" readonly>
-          <?php } else { ?>
-            <input class="input-add" type="text" name="license_number" value="" required>
-          <?php } ?>
-          <label><b>Name</b></label>
-          <input class="input-add" type="text" name="company_name" value="<?php echo $name; ?>" required>
-          <label><b>Telephone</b></label>
-          <input class="input-add" type="text" name="company_telephone" value="<?php echo $telephone; ?>" required>
-          <label><b>Email</b></label>
-          <input class="input-add" type="text" name="company_email" value="<?php echo $email; ?>" required>
-          <label><b>Web Site</b></label>
-          <input class="input-add" type="text" name="company_website" value="<?php echo $web; ?>">
-          <label><b>Jurisdiction</b></label>
-          <input class="input-add" type="text" name="jurisdiction" value="<?php echo $jurisdiction; ?>" required>
-          <div class="col-100-add">
-            <label><b>Brand</b></label>
-            <input id="brandPHP" name="brandPHP" type="text" value="<?php echo $brandPHP; ?>">
+          <div class-"row">
+            <h1><?php if (isset($_POST['operator'])) echo "Edit Operator";
+                else echo "New Operator"; ?></h1>
+            <hr>
+          </div>
+          <div class="row">
+           <div class="col-12">
+            <label><b>License Number</b></label>
+            <?php if (isset($_POST['operator'])) { ?>
+              <input class="input-add" type="text" name="license_number" value="<?php echo $license; ?>" style="display:none;">
+              <input class="input-add" type="text" value="<?php echo $official_license; ?>" readonly>
+            <?php } else { ?>
+              <input class="input-add" type="text" name="license_number" value="" required>
+            <?php } ?>
+            <label><b>Name</b></label>
+            <input class="input-add" type="text" name="company_name" value="<?php echo $name; ?>" required>
+            <label><b>Telephone</b></label>
+            <input class="input-add" type="text" name="company_telephone" value="<?php echo $telephone; ?>" required>
+            <label><b>Email</b></label>
+            <input class="input-add" type="text" name="company_email" value="<?php echo $email; ?>" required>
+            <label><b>Web Site</b></label>
+            <input class="input-add" type="text" name="company_website" value="<?php echo $web; ?>">
+            <label><b>Jurisdiction</b></label>
+            <input class="input-add" type="text" name="jurisdiction" value="<?php echo $jurisdiction; ?>" required>
             <div class="col-100-add">
+              <label><b>Brand</b></label>
+              <input id="brandPHP" name="brandPHP" type="text" value="<?php echo $brandPHP; ?>">
+              <div class="col-100-add">
 
-              <div id="div-new" class="col-100-add"></div>
+                <div id="div-new" class="col-100-add"></div>
 
-              <div class="col-100-add input-add">
-                <select name="brand" id="brand" class="input-select-add">
-                  <option value=""></option>
-                  <?php
-                  $query = "SELECT * FROM brand;";
-                  if ($result = $connect->query($query)) {
-                    while ($row = $result->fetch_assoc()) {
-                      echo "<option value=\"" . $row['id_brand'] . "\">" . $row['name'] . "</option>";
+                <div class="col-100-add input-add">
+                  <select name="brand" id="brand" class="input-select-add">
+                    <option value=""></option>
+                    <?php
+                    $query = "SELECT * FROM brand;";
+                    if ($result = $connect->query($query)) {
+                      while ($row = $result->fetch_assoc()) {
+                        echo "<option value=\"" . $row['id_brand'] . "\">" . $row['name'] . "</option>";
+                      }
                     }
-                  }
-                  ?>
-                </select>
-                <button id="addBrand" type="button">
+                    ?>
+                  </select>
+                  <button id="addBrand" type="button">
+                </div>
               </div>
             </div>
+           </div>
           </div>
-          <label><b>Address</b></label>
-          <div class="col-99">
-            <div class="col-50">
+          <div class="row">
+            <div class="col-sm-12 col-md-6">
+              <label><b>Address</b></label>
+
               <div>
                 <label>Street Name</label>
                 <input id="strt_nm" class="input-add" type="text" name="strt_nm" value="<?php echo $strt; ?>" required>
@@ -276,17 +282,21 @@
                 <input id="geocheck" type="checkbox" name="coordinates" value="unchecked">
                 <label for="coordinates">Include Coordinates</label><br>
               </div>
+
             </div>
-            <div class="col-50">
-              <div class="col-100-add">
-                <div class="coordinates">
-                  <label><span id="latlng" class="badge bg-dark m-1 p-2"><?php echo " Coordinates: Lat:" . $latitude . ", Lon: " . $longitude; ?></span></label>
+            <div class="col-sm-12 col-md-6">
+
+            <div class="col-100-add">
+                  <div class="coordinates">
+                    <label><span id="latlng" class="badge bg-dark mb-2 p-2"><?php echo " Coordinates: Lat:" . $latitude . ", Lon: " . $longitude; ?></span></label>
+                  </div>
+                  <button id="refresh" type="button" class="btn btn-primary  btn-lg mb-2 float-end"> <i class="fa-light fa-globe-stand"></i> Geocode </button>
                 </div>
-                <button id="refresh" type="button">
+                
+                <div id="map"></div>
               </div>
-              <div id="map"></div>
             </div>
-          </div>
+
           <div class="clearfix">
             <button type="submit" class="m-3 savebtn btn btn-lg btn-warning">Save</button>
             <button type="button" onclick="closeAdd()" class="m-3 cancelbtn btn btn-lg btn-success">Cancel</button>
