@@ -15,7 +15,7 @@ if($connect){
           }
         }
       }
-      header("Location: ../slot_images.php");
+      header("Location: ../slot_images.php?slot=".$_POST['slot']);
   }else{
     header("Location: ../slot_images.php?error=No Images Deleted.");
   }

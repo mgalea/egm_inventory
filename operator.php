@@ -9,8 +9,7 @@
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css" integrity="sha512-SzlrxWUlpfuzQ+pcUCosxcglQRNAq/DZjVsC0lE40xsADsfeQoEypE+enwcOiGjk/bSuGGKHEyjSoQ1zVisanQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
   <script src="https://kit.fontawesome.com/8be26e49e1.js" crossorigin="anonymous"></script>
-  <link rel="icon" href="favicon/favicon.png">
-
+  <link rel="icon" href="favicon/favicon.ico">
   <script src="https://www.w3schools.com/lib/w3.js"></script>
 
   <script type="text/javascript">
@@ -138,7 +137,7 @@
               <h2>Info <?php echo $name; ?></h2>
               <div class="row">
                 <div class="col-6">
-                  <table class="w3-table-all w-3 responsive w3-small ">
+                  <table class="w3-table-all w-3 responsive ">
                     <tr>
                       <td>License Number:</td>
                       <td> <?php echo $official_license; ?></td>
@@ -189,163 +188,166 @@
                     </tr>
                   </table>
                 </div>
-              </div>
-              <div class="col-6">
-                <div class="row">
-                  <p><span class="badge bg-dark m-1 p-2"><?php echo " Lat:" . $latitude . ", Lon: " . $longitude; ?></span></p>
-                </div>
-              </div>
-              <div class="row">
 
-                <div id="map-info"></div>
+                <div class="col-md-6 col-sm-12">
+                  <div class="col-100-add">
+                    <div class="row">
+                      <p><span class="badge bg-dark m-1 p-2"><?php echo " Lat:" . $latitude . ", Lon: " . $longitude; ?></span></p>
+                    </div>
+                  </div>
+                  <div class="row">
+
+                    <div id="map-info"></div>
+
+                  </div>
+                </div>
               </div>
 
             </div>
           </div>
         </div>
       </div>
-    </div>
 
-    <div id="id_add_operator" class="modal-div">
-      <span onclick="closeAdd()" class="close_add" title="Close">&times;</span>
-      <form id="formAdd" class="modal-div-content" action="PHP/<?php if (isset($_POST['operator'])) echo "editOperator.php";
-                                                                else echo "addOperator.php"; ?>" method="POST">
-        <div class="container">
-          <div class-"row">
-            <h1><?php if (isset($_POST['operator'])) echo "Edit Operator";
-                else echo "New Operator"; ?></h1>
-            <hr>
-          </div>
-          <div class="row">
-           <div class="col-12">
-            <label><b>License Number</b></label>
-            <?php if (isset($_POST['operator'])) { ?>
-              <input class="input-add" type="text" name="license_number" value="<?php echo $license; ?>" style="display:none;">
-              <input class="input-add" type="text" value="<?php echo $official_license; ?>" readonly>
-            <?php } else { ?>
-              <input class="input-add" type="text" name="license_number" value="" required>
-            <?php } ?>
-            <label><b>Name</b></label>
-            <input class="input-add" type="text" name="company_name" value="<?php echo $name; ?>" required>
-            <label><b>Telephone</b></label>
-            <input class="input-add" type="text" name="company_telephone" value="<?php echo $telephone; ?>" required>
-            <label><b>Email</b></label>
-            <input class="input-add" type="text" name="company_email" value="<?php echo $email; ?>" required>
-            <label><b>Web Site</b></label>
-            <input class="input-add" type="text" name="company_website" value="<?php echo $web; ?>">
-            <label><b>Jurisdiction</b></label>
-            <input class="input-add" type="text" name="jurisdiction" value="<?php echo $jurisdiction; ?>" required>
-            <div class="col-100-add">
-              <label><b>Brand</b></label>
-              <input id="brandPHP" name="brandPHP" type="text" value="<?php echo $brandPHP; ?>">
-              <div class="col-100-add">
+      <div id="id_add_operator" class="modal-div">
+        <span onclick="closeAdd()" class="close_add" title="Close">&times;</span>
+        <form id="formAdd" class="modal-div-content" action="PHP/<?php if (isset($_POST['operator'])) echo "editOperator.php";
+                                                                  else echo "addOperator.php"; ?>" method="POST">
+          <div class="container">
+            <div class="row">
+              <h1><?php if (isset($_POST['operator'])) echo "Edit Operator";
+                  else echo "New Operator"; ?></h1>
+              <hr>
+            </div>
+            <div class="row">
+              <div class="col-12">
+                <label><b>License Number</b></label>
+                <?php if (isset($_POST['operator'])) { ?>
+                  <input class="input-add" type="text" name="license_number" value="<?php echo $license; ?>" style="display:none;">
+                  <input class="input-add" type="text" value="<?php echo $official_license; ?>" readonly>
+                <?php } else { ?>
+                  <input class="input-add" type="text" name="license_number" value="" required>
+                <?php } ?>
+                <label><b>Name</b></label>
+                <input class="input-add" type="text" name="company_name" value="<?php echo $name; ?>" required>
+                <label><b>Telephone</b></label>
+                <input class="input-add" type="text" name="company_telephone" value="<?php echo $telephone; ?>" required>
+                <label><b>Email</b></label>
+                <input class="input-add" type="text" name="company_email" value="<?php echo $email; ?>" required>
+                <label><b>Web Site</b></label>
+                <input class="input-add" type="text" name="company_website" value="<?php echo $web; ?>">
+                <label><b>Jurisdiction</b></label>
+                <input class="input-add" type="text" name="jurisdiction" value="<?php echo $jurisdiction; ?>" required>
+                <div class="col-100-add">
+                  <label><b>Brand</b></label>
+                  <input id="brandPHP" name="brandPHP" type="text" value="<?php echo $brandPHP; ?>">
+                  <div class="col-100-add">
 
-                <div id="div-new" class="col-100-add"></div>
+                    <div id="div-new" class="col-100-add"></div>
 
-                <div class="col-100-add input-add">
-                  <select name="brand" id="brand" class="input-select-add">
-                    <option value=""></option>
-                    <?php
-                    $query = "SELECT * FROM brand;";
-                    if ($result = $connect->query($query)) {
-                      while ($row = $result->fetch_assoc()) {
-                        echo "<option value=\"" . $row['id_brand'] . "\">" . $row['name'] . "</option>";
-                      }
-                    }
-                    ?>
-                  </select>
-                  <button id="addBrand" type="button">
+                    <div class="col-100-add input-add">
+                      <select name="brand" id="brand" class="input-select-add">
+                        <option value=""></option>
+                        <?php
+                        $query = "SELECT * FROM brand;";
+                        if ($result = $connect->query($query)) {
+                          while ($row = $result->fetch_assoc()) {
+                            echo "<option value=\"" . $row['id_brand'] . "\">" . $row['name'] . "</option>";
+                          }
+                        }
+                        ?>
+                      </select>
+                      <button id="addBrand" type="button">
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
-           </div>
-          </div>
-          <div class="row">
-            <div class="col-sm-12 col-md-6">
-              <label><b>Address</b></label>
+            <div class="row">
+              <div class="col-sm-12 col-md-6">
+                <label><b>Address</b></label>
 
-              <div>
-                <label>Street Name</label>
-                <input id="strt_nm" class="input-add" type="text" name="strt_nm" value="<?php echo $strt; ?>" required>
-                <label>Building Number</label>
-                <input id="bldgNb" class="input-add" type="text" name="bldgNb" value="<?php echo $bldg; ?>" required>
-                <label>Region</label>
-                <input id="Region" class="input-add" type="text" name="region" value="<?php echo $region; ?>">
-                <label>City</label>
-                <input id="twnNm" class="input-add" type="text" name="twnNm" value="<?php echo $twn; ?>" required>
-                <label>Country</label>
-                <input id="ctry" class="input-add" type="text" name="ctry" value="<?php if ($ctry != "") echo $ctry;
-                                                                                  else echo "Nigeria"; ?>" required>
-                <label>Postal Code</label>
-                <input id="zip" class="input-add" type="text" name="zip" value="<?php echo $pstl_code_number; ?>">
+                <div>
+                  <label>Street Name</label>
+                  <input id="strt_nm" class="input-add" type="text" name="strt_nm" value="<?php echo $strt; ?>" required>
+                  <label>Building Number</label>
+                  <input id="bldgNb" class="input-add" type="text" name="bldgNb" value="<?php echo $bldg; ?>" required>
+                  <label>Region</label>
+                  <input id="Region" class="input-add" type="text" name="region" value="<?php echo $region; ?>">
+                  <label>City</label>
+                  <input id="twnNm" class="input-add" type="text" name="twnNm" value="<?php echo $twn; ?>" required>
+                  <label>Country</label>
+                  <input id="ctry" class="input-add" type="text" name="ctry" value="<?php if ($ctry != "") echo $ctry;
+                                                                                    else echo "Nigeria"; ?>" required>
+                  <label>Postal Code</label>
+                  <input id="zip" class="input-add" type="text" name="zip" value="<?php echo $pstl_code_number; ?>">
 
-                <input id="geocheck" type="checkbox" name="coordinates" value="unchecked">
-                <label for="coordinates">Include Coordinates</label><br>
+                  <input id="geocheck" type="checkbox" name="coordinates" value="unchecked">
+                  <label for="coordinates">Include Coordinates</label><br>
+                </div>
+
               </div>
+              <div class="col-sm-12 col-md-6">
 
-            </div>
-            <div class="col-sm-12 col-md-6">
-
-            <div class="col-100-add">
+                <div class="col-100-add">
                   <div class="coordinates">
                     <label><span id="latlng" class="badge bg-dark mb-2 p-2"><?php echo " Coordinates: Lat:" . $latitude . ", Lon: " . $longitude; ?></span></label>
                   </div>
                   <button id="refresh" type="button" class="btn btn-primary  btn-lg mb-2 float-end"> <i class="fa-light fa-globe-stand"></i> Geocode </button>
                 </div>
-                
+
                 <div id="map"></div>
               </div>
             </div>
 
-          <div class="clearfix">
-            <button type="submit" class="m-3 savebtn btn btn-lg btn-warning">Save</button>
-            <button type="button" onclick="closeAdd()" class="m-3 cancelbtn btn btn-lg btn-success">Cancel</button>
+            <div class="clearfix">
+              <button type="submit" class="m-3 savebtn btn btn-lg btn-warning">Save</button>
+              <button type="button" onclick="closeAdd()" class="m-3 cancelbtn btn btn-lg btn-success">Cancel</button>
 
+            </div>
           </div>
+        </form>
+      </div>
+
+      <div class="row m-1">
+        <div class="col-12">
+          <h1>Operators</h1>
         </div>
-      </form>
-    </div>
+      </div>
+      <div class="row m-1">
+        <div class="col-6">
+          <input type="text" id="myInput" onkeyup="searchInOperators()" placeholder="Search ...">
+        </div>
+        <div class="col-6 float-end">
+          <button class="btn btn-lg btn-success float-end" onclick="document.getElementById('id_add_operator').style.display='block'">Add Operator</button>
+        </div>
+      </div>
+      <div class="row m-1">
+        <div class="col-12 text-center">
 
-    <div class="row m-1">
-      <div class="col-12">
-        <h1>Operators</h1>
-      </div>
-    </div>
-    <div class="row m-1">
-      <div class="col-6">
-        <input type="text" id="myInput" onkeyup="searchInOperators()" placeholder="Search ...">
-      </div>
-      <div class="col-6 float-end">
-        <button class="btn btn-lg btn-success float-end" onclick="document.getElementById('id_add_operator').style.display='block'">Add Operator</button>
-      </div>
-    </div>
-    <div class="row m-1">
-      <div class="col-12 text-center">
-
-        <table id="myTable" class="w3-table-all w3-hoverable  w3-responsive w3-small center">
-          <thead>
-            <tr>
-              <th class="w3-dark-grey w3-hover-black" onclick="w3.sortHTML('#myTable', '.item', 'td:nth-child(1)')" style="cursor:pointer">Name <i class="fa fa-sort" style="font-size:13px;"></i></th>
-              <th class="w3-dark-grey w3-hover-black" onclick="w3.sortHTML('#myTable', '.item', 'td:nth-child(2)')" style="cursor:pointer">License Number <i class="fa fa-sort" style="font-size:13px;"></i></th>
-              <th class="w3-dark-grey w3-hover-black">Edit</th>
-              <th class="w3-dark-grey w3-hover-black">Info</th>
-            </tr>
-          </thead>
-          <?php
-          if ($connect) {
-            $query = "SELECT * from operator, pstl_adr where fk_id_pstl_adr = id_pstl_adr;";
-            if ($result = $connect->query($query)) {
-              if ($result->num_rows > 0) {
-                while ($row = $result->fetch_assoc()) {
-                  echo "<tr class=\"item\"><td>" . $row["company_name"] . "</td><td>" . $row["official_license_number"] . "</td><td onclick=\"edit_operator(" . $row["license_number"] . ")\"><img class=\"icon\" src=\"images/edit.png\" alt=\"Edit\"></td><td onclick=\"info_operator(" . $row["license_number"] . ")\"><img class=\"icon\" src=\"images/info.png\" alt=\"Info\"></td></tr>";
+          <table id="myTable" class="w3-table-all w3-hoverable w3-responsive center">
+            <thead>
+              <tr>
+                <th class="w3-dark-grey w3-hover-black" onclick="w3.sortHTML('#myTable', '.item', 'td:nth-child(1)')" style="cursor:pointer">Name <i class="fa fa-sort" style="font-size:13px;"></i></th>
+                <th class="w3-dark-grey w3-hover-black" onclick="w3.sortHTML('#myTable', '.item', 'td:nth-child(2)')" style="cursor:pointer">License Number <i class="fa fa-sort" style="font-size:13px;"></i></th>
+                <th class="w3-dark-grey w3-hover-black">Edit</th>
+                <th class="w3-dark-grey w3-hover-black">Info</th>
+              </tr>
+            </thead>
+            <?php
+            if ($connect) {
+              $query = "SELECT * from operator, pstl_adr where fk_id_pstl_adr = id_pstl_adr;";
+              if ($result = $connect->query($query)) {
+                if ($result->num_rows > 0) {
+                  while ($row = $result->fetch_assoc()) {
+                    echo "<tr class=\"item\"><td>" . $row["company_name"] . "</td><td>" . $row["official_license_number"] . "</td><td onclick=\"edit_operator(" . $row["license_number"] . ")\"><img class=\"icon\" src=\"images/edit.png\" alt=\"Edit\"></td><td onclick=\"info_operator(" . $row["license_number"] . ")\"><img class=\"icon\" src=\"images/info.png\" alt=\"Info\"></td></tr>";
+                  }
                 }
               }
             }
-          }
-          ?>
-        </table>
+            ?>
+          </table>
+        </div>
       </div>
-    </div>
     </div>
     <div>
   </main>
@@ -570,6 +572,7 @@
         hiddenField.setAttribute("name", "operator");
         hiddenField.setAttribute("value", value);
         form.appendChild(hiddenField);
+
         document.body.appendChild(form);
         form.submit();
       }

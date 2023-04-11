@@ -85,6 +85,7 @@ body {
 .col-100-add {
   float: left;
   width: 100%;
+  vertical-align: top;
 }
 
 .col-100-left {
@@ -93,7 +94,7 @@ body {
 }
 
 .input-add {
-  margin: 5px 0 22px 0;
+  margin: 5px 0 5px 0;
 }
 
 #brandPHP,
@@ -113,8 +114,8 @@ body {
   font-size: 18px;
   border: 1px solid #ddd;
   border-radius: 5px;
-  width: 48px;
-  height: 48px;
+  width: 30px;
+  height: 30px;
   background-color: #f2f2f2;
   background-image: url(../images/add.png);
   background-repeat: no-repeat;
@@ -128,8 +129,8 @@ body {
   border: 1px solid #ddd;
   border-radius: 5px;
   margin-top: 5px;
-  width: 48px;
-  height: 48px;
+  width: 30px;
+  height: 30px;
   background-color: #f2f2f2;
   background-image: url(../images/del.png);
   background-repeat: no-repeat;
@@ -245,6 +246,13 @@ input[type=date]:focus {
 
 .input-select-add {
   width: calc(100% - 58px);
+  border: 1px solid lightgrey !important;
+}
+
+.input-select-add:focus {
+  width: calc(100% - 58px);
+  border: 1px solid red !important;
+  background-color: lightgrey;
 }
 
 .modal-div,
@@ -293,7 +301,8 @@ input[type=date]:focus {
 
 .close_add:hover,
 .close_add:focus {
-  color: #f44336;
+  color: white;
+  background-color: red;
   cursor: pointer;
 }
 

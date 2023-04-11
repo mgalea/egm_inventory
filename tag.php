@@ -2,41 +2,41 @@
 <html>
 
 <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="stylesheet" href="css/header.css">
-  <link rel="stylesheet" href="css/style.css">
-  <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css" integrity="sha512-SzlrxWUlpfuzQ+pcUCosxcglQRNAq/DZjVsC0lE40xsADsfeQoEypE+enwcOiGjk/bSuGGKHEyjSoQ1zVisanQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-  <script src="https://kit.fontawesome.com/8be26e49e1.js" crossorigin="anonymous"></script>
-  <link rel="icon" href="favicon/favicon.png">
+<link rel="stylesheet" href="css/header.css">
+<link rel="stylesheet" href="css/style.css">
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css" integrity="sha512-SzlrxWUlpfuzQ+pcUCosxcglQRNAq/DZjVsC0lE40xsADsfeQoEypE+enwcOiGjk/bSuGGKHEyjSoQ1zVisanQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+<script src="https://kit.fontawesome.com/8be26e49e1.js" crossorigin="anonymous"></script>
+<link rel="icon" href="favicon/favicon.ico">
 
-  <script src="https://www.w3schools.com/lib/w3.js"></script>
+<script src="https://www.w3schools.com/lib/w3.js"></script>
 
-  <script type="text/javascript">
-    function searchInTags() {
-      // Declare variables
-      var input, filter, table, tr, td, i;
-      input = document.getElementById("myInput");
-      filter = input.value.toUpperCase();
-      table = document.getElementById("myTable");
-      tr = table.getElementsByTagName("tr");
+<script type="text/javascript">
+  function searchInTags() {
+    // Declare variables
+    var input, filter, table, tr, td, i;
+    input = document.getElementById("myInput");
+    filter = input.value.toUpperCase();
+    table = document.getElementById("myTable");
+    tr = table.getElementsByTagName("tr");
 
-      for (i = 0; i < tr.length; i++) {
-        td1 = tr[i].getElementsByTagName("td")[0];
-        td2 = tr[i].getElementsByTagName("td")[1];
-        td3 = tr[i].getElementsByTagName("td")[2];
-        td4 = tr[i].getElementsByTagName("td")[3];
-        td5 = tr[i].getElementsByTagName("td")[4];
-        if (td1) {
-          if ((td1.innerHTML.toUpperCase().indexOf(filter) > -1) || (td2.innerHTML.toUpperCase().indexOf(filter) > -1) || (td3.innerHTML.toUpperCase().indexOf(filter) > -1) || (td4.innerHTML.toUpperCase().indexOf(filter) > -1) || (td5.innerHTML.toUpperCase().indexOf(filter) > -1)) {
-            tr[i].style.display = "";
-          } else {
-            tr[i].style.display = "none";
-          }
+    for (i = 0; i < tr.length; i++) {
+      td1 = tr[i].getElementsByTagName("td")[0];
+      td2 = tr[i].getElementsByTagName("td")[1];
+      td3 = tr[i].getElementsByTagName("td")[2];
+      td4 = tr[i].getElementsByTagName("td")[3];
+      td5 = tr[i].getElementsByTagName("td")[4];
+      if (td1) {
+        if ((td1.innerHTML.toUpperCase().indexOf(filter) > -1) || (td2.innerHTML.toUpperCase().indexOf(filter) > -1) || (td3.innerHTML.toUpperCase().indexOf(filter) > -1) || (td4.innerHTML.toUpperCase().indexOf(filter) > -1) || (td5.innerHTML.toUpperCase().indexOf(filter) > -1)) {
+          tr[i].style.display = "";
+        } else {
+          tr[i].style.display = "none";
         }
       }
     }
-  </script>
+  }
+</script>
 
 </head>
 
@@ -50,10 +50,13 @@
     <div class="container-fluid">
       <div class="row mb-2">
         <div class="col-12">
-          <h1 class="">Tags</h1>
+
           <?php
           if (isset($_POST['slot'])) {
+            echo "<h1>Tag History</h1>";
             echo "<h3><span class='badge bg-dark'>Slot Serial Number: " . $_POST['slot'] . "</h3>";
+          } else {
+            echo "<h1>Tags</h1>";
           }
           ?>
         </div>
@@ -62,7 +65,7 @@
       <?php
       if ($connect) {
         if (isset($_POST['slot'])) {
-          $query = "SELECT * from tag where  fk_serial_number = '" . $_POST['slot'] . "' ORDER BY date_active ASC;;";
+          $query = "SELECT * from tag where  fk_serial_number = '" . $_POST['slot'] . "' ORDER BY date_active DESC;";
         } else {
           $query = "SELECT * from tag ORDER BY date_active ASC;";
         }
@@ -84,16 +87,24 @@
                 <table id="myTable" class="w3-table-all w3-small w3-responsive">
                   <tr>
                     <th class="w3-dark-grey w3-hover-black" onclick="w3.sortHTML('#myTable', '.item', 'td:nth-child(1)')" style="cursor:pointer">Tag <i class="fa fa-sort" style="font-size:13px;"></i></th>
-                    <th class="w3-dark-grey w3-hover-black" onclick="w3.sortHTML('#myTable', '.item', 'td:nth-child(2)')" style="cursor:pointer">Serial Number <i class="fa fa-sort" style="font-size:13px;"></i></th>
+                    <?php if (!isset($_POST['slot'])) { ?>
+                      <th class="w3-dark-grey w3-hover-black" onclick="w3.sortHTML('#myTable', '.item', 'td:nth-child(2)')" style="cursor:pointer">Serial Number <i class="fa fa-sort" style="font-size:13px;"></i></th>
+                    <?php } ?>
                     <th class="w3-dark-grey w3-hover-black" onclick="w3.sortHTML('#myTable', '.item', 'td:nth-child(3)')" style="cursor:pointer">Date Active<i class="fa fa-sort" style="font-size:13px;"></i></th>
-                    <th class="w3-dark-grey w3-hover-black" onclick="w3.sortHTML('#myTable', '.item', 'td:nth-child(4)')" style="cursor:pointer">Removed <i class="fa fa-sort" style="font-size:13px;"></i></th>
-                    <th class="w3-dark-grey w3-hover-black" onclick="w3.sortHTML('#myTable', '.item', 'td:nth-child(5)')" style="cursor:pointer">State <i class="fa fa-sort" style="font-size:13px;"></i></th>
-                    <th class="w3-dark-grey w3-hover-black" onclick="w3.sortHTML('#myTable', '.item', 'td:nth-child(6)')" style="cursor:pointer">Active <i class="fa fa-sort" style="font-size:13px;"></i></th>
-                    <th class="w3-dark-grey w3-hover-black" style="text-align: center">Edit</th>
+                    <th class="w3-dark-grey w3-hover-black" onclick="w3.sortHTML('#myTable', '.item', 'td:nth-child(4)')" style="cursor:pointer;text-align: center">Removed <i class="fa fa-sort" style="font-size:13px;"></i></th>
+                    <th class="w3-dark-grey w3-hover-black" onclick="w3.sortHTML('#myTable', '.item', 'td:nth-child(5)')" style="cursor:pointer;text-align: center">Compliance <i class="fa fa-sort" style="font-size:13px;"></i></th>
+                    <th class="w3-dark-grey w3-hover-black" onclick="w3.sortHTML('#myTable', '.item', 'td:nth-child(6)')" style="cursor:pointer;text-align: center">Status <i class="fa fa-sort" style="font-size:13px;"></i></th>
+                    <th class="w3-dark-grey w3-hover-black" style="text-align: center">Action</th>
                   </tr>
                   <?php
                   while ($row = $result->fetch_assoc()) {
-                    echo "<tr class=\"item\"><td>" . $row["tag_number"] . "</td><td>" . $row["fk_serial_number"] . "</td><td>" . $row["date_active"] . "</td><td>" . ($row["removed"] ? "Yes" : "No") . "</td><td>" . ($row["broken"] ? "<h4><span class='badge bg-danger'>VIOLATION</span></h4>" : "<h4><span class='ps-5  pe-5 badge bg-success'>OK</span></h4>") . "</td><td>" . ($row["active"] ? "Active" : "") . "<td onclick=\"edit_tag('" . $row["id"] . "')\"><i class='fa-thin fa-2x fa-link-slash'></i></i></td></tr>";
+
+                    $output = "<tr class=\"item\"><td>" . $row["tag_number"] . "</td>";
+                    $output =  (isset($_POST['slot'])) ? $output  : $output . "<td>" . $row["fk_serial_number"] . "</td>";
+                    $output = $output . "<td>" . $row["date_active"] . "</td><td style='text-align: center'>" . ($row["removed"] ? "Removed" : "Attached") . "</td><td style='text-align: center'>";
+                    $output = $output . ($row["broken"] ? "<h6><span class='badge bg-danger '>VIOLATION</span></h6>" : "<h6><span class='ps-3  pe-3 badge bg-success '>OK</span></h6>") . "</td><td style='text-align: center'>" . ($row["active"] ? "<h6><span class='ps-3  pe-3 badge bg-success'>ACTIVE</span></h6>" : "");
+                    $output = $output . "<td style='text-align: center' ><i onclick=\"edit_tag('" . $row["id"] . "')\" data-toggle=\"tooltip\" data-placement=\"top\" title=\"Change Compliance\" class='fa-thin fa-2x fa-user-police-tie me-2'></i>";
+                    echo  $output . "<i onclick=\"remove_tag('" . $row["id"] . "')\" data-toggle=\"tooltip\" data-placement=\"top\" title=\"".  ($row["removed"] ? "Attach" : "Remove") ." Tag\" class='fa-thin fa-2x fa-square-". ($row["removed"] ? "plus" : "minus") . " ms-2'></i></td></tr>";
                   }
                 } else { ?>
                   <div class="row pt-5 pb-5">
@@ -104,10 +115,10 @@
                   </div>
                   <div class="row">
                     <div class="col-12 text-center">
-                    <?php
-                    if(isset($_POST['slot'])) {?>
-                      <button class='btn btn-lg btn-primary' onclick="add_tag('<?php echo (isset($_POST['slot'])?$_POST['slot']:'' )?>')">Add Tag</button>
-                      <?php } else {?>
+                      <?php
+                      if (isset($_POST['slot'])) { ?>
+                        <button class='btn btn-lg btn-primary' onclick="add_tag('<?php echo (isset($_POST['slot']) ? $_POST['slot'] : '') ?>')">Add Tag</button>
+                      <?php } else { ?>
                         <button class='btn btn-lg btn-primary' onclick="window.location.assign('slot.php');">Select a Slot Machine</button>
                       <?php } ?>
                     </div>
@@ -192,6 +203,20 @@
       form.submit();
     }
 
+    function remove_tag(id) {
+      bool = 1;
+      var form = document.createElement("form");
+      form.setAttribute("method", "post");
+      form.setAttribute("action", "PHP/addTag.php");
+      var hiddenField = document.createElement("input");
+      hiddenField.setAttribute("type", "hidden");
+      hiddenField.setAttribute("name", "remove_tag");
+      hiddenField.setAttribute("value", id);
+      form.appendChild(hiddenField);
+      document.body.appendChild(form);
+      form.submit();
+    }
+
     function add_tag(serial_number) {
       bool = 1;
       var form = document.createElement("form");
@@ -215,32 +240,6 @@
     $(document).ready(function() {
 
 
-
-      $("#id_is_original").change(function() {
-        if (this.checked) {
-          $('#id_manufacturer_motherboard').val($("#manufacturerSelect").val());
-          $('#id_manufacturer_motherboard_text').val($("#manufacturerSelect").val());
-          $('#id_manufacturer_motherboard').attr('disabled', 'disabled');
-        } else {
-          $('#id_manufacturer_motherboard').attr('disabled', false);
-        }
-      });
-
-
-
-      $("#state_id").change(function() {
-        if ($(this).val() == "1") {
-          document.getElementById('decommission').disabled = true;
-          document.getElementById("decommission-div").style.display = "none";
-        } else {
-          document.getElementById('decommission').disabled = false;
-          document.getElementById("decommission-div").style.display = "block";
-        }
-      });
-
-      $("#id_manufacturer_motherboard").change(function() {
-        $('#id_manufacturer_motherboard_text').val($("#id_manufacturer_motherboard").val());
-      });
     });
   </script>
 
@@ -252,7 +251,7 @@
       <div class="container">
         <h1><b>Add Tag</b></h1>
         <hr>
-        <input class="fs-1" type="hidden" value="<?php echo (isset($_POST['slot']))? $_POST['slot']:'' ?>" name="serial_number" placeholder="Scan Tag ... ">
+        <input class="fs-1" type="hidden" value="<?php echo (isset($_POST['slot'])) ? $_POST['slot'] : '' ?>" name="serial_number" placeholder="Scan Tag ... ">
         <input class="fs-1" type="text" value="" name="tag_number" placeholder="Scan Tag ... ">
         <div class="clearfix">
           <button type="submit" class="m-3 savebtn btn btn-lg btn-success">Save</button>

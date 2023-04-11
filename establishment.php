@@ -9,7 +9,7 @@
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css" integrity="sha512-SzlrxWUlpfuzQ+pcUCosxcglQRNAq/DZjVsC0lE40xsADsfeQoEypE+enwcOiGjk/bSuGGKHEyjSoQ1zVisanQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
   <script src="https://kit.fontawesome.com/8be26e49e1.js" crossorigin="anonymous"></script>
-  <link rel="icon" href="favicon/favicon.png">
+  <link rel="icon" href="favicon/favicon.ico">
 
   <script src="https://www.w3schools.com/lib/w3.js"></script>
   <link rel="stylesheet" href="css/header.css">
@@ -151,15 +151,14 @@
         }
         ?>
 
-
         <div id="id_info_establishment" class="modal-div-info">
           <span onclick="closeAdd()" class="close_add" title="Close">&times;</span>
           <div class="modal-div-content">
             <div class="container">
               <div class="row">
                 <div class="col-6">
-                  <h2>Info <?php echo $name; ?></h2>
-                  <table class="w3-table-all w3-responsive">
+                  <h2><?php echo $name; ?></h2>
+                  <table class="w3-table-all w3-hoverable w3-responsive">
 
                     <tr>
                       <td>Permit Number:</td>
@@ -338,7 +337,12 @@
             <h1>Establishments</h1>
           </div>
           <div class="col-6">
-            <?php if (isset($_POST['operator'])) { ?>
+            <?php if (isset($_POST['operator'])) {
+              $query = "SELECT * from operator where  official_license_number = \"" . $_POST['operator'] . "\" LIMIT 1;";
+              $result = $connect->query($query);
+              $row = $result->fetch_assoc();
+              echo "<h4><b>Operator: </b>" . $row['company_name'] . "</h4>";
+              echo "<h4><b>License Number: </b>" . $_POST['operator']. "</h4>";?>
               <button class="btn btn-lg btn-primary" onclick="showSlots()">Show Slots</button>
             <?php } ?>
           </div>
@@ -347,13 +351,13 @@
           <div class="col-6">
             <input type="text" id="myInput" onkeyup="searchInEstablishments()" placeholder="Search ...">
           </div>
-          <div class="col-6 " >
+          <div class="col-6 ">
             <button class="btn btn-success float-end" onclick="document.getElementById('id_add_establishment').style.display='block'">Add Establishment</button>
           </div>
         </div>
         <div class="row">
           <div class="col-12">
-            <table id="myTable" class="w3-table-all w3-small w3-responsive">
+            <table id="myTable" class="w3-table-all w3-hoverable w3-responsive">
               <tr>
                 <th>Index</th>
                 <th class="w3-dark-grey w3-hover-black" onclick="w3.sortHTML('#myTable', '.item', 'td:nth-child(1)')" style="cursor:pointer">Permit Number <i class="fa fa-sort" style="font-size:13px;"></i></th>

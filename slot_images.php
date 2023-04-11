@@ -10,11 +10,12 @@
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css" integrity="sha512-SzlrxWUlpfuzQ+pcUCosxcglQRNAq/DZjVsC0lE40xsADsfeQoEypE+enwcOiGjk/bSuGGKHEyjSoQ1zVisanQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
   <script src="https://kit.fontawesome.com/8be26e49e1.js" crossorigin="anonymous"></script>
-  <link rel="icon" href="favicon/favicon.png">
+  <link rel="icon" href="favicon/favicon.ico">
 
   <script src="https://www.w3schools.com/lib/w3.js"></script>
   <link rel="stylesheet" href="css/header.css">
   <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/camera.css">
 
 </head>
 
@@ -31,25 +32,22 @@
 
         <?php
         $slot = "";
-        if (isset($_POST["slot"])) {
-          $slot = $_POST["slot"];
+        if (isset($_POST["slot"]) || isset($_GET["slot"])) {
+          $slot = (isset($_POST["slot"])) ? $_POST["slot"] : $_GET["slot"];
         } else {
           header("location: slot.php");
         } ?>
 
         <div id="id_camera" class="modal-div-info">
           <style>
-            canvas {
-              width: 960px;
-              height: 540px;
-            }
+
           </style>
           <span onclick="closeFunction()" class="close_add" title="Close">&times;</span>
           <div class="modal-div-content-camera">
             <div class="container-camera">
-              <div class="col-100-camera">
+              <div class="clearfix">
                 <video onclick="snapshot(this);" id="video" autoplay></video>
-                <canvas style="display:none;" id="myCanvas" width="1920px"></canvas>
+                <canvas style="display:none;" id="myCanvas"></canvas>
               </div>
               <div class="col-100-camera">
                 <button id="take-snapshot" onclick="snapshot();">Take Snapshot</button>
@@ -63,52 +61,80 @@
             </div>
           </div>
         </div>
-
-        <h1>Images</h1>
-
-
-        <div class="row text-center">
-          <div class="col-sm-1 col-4-md"></div>
-          <div class="col-sm-10 col-4-md">
-            <form action="PHP/uploadImages.php" method="POST" enctype="multipart/form-data">
-              <input style="display:none;" type="text" name="slot" value="<?php echo $slot; ?>">
-
-              <input class="btn btn-outline-secondary" type="file" name="fileToUpload[]" id="fileToUpload" accept="image/*" multiple>
-
-              <input class="btn btn-lg btn-primary" type="submit" value="Upload Image" name="submit">
-
-            </form>
-          </div>
-          <div class="col-sm-1 col-4-md"></div>
-        </div>
-        <div class="row text-center">
-          <div class="col-sm-1 col-4-md"></div>
-          <div class="col-sm-10 col-4-md">
-            <button class="mt-5 btn btn-lg btn-warning" onclick="init()" type="button" name="button">Take from Camera</button>
-          </div>
-        </div>
       </div>
+      <h1>Slot Images</h1>
+      <div class="row mt-3 mb-5">
 
-
-      <div class="col-12">
-        <form id="delForm" action="PHP/deleteImage.php" method="post">
-          <?php
-          $query = "SELECT * FROM photos WHERE fk_serial_number = \"" . $slot . "\";";
-          if ($result = $connect->query($query)) {
-            while ($row = $result->fetch_assoc()) {
-              echo "<input type=\"checkbox\" name=\"images[]\" value=" . $row['id'] . "><img width='120px' class=\"col-25-images\" src=\"uploads/" . $row['image'] . "\">";
-            }
+        <?php
+        $query = "SELECT * FROM slot_machines, manufacturer,slot_model, operator WHERE serial_number = \"" . $slot . "\" AND fk_model=id_model AND fk_id_manufacturer=id_manufacturer AND fk_license_number=license_number;";
+        if ($result = $connect->query($query)) {
+          if ($row = $result->fetch_assoc()) {
+            echo "<div class='col-sm-12 col-md-4 col-xl-3 mt-2'><table class='w3-table-all ' width='100%'>";
+            echo "<tr><td><b>Serial Number:</b></td><td>" . $slot . "</td></tr>";
+            echo "<td><b>Reg Asset Number:</b></td><td>" . $row["reg_number"] . "</td></tr>";
+            echo "</table></div>";
+            echo "<div class='col-sm-12 col-md-4 col-xl-3 mt-2'><table class='w3-table-all '>";
+            echo "<tr><td><b>Serial Number:</b></td><td>" . $slot . "</td></tr>";
+            echo "<td><b>Model:</b></td><td>" . $row["name_model"] . "</td></tr>";
+            echo "</table></div>";
+            echo "<div class='col-sm-12 col-md-4 col-xl-3 mt-2'><table class='w3-table-all '>";
+            echo "<td><b>Manufacturer:</b></td><td>" . $row["name_manufacturer"] . "</td></tr>";
+            echo "<td><b>Operator:</b></td><td>" . $row["company_name"] . "</td></tr>";
+            echo "</table></div>";
           }
-          ?>
-        </form>
+        }
+        ?>
       </div>
       <div class="row text-center">
-        <div class="col-12 text-center">
-          <button class="btn btn-lg btn-success" onclick="deleteImages()" type="button" name="button">Delete Images</button>
+        <div class="col-sm-1 col-4-md"></div>
+        <div class="col-sm-10 col-4-md">
+          <form action="PHP/uploadImages.php" method="POST" enctype="multipart/form-data">
+            <input style="display:none;" type="text" name="slot" value="<?php echo $slot; ?>">
+
+            <input class="btn btn-outline-secondary" type="file" name="fileToUpload[]" id="fileToUpload" accept="image/*" multiple>
+
+            <input class="btn btn-lg btn-primary mt-2" type="submit" value="Upload Image" name="submit">
+
+          </form>
+        </div>
+        <div class="col-sm-1 col-4-md"></div>
+      </div>
+      <div class="row text-center">
+        <div class="col-sm-1 col-4-md"></div>
+        <div class="col-sm-10 col-4-md">
+          <button class="mt-5 btn btn-lg btn-warning" onclick="init()" type="button" name="button">Take from Camera</button>
         </div>
       </div>
-    </div>
 
+
+      <?php
+      $query = "SELECT * FROM photos WHERE fk_serial_number = \"" . $slot . "\";";
+      if ($result = $connect->query($query)) {
+        if ($result->num_rows > 0) { ?>
+          <form id="delForm" action="PHP/deleteImage.php" method="post">
+            <div class="row text-center mt-4">
+              <div class="col-12">
+                <input type="hidden" name="slot" value="<?php echo $slot ?>">
+
+                <?php while ($row = $result->fetch_assoc()) {
+
+                  echo "<div class=\"container-img\"><input type=\"checkbox\" name=\"images[]\" value=" . $row['id'] . " class=\"form-check-input\"><img width='100%' align=\"top\" class=\"col-25-images\" src=\"uploads/" . $row['image'] . "\"></div>";
+                } ?>
+              </div>
+              <div class="row text-center mt-4">
+                <div class="col-12 text-center">
+                  <button class="btn btn-lg btn-success mt-5 mb-5" onclick="deleteImages()" type="button" name="button">Delete Images</button>
+                </div>
+              </div>
+            </div>
+          </form>
+      <?php }
+      }
+      ?>
+
+
+    </div>
+    </div>
   </main>
 
   <div class="footer mt-auto">
@@ -132,6 +158,10 @@
     document.getElementById('id_camera').style.display = 'none';
   }
 
+  function hasGetUserMedia() {
+    return !!(navigator.getUserMedia || navigator.webkitGetUserMedia ||
+      navigator.mozGetUserMedia || navigator.msGetUserMedia);
+  }
 
   function openCam() {
     let All_mediaDevices = navigator.mediaDevices
@@ -190,8 +220,8 @@
 
   function init() {
     canvas = document.getElementById("myCanvas");
-    canvas.width = 3840;
-    canvas.height = 2160;
+    canvas.width = 2560;
+    canvas.height = 1920;
     ctx = canvas.getContext('2d');
     openCam();
   }

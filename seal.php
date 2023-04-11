@@ -7,7 +7,7 @@
     <link rel="stylesheet" href="css/camera.css">
     <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
 
-    <link rel="icon" href="favicon/favicon.png">
+    <link rel="icon" href="favicon/favicon.ico">
 
   </head>
   <body>

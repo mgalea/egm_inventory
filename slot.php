@@ -9,7 +9,7 @@
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css" integrity="sha512-SzlrxWUlpfuzQ+pcUCosxcglQRNAq/DZjVsC0lE40xsADsfeQoEypE+enwcOiGjk/bSuGGKHEyjSoQ1zVisanQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
   <script src="https://kit.fontawesome.com/8be26e49e1.js" crossorigin="anonymous"></script>
-  <link rel="icon" href="favicon/favicon.png">
+  <link rel="icon" href="favicon/favicon.ico">
   <link rel="stylesheet" href="css/header.css">
   <link rel="stylesheet" href="css/style.css">
 
@@ -72,7 +72,8 @@
     <div class="container-fluid">
       <div class="row my-3">
         <div class="col-8">
-          <h1>Slots</h1>
+          <h1>Slots </h1>
+          <?php echo (isset($_GET['notag'])) ? "<h3><b>No RFID Tag</b></h3>" : NULL ?>
           <?php
           if (isset($_POST['establishment'])) {
             $query = "SELECT * from establishment where  permit_number = " . $_POST['establishment'] . ";";
@@ -105,20 +106,35 @@
 
       </div>
       <div class="row my-3">
-        <div class="col-10">
+        <div class="col-lg-6 col-md-5 col-sm-12 mt-2">
           <input type="text" id="myInput" onkeyup="searchInSlots()" placeholder="Search ...">
         </div>
-        <div class="col-2">
+        <div class="col-lg-3 col-md-4 col-sm-12 mt-2">
+          <?php if (isset($_GET['notag'])) {
+            $tag = $_GET['notag'] + 100; ?>
+            <div class="btn-group" role="group" aria-label="Basic example">
+              <button type="button" class="btn btn-lg btn-secondary btn-outline-light " onclick="window.open('./slot.php','_self');">Clear</button>
+              <button type="button" class="btn btn-lg btn-secondary btn-outline-light" onclick="window.open('./slot.php?notag=<?php echo ($_GET['notag'] > 100) ? $_GET['notag'] - 100 : $_GET['notag'] ?>','_self');">
+                <<</button>
+                  <button type="button" class="btn btn-lg btn-secondary btn-outline-light "><?php echo $tag - 100 ?> to <?php echo $tag - 1 ?></button>
+                  <button type="button" class="btn btn-lg btn-secondary btn-outline-light" onclick="window.open('./slot.php?notag=<?php echo $tag ?>','_self');">>></button>
+            </div>
+          <?php } else { ?>
+            <button class="btn btn-lg btn-warning float-end" onclick="window.open('./slot.php?notag=1','_self');">Show No Tag</button>
+          <?php } ?>
+        </div>
+
+        <div class="col-lg-3 col-md-4 col-sm-12 mt-2">
           <button class="btn btn-lg btn-success float-end" onclick="document.getElementById('id_add_slot').style.display='block'">Add Slot</button>
         </div>
       </div>
       <div class="row">
         <div class="col-12">
-          <table id="myTable" class="w3-table-all w3-small w3-responsive">
+          <table id="myTable" class="w3-table-all w3-hoverable w3-responsive">
             <tr>
               <?php if (!isset($_POST['establishment']) && !isset($_POST['operator'])) { ?>
                 <th class="w3-dark-grey w3-hover-black" onclick="w3.sortHTML('#myTable', '.item', 'td:nth-child(1)')" style="cursor:pointer">Operator <i class="fa fa-sort" style="font-size:13px;"></i></th>
-                <th class="w3-dark-grey w3-hover-black" onclick="w3.sortHTML('#myTable', '.item', 'td:nth-child(2)')" style="cursor:pointer">Operator Number <i class="fa fa-sort" style="font-size:13px;"></i></th>
+                <th class="w3-dark-grey w3-hover-black" onclick="w3.sortHTML('#myTable', '.item', 'td:nth-child(2)')" style="cursor:pointer">Regulator Number <i class="fa fa-sort" style="font-size:13px;"></i></th>
                 <th class="w3-dark-grey w3-hover-black" onclick="w3.sortHTML('#myTable', '.item', 'td:nth-child(3)')" style="cursor:pointer">Manufacturer <i class="fa fa-sort" style="font-size:13px;"></i></th>
                 <th class="w3-dark-grey w3-hover-black" onclick="w3.sortHTML('#myTable', '.item', 'td:nth-child(4)')" style="cursor:pointer">Serial Number <i class="fa fa-sort" style="font-size:13px;"></i></th>
                 <th class="w3-dark-grey w3-hover-black" onclick="w3.sortHTML('#myTable', '.item', 'td:nth-child(5)')" style="cursor:pointer">Type <i class="fa fa-sort" style="font-size:13px;"></i></th>
@@ -139,7 +155,7 @@
                 if ($result = $connect->query($query)) {
                   if ($result->num_rows > 0) {
                     while ($row = $result->fetch_assoc()) {
-                      echo "<tr class=\"item\"><td>" . $row["operator_number"] . "</td><td>" . $row["name_manufacturer"] . "</td><td>" . $row["serial_number"] . "</td><td>" . $row["name_type"] . "</td><td>" . $row["name_model"] . "</td><td><i class='fa-light fa-2x fa-tag'></i></td><td onclick=\"edit_slot('" . $row["serial_number"] . "')\"><img class=\"icon\" src=\"images/edit.png\" alt=\"Edit\"></td><td onclick=\"info_slot('" . $row["serial_number"] . "')\"><img class=\"icon\" src=\"images/info.png\" alt=\"Info\"></td></tr>";
+                      echo "<tr class=\"item\"><td>" . $row["reg_number"] . "</td><td>" . $row["name_manufacturer"] . "</td><td>" . $row["serial_number"] . "</td><td>" . $row["name_type"] . "</td><td>" . $row["name_model"] . "</td><td><i class='fa-duotone fa-2x fa-image p-2' onclick=\"show_image('" . $row["serial_number"] . "')\"></i><i class='fa-duotone fa-2x fa-tag p-2' onclick=\"show_tag('" . $row["serial_number"] . "')\"></i><i class='fa-duotone fa-2x fa-square-pen p-2' onclick=\"edit_slot('" . $row["serial_number"] . "')\"></i> <i class='fa-duotone fa-2x  fa-square-info p-2' onclick=\"info_slot('" . $row["serial_number"] . "')\"></i></td></tr>";
                     }
                   }
                 }
@@ -148,16 +164,20 @@
                 if ($result = $connect->query($query)) {
                   if ($result->num_rows > 0) {
                     while ($row = $result->fetch_assoc()) {
-                      echo "<tr class=\"item\"><td>" . $row["operator_number"] . "</td><td>" . $row["name_manufacturer"] . "</td><td>" . $row["serial_number"] . "</td><td>" . $row["name_type"] . "</td><td>" . $row["name_model"] . "</td><td><i class=\"fa-light fa-2x fa-tag seal\"></i></td><td onclick=\"edit_slot('" . $row["serial_number"] . "')\"><img class=\"icon\" src=\"images/edit.png\" alt=\"Edit\"></td><td onclick=\"info_slot('" . $row["serial_number"] . "')\"><img class=\"icon\" src=\"images/info.png\" alt=\"Info\"></td></tr>";
+                      echo "<tr class=\"item\"><td>" . $row["reg_number"] . "</td><td>" . $row["name_manufacturer"] . "</td><td>" . $row["serial_number"] . "</td><td>" . $row["name_type"] . "</td><td>" . $row["name_model"] . "</td><td><i class=\"fa-light fa-2x fa-tag seal\"></i></td><i class='fa-duotone fa-2x fa-image p-2' onclick=\"show_image('" . $row["serial_number"] . "')\"></td><td></i><i class='fa-duotone fa-2x fa-tag p-2' onclick=\"show_tag('" . $row["serial_number"] . "')\"></i><i class='fa-duotone fa-2x fa-square-pen p-2' onclick=\"edit_slot('" . $row["serial_number"] . "')\"></i> <i class='fa-duotone fa-2x  fa-square-info p-2' onclick=\"info_slot('" . $row["serial_number"] . "')\"></i></td></tr>";
                     }
                   }
                 }
               } else {
-                $query = "SELECT * from slot_machines, slot_model, type_slot_machines, manufacturer, operator where fk_model = id_model AND fk_id_manufacturer = id_manufacturer AND fk_slot_type = id_type_slot_machines AND fk_license_number = license_number LIMIT 100;";
+                $query = "SELECT * from slot_machines, slot_model, type_slot_machines, manufacturer, operator where fk_model = id_model AND fk_id_manufacturer = id_manufacturer AND fk_slot_type = id_type_slot_machines AND fk_license_number = license_number";
+                if (isset($_GET['notag'])) {
+                  $query = "SELECT * FROM manufacturer r,operator o,type_slot_machines y,slot_model m, slot_machines s LEFT OUTER JOIN tag t ON s.serial_number = t.fk_serial_number  WHERE t.fk_serial_number IS NULL OR t.active=0 AND s.fk_model = m.id_model AND s.fk_slot_type = y.name_type AND s.operator_number= o.license_number AND m.fk_id_manufacturer = r.name_manufacturer LIMIT " . $_GET['notag'] . ",100;";
+                }
+
                 if ($result = $connect->query($query)) {
                   if ($result->num_rows > 0) {
                     while ($row = $result->fetch_assoc()) {
-                      echo "<tr class=\"item\"><td>" . $row["company_name"] . "</td><td>" . $row["operator_number"] . "</td><td>" . $row["name_manufacturer"] . "</td><td>" . $row["serial_number"] . "</td><td>" . $row["name_type"] . "</td><td>" . $row["name_model"] . "</td><td><i class='fa-duotone fa-2x fa-image p-2' onclick=\"show_image('" . $row["serial_number"] . "')\"></i><i class='fa-duotone fa-2x fa-tag p-2' onclick=\"show_tag('" . $row["serial_number"] . "')\"></i><i class='fa-duotone fa-2x fa-square-pen p-2' onclick=\"edit_slot('" . $row["serial_number"] . "')\"></i> <i class='fa-duotone fa-2x  fa-square-info p-2' onclick=\"info_slot('" . $row["serial_number"] . "')\"></i></td></tr>";
+                      echo "<tr class=\"item\"><td>" . $row["company_name"] . "</td><td>" . $row["reg_number"] . "</td><td>" . $row["name_manufacturer"] . "</td><td>" . $row["serial_number"] . "</td><td>" . $row["name_type"] . "</td><td>" . $row["name_model"] . "</td><td><i class='fa-duotone fa-2x fa-image p-2' onclick=\"show_image('" . $row["serial_number"] . "')\"></i><i class='fa-duotone fa-2x fa-tag p-2' onclick=\"show_tag('" . $row["serial_number"] . "')\"></i><i class='fa-duotone fa-2x fa-square-pen p-2' onclick=\"edit_slot('" . $row["serial_number"] . "')\"></i> <i class='fa-duotone fa-2x  fa-square-info p-2' onclick=\"info_slot('" . $row["serial_number"] . "')\"></i></td></tr>";
                     }
                   }
                 }
@@ -310,9 +330,10 @@
             $est_location = $row["est_location"];
             $is_original = $row["is_original"];
 
-            $query = "SELECT * from tag where fk_serial_number = $serial_number;";
+            $query = "SELECT * from tag where fk_serial_number = $serial_number AND removed = 0 ORDER BY date_active DESC LIMIT 1;";
             if ($result = $connect->query($query)) {
               if ($result->num_rows > 0) {
+                $row = $result->fetch_assoc();
                 $tag_number = $row["tag_number"];
               } else {
                 $tag_number = "<span class='badge bg-danger'>NO TAG <span>";
@@ -407,7 +428,7 @@
                       else echo "NO"; ?></td>
               </tr>
               <tr>
-                <td><b>State:</b> </td>
+                <td><b>Status:</b> </td>
                 <td> <?php if ($state == 1) echo "Commissioned";
                       else echo "Decommissioned"; ?></td>
               </tr>
@@ -731,7 +752,7 @@
           <input id="fk_operator" type="text" name="fk_license_number_operator" value="<?php echo $operator_slot_edit; ?>">
         <?php } else { ?>
           <select id="operator_id" class="input-add" name="fk_license_number_operator" required>
-            <option value=""></option>
+            <option value="" disabled selected>Select an operator..</option>
           <?php
           $query = "SELECT * FROM operator;";
           if ($result = $connect->query($query)) {
@@ -863,7 +884,7 @@
           </div>
           <label><b>Location in the Establishment</b></label></br>
           <textarea class="input-add" name="est_location" rows="4" cols="50" maxlength="256"><?php echo $est_location; ?></textarea>
-          <label><b>State</b></label>
+          <label><b>Status</b></label>
           <select id="state_id" class="input-add" name="state" required>
             <option value="1" <?php if ($state == 1) echo "selected"; ?>>Commissioned</option>
             <option value="0" <?php if ($state == 0) echo "selected"; ?>>Decommissioned</option>

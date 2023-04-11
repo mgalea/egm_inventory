@@ -5,7 +5,7 @@
     <meta charset="utf-8">
     <link rel="stylesheet" href="css/style.css">
 
-    <link rel="icon" href="favicon/favicon.png">
+    <link rel="icon" href="favicon/favicon.ico">
 
   </head>
   <body>

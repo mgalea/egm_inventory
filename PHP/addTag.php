@@ -10,6 +10,13 @@ if ($connect) {
     return;
   }
 
+  if (isset($_POST["remove_tag"])) {
+    $query = "UPDATE tag SET removed = !removed WHERE id =" . $_POST["remove_tag"] . ";";
+    $result = $connect->query($query);
+    header("location: ../tag.php?error=Tag Status Changed.");
+    return;
+  }
+
   $query = "SELECT * FROM tag WHERE tag_number = \"" . $_POST["tag_number"] . "\";";
   if ($result = $connect->query($query)) {
     if ($result->num_rows == 0) {

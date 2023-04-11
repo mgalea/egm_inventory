@@ -1,3 +1,17 @@
+
+
+textarea {
+  font-size: 1.2rem !important;
+  border: 1px solid lightgray;
+}
+
+.item:hover{
+  border: 1px solid red; 
+}
+.item{
+  border: 1px solid lightgrey; 
+}
+
 .col-25-border-left {
     float: left;
     height: auto;
@@ -24,7 +38,7 @@
 }
 
 .input-disabled{
-  margin-bottom: 15px;
+  margin-bottom: 5px;
 }
 
 .col-100-58{
@@ -38,7 +52,7 @@
 }
 
 .tab {
-  display: none;
+  display:none;
 }
 
 #manufacturerSlotPHP, #typeSlotsPHP, #typeEstablishmentPHP, #brandOperatorPHP {

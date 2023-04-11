@@ -7,11 +7,12 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="css/header.css">
   <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/modify.css">
   <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css" integrity="sha512-SzlrxWUlpfuzQ+pcUCosxcglQRNAq/DZjVsC0lE40xsADsfeQoEypE+enwcOiGjk/bSuGGKHEyjSoQ1zVisanQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
   <script src="https://kit.fontawesome.com/8be26e49e1.js" crossorigin="anonymous"></script>
-  <link rel="icon" href="favicon/favicon.png">
+  <link rel="icon" href="favicon/favicon.ico">
 
   <script src="https://www.w3schools.com/lib/w3.js"></script>
 
@@ -106,9 +107,6 @@
           $connect->query($query);
         }
       }
-
-
-
       ?>
 
       <div id="id_add_user" class="modal-div">
@@ -162,7 +160,7 @@
             <label><b>Organization</b></label>
             <input class="input-add" type="text" name="organization" value="<?php echo $organization; ?>" required>
             <label><b>State</b></label></br>
-            <input type="checkbox" name="active" value="1" <?php if (!isset($_POST['user']) || $active == "1") echo "checked"; ?>> Active
+            <input type="checkbox" name="active" value="1" <?php if (!isset($_POST['user']) || $active == "1") echo "checked"; ?>> Enabled
             <div class="clearfix">
               <button type="button" onclick="closeAdd()" class="mx-3 cancelbtn btn btn-lg btn-warning">Cancel</button>
               <button type="submit" class="mx-3 btn btn-lg btn-success savebtn">Save</button>
@@ -177,24 +175,29 @@
           <div class="container-fluid">
             <h1>Operators Brand</h1>
             <hr>
+            <h5><b>Operator Brands</b></h5>
+            <textarea id="w3review" name="w3review" rows="5" cols="30" class="mb-3 p-2">
+
             <?php
             $query = "SELECT * FROM brand;";
             $result = $connect->query($query);
+
             while ($row = $result->fetch_assoc()) {
-              echo "<input type=\"text\" class=\"input-disabled\" value=\"" . $row["name"] . "\" disabled>";
+              echo  trim($row["name"]) . "&#13;&#10;";
             }
             ?>
-
-            <input id="brandOperatorPHP" name="brandOperatorPHP" type="text">
+            </textarea>
+            <input id="brandOperatorPHP" name="brandOperatorPHP" type="hidden" class="mt-2">
             <div class="col-100-add">
               <div id="div-new-brand-operator" class="col-100-add"></div>
-              <div class="col-100-add input-add">
+              <div class="col-100-add">
+                <div id="div-new" class="col-100-add"></div>
                 <div class="col-100-58">
-                  <input id="brandOperator" type="text" class="input-select-add">
+                  <input id="brandOperator" type="text" placeholder="Add a brand" class="input-select-add focus-ring">
                 </div>
-                <div class="col-58">
-                  <button id="addBrandOperator" type="button"></button>
-                </div>
+
+                <button id="addBrandOperator" type="button"></button>
+
               </div>
             </div>
             <div class="clearfix">
@@ -225,7 +228,7 @@
               <div id="div-new-type-establishment" class="col-100-add"></div>
               <div class="col-100-add input-add">
                 <div class="col-100-58">
-                  <input id="typeEstablishment" type="text" class="input-select-add">
+                  <input id="typeEstablishment" placeholder="Add Establishment" type="text" class="input-select-add">
                 </div>
                 <div class="col-58">
                   <button id="addTypeEstablishment" type="button"></button>
@@ -260,7 +263,7 @@
               <div id="div-new-manufacturer-slots" class="col-100-add"></div>
               <div class="col-100-add input-add">
                 <div class="col-100-58">
-                  <input id="manufacturerSlot" type="text" class="input-select-add">
+                  <input id="manufacturerSlot" type="text" placeholder="Add Manufacturer" class="input-select-add">
                 </div>
                 <div class="col-58">
                   <button id="addManufacturerSlot" type="button"></button>
@@ -294,7 +297,7 @@
               <div id="div-new-type-slots" class="col-100-add"></div>
               <div class="col-100-add input-add">
                 <div class="col-100-58">
-                  <input id="typeSlots" type="text" class="input-select-add">
+                  <input id="typeSlots" type="text" class="input-select-add"  placeholder="Add Slot Types ...">
                 </div>
                 <div class="col-58">
                   <button id="addTypeSlots" type="button"></button>
@@ -312,13 +315,18 @@
       <div id="id_add_model_slots" class="modal-div-modify">
         <span onclick="closeModify()" class="close_add" title="Close">&times;</span>
 
-        <form id="formAddModelSlots" class="modal-div-content" action="PHP/add_model_slots.php" method="POST">
-          <div class="container">
-            <h1 id="slot_model_title">EGM Model</h1>
-            <h2>Select the Slots manufacturer first.</h2>
-            <hr>
+        
 
-            <div class="tab overflow-x:auto">
+        <form id="formAddModelSlots" class="modal-div-content" action="PHP/add_model_slots.php" method="POST">
+
+          <div class="container">
+          <h2 id="slot_model_title">Slots Model</h2>
+
+
+            <div class="tab" style="display: block;">
+              <h4><b>Select the Slots manufacturer first.</b></h4>
+              <hr>
+
               <table class="w3-table-all">
                 <tr>
                   <th class="w3-dark-grey w3-hover-black">Manufacturer</th>
@@ -329,25 +337,26 @@
                   if ($result = $connect->query($query)) {
                     if ($result->num_rows > 0) {
                       while ($row = $result->fetch_assoc()) {
-                        echo "<tr style=\"cursor:pointer\" onclick=\"selectManufacturerModel(" . $row["id_manufacturer"] . ",'" . $row["name_manufacturer"] . "')\" class=\"item float-end\"><td>" . $row["name_manufacturer"] . "</td></tr>";
+                        echo "<tr style=\"cursor:pointer\" onclick=\"selectManufacturerModel(" . $row["id_manufacturer"] . ",'" . $row["name_manufacturer"] . "')\" class=\"item float-start\"><td>" . $row["name_manufacturer"] . "&nbsp; &nbsp;</td></tr>";
                       }
                     }
                   }
                 }
                 ?>
               </table>
-              <div class="clearfix">
-                <button type="button" onclick="closeModify()" class="m-3 btn btn-lg btn-warning cancelbtn">Cancel</button>
-              </div>
+              <button type="button" onclick="closeModify()" class="m-3 btn btn-lg btn-warning cancelbtn">Cancel</button>
+              <div class="clearfix"></div>
             </div>
+
+
             <div class="tab">
-              <input id="manufacturerModelSlotsPHP" name="manufacturerModelSlotsPHP" type="text" value="">
-              <input id="modelSlotsPHP" name="modelSlotsPHP" type="text" value="">
+              <input id="manufacturerModelSlotsPHP" name="manufacturerModelSlotsPHP" type="hidden" value="">
+              <input id="modelSlotsPHP" name="modelSlotsPHP" type="hidden" value="">
               <div class="col-100-add">
                 <div id="div-new-model-slots" class="col-100-add"></div>
                 <div class="col-100-add input-add">
                   <div class="col-100-58">
-                    <input id="modelSlots" type="text" class="input-select-add">
+                    <input id="modelSlots" type="text" placeholder="Add Slot Model ..." class="input-select-add">
                   </div>
                   <div class="col-58">
                     <button id="addModelSlots" type="button">
@@ -359,6 +368,48 @@
                 <button type="submit" class="btn btn-lg btn-primary savebtn m-3">Save</button>
               </div>
             </div>
+
+          </div>
+        </form>
+
+      </div>
+
+
+      <div id="id_user_permissions" class="modal-div-modify">
+        <span onclick="closeModify()" class="close_add" title="Close">&times;</span>
+        <form id="formUserPermissions" class="modal-div-content" action="PHP/user_permissions.php" method="POST">
+          <div class="container">
+            <h1>User Permissions:</h1>
+            <hr>
+            <?php
+            $query = "SELECT * FROM permissions;";
+            $result = $connect->query($query);
+
+            echo "<div class='row'>";
+            for ($i = 1; $i <= $result->num_rows; $i++) {
+              echo "<div class='col-3'>";
+              if ($row = $result->fetch_assoc()) {
+                $query = "SELECT count(*) as total FROM users_permissions where  user_id=" . $_SESSION['user_id'] . " AND permission_id=" . $row["id"] . ";";
+                $result2 = $connect->query($query);
+                $row2 = $result2->fetch_assoc();
+            ?>
+                <div class="form-check form-control-lg">
+                  <input type="checkbox" value="<?php echo $row["id"] ?>" class="form-check-input " id="flexCheck<?php echo $row["id"] ?>" name="Check[<?php echo $row["id"] ?>]" <?php echo $row2["total"] ? "checked" : "" ?>>
+                  <label class="form-check-label" for="flexCheck<?php echo $row["id"] ?>">
+                    <?php echo $row["permission"]  ?>
+                  </label>
+                </div>
+            <?php }
+              echo "</div>";
+            }
+            echo "</div>";
+            ?>
+
+            <div class="clearfix">
+              <button type="submit" class="m-3 btn btn-lg btn-primary savebtn">Save</button>
+              <button type="button" onclick="closeModify()" class="m-3 cancelbtn btn btn-lg btn-warning">Cancel</button>
+
+            </div>
           </div>
         </form>
       </div>
@@ -367,23 +418,21 @@
 
         <div class="btn-group d-flex btn-group-lg" role="group" aria-label="Settings">
 
-          <button class="btn btn-secondary btn-default w-100" onclick="document.getElementById('id_add_brand_operator').style.display='block'">Add Operators Brand</button>
+          <button class="btn btn-secondary btn-default w-100" onclick="document.getElementById('id_add_brand_operator').style.display='block'">Operators Brands</button>
 
+          <button class="btn btn-secondary btn-default w-100" onclick="document.getElementById('id_add_type_establishment').style.display='block'">Establishment Types</button>
 
-          <button class="btn btn-secondary btn-default w-100" onclick="document.getElementById('id_add_type_establishment').style.display='block'">Add Establishment Type</button>
+          <button class="btn btn-secondary btn-default w-100" onclick="document.getElementById('id_add_manufacturer_slots').style.display='block'">Slots Manufacturers</button>
 
+          <button class="btn btn-secondary btn-default w-100" onclick="document.getElementById('id_add_model_slots').style.display='block'">Slots Models</button>
 
-          <button class="btn btn-secondary btn-default w-100" onclick="document.getElementById('id_add_manufacturer_slots').style.display='block'">Add Slots Manufacturer</button>
+          <button class="btn btn-secondary btn-default w-100" onclick="document.getElementById('id_add_manual_slots').style.display='block'">Slots Manuals</button>
 
-          <button class="btn btn-secondary btn-default w-100" onclick="document.getElementById('id_add_model_slots').style.display='block'">Add Slots Model</button>
+          <button class="btn btn-secondary btn-default w-100" onclick="document.getElementById('id_add_type_slots').style.display='block'">Slots Types</button>
 
+          <button class="btn btn-secondary btn-default w-100" onclick="db_dump()">DB Dump</button>
 
-          <button class="btn btn-secondary btn-default w-100" onclick="document.getElementById('id_add_manual_slots').style.display='block'">Add Slots Manual</button>
-
-
-          <button class="btn btn-secondary btn-default w-100" onclick="document.getElementById('id_add_type_slots').style.display='block'">Add Slots Type</button>
         </div>
-
 
 
         <h1 class="pt-4 pb-2">Users</h1>
@@ -394,7 +443,7 @@
             <input type="text" id="myInput" onkeyup="searchInUsers()" placeholder="Search Users ...">
           </div>
           <div class="col-6 ">
-            <button class="btn btn-lg btn-primary float-end" onclick="document.getElementById('id_add_user').style.display='block'">Add User</button>
+            <button class="btn btn-lg btn-primary " onclick="document.getElementById('id_add_user').style.display='block'">Add User</button>
           </div>
         </div>
 
@@ -405,10 +454,10 @@
                 <th class="w3-dark-grey w3-hover-black" onclick="w3.sortHTML('#myTable', '.item', 'td:nth-child(1)')" style="cursor:pointer">Username <i class="fa fa-sort" style="font-size:13px;"></i></th>
                 <th class="w3-dark-grey w3-hover-black" onclick="w3.sortHTML('#myTable', '.item', 'td:nth-child(2)')" style="cursor:pointer">User Type <i class="fa fa-sort" style="font-size:13px;"></i></th>
                 <th class="w3-dark-grey w3-hover-black" onclick="w3.sortHTML('#myTable', '.item', 'td:nth-child(3)')" style="cursor:pointer">Email <i class="fa fa-sort" style="font-size:13px;"></i></th>
-                <th class="w3-dark-grey w3-hover-black" onclick="w3.sortHTML('#myTable', '.item', 'td:nth-child(4)')" style="cursor:pointer">Telephone <i class="fa fa-sort" style="font-size:13px;"></i></th>
-                <th class="w3-dark-grey w3-hover-black" onclick="w3.sortHTML('#myTable', '.item', 'td:nth-child(5)')" style="cursor:pointer">Organization <i class="fa fa-sort" style="font-size:13px;"></i></th>
-                <th class="w3-dark-grey w3-hover-black" onclick="w3.sortHTML('#myTable', '.item', 'td:nth-child(6)')" style="cursor:pointer">State <i class="fa fa-sort" style="font-size:13px;"></i></th>
-                <th class="w3-dark-grey w3-hover-black">Action</th>
+                <th class="w3-dark-grey w3-hover-black" onclick="w3.sortHTML('#myTable', '.item', 'td:nth-child(4)')" style="cursor:pointer">Phone <i class="fa fa-sort" style="font-size:13px;"></i></th>
+                <th class="w3-dark-grey w3-hover-black" onclick="w3.sortHTML('#myTable', '.item', 'td:nth-child(5)')" style="cursor:pointer;text-align: center">Organization <i class="fa fa-sort" style="font-size:13px;"></i></th>
+                <th class="w3-dark-grey w3-hover-black" onclick="w3.sortHTML('#myTable', '.item', 'td:nth-child(6)')" style="cursor:pointer;text-align: center">State <i class="fa fa-sort" style="font-size:13px;"></i></th>
+                <th class="w3-dark-grey w3-hover-black" style="cursor:pointer;text-align: center">Action</th>
               </tr>
               <?php
               if ($connect) {
@@ -418,11 +467,13 @@
                     while ($row = $result->fetch_assoc()) {
                       $state = "";
                       if ($row["active"] == "1") {
-                        $state = "Active";
+                        $state = "Enabled";
                       } else {
-                        $state = "Unactive";
+                        $state = "Disabled";
                       }
-                      echo "<tr class=\"item\"><td>" . $row["username"] . "</td><td>" . $row["type_value"] . "</td><td>" . $row["email"] . "</td><td>" . $row["telephone"] . "</td><td>" . $row["organization"] . "</td><td>" . $state . "</td><td ><i onclick=\"edit_user(" . $row["id"] . ")\" class='fa-light fa-2x fa-pencil px-2' data-toggle='tooltip' data-placement='bottom' title='Edit'></i><i onclick=\"delete_user(" . $row["id"] . ")\" class='fa-light fa-2x fa-trash px-2' data-toggle='tooltip' data-placement='bottom' title='Delete'></i></td></tr>";
+                      $o = "<tr class=\"item\"><td>" . $row["username"] . "</td><td>" . (($row["id"] == 1) ? "Super Adminsitrator" : $row["type_value"]) . "</td><td>" . $row["email"] . "</td><td>" . $row["telephone"] . "</td><td style='text-align: center'>" . $row["organization"] . "</td><td style='text-align: center'>" . $state;
+                      $o =  ($row["id"] == 1) ? $o . "<td></td></tr>" : $o . "</td><td style='text-align: center' ><i onclick=\"edit_user(" . $row["id"] . ")\" class='fa-light fa-2x fa-pencil px-2' data-toggle='tooltip' data-placement='bottom' title='Edit'></i><i onclick=\"document.getElementById('id_user_permissions').style.display='block'\" class='fa-light fa-2x fa-eye px-2' data-toggle='Permissions' data-placement='bottom' title='Permissions'></i><i onclick=\"delete_user(" . $row["id"] . ")\" class='fa-light fa-2x fa-trash px-2' data-toggle='tooltip' data-placement='bottom' title='Delete'></i></td></tr>";
+                      echo  $o;
                     }
                   }
                 }
@@ -478,6 +529,19 @@
     <?php } ?>
   });
 
+  function db_dump() {
+    var form = document.createElement("form");
+    form.setAttribute("method", "post");
+    form.setAttribute("action", "PHP/dbdump.php");
+    var hiddenField = document.createElement("input");
+    hiddenField.setAttribute("type", "hidden");
+    hiddenField.setAttribute("name", "filename");
+    hiddenField.setAttribute("value", 'db_dump.sql');
+    form.appendChild(hiddenField);
+    document.body.appendChild(form);
+    form.submit();
+  }
+
   function closeAdd() {
     document.location.href = "modify.php";
   }
@@ -493,8 +557,8 @@
       input.name = "member";
       input.style.float = "left";
       input.style.width = "calc(100% - 58px)";
-      input.style.marginTop = "5px";
-      input.style.marginBottom = "5px";
+      input.style.marginTop = "2px";
+      input.style.marginBottom = "2px";
       input.readOnly = true;
       input.value = document.getElementById("modelSlots").value;
       container_model_slots.appendChild(input);
@@ -539,8 +603,8 @@
       input.name = "member";
       input.style.float = "left";
       input.style.width = "calc(100% - 58px)";
-      input.style.marginTop = "5px";
-      input.style.marginBottom = "5px";
+      input.style.marginTop = "2px";
+      input.style.marginBottom = "2px";
       input.readOnly = true;
       input.value = document.getElementById("manufacturerSlot").value;
       container_manufacturer_slots.appendChild(input);
@@ -581,8 +645,8 @@
       input.name = "member";
       input.style.float = "left";
       input.style.width = "calc(100% - 58px)";
-      input.style.marginTop = "5px";
-      input.style.marginBottom = "5px";
+      input.style.marginTop = "2px";
+      input.style.marginBottom = "2px";
       input.readOnly = true;
       input.value = document.getElementById("typeSlots").value;
       container_type_slots.appendChild(input);
@@ -623,8 +687,8 @@
       input.name = "member";
       input.style.float = "left";
       input.style.width = "calc(100% - 58px)";
-      input.style.marginTop = "5px";
-      input.style.marginBottom = "5px";
+      input.style.marginTop = "2px";
+      input.style.marginBottom = "2px";
       input.readOnly = true;
       input.value = document.getElementById("typeEstablishment").value;
       container_type_establishment.appendChild(input);
@@ -665,8 +729,8 @@
       input.name = "member";
       input.style.float = "left";
       input.style.width = "calc(100% - 58px)";
-      input.style.marginTop = "5px";
-      input.style.marginBottom = "5px";
+      input.style.marginTop = "2px";
+      input.style.marginBottom = "2px";
       input.readOnly = true;
       input.value = document.getElementById("brandOperator").value;
       container_brand_operator.appendChild(input);
@@ -732,13 +796,31 @@
     form.submit();
   }
 
-  function selectManufacturerModel(value, valueText) {
+  function permission_user(id) {
+    if (id == 1) {
+      alert("You cannot change Administrator Permissions.");
+      return;
+    }
+    bool = 1;
+    var form = document.createElement("form");
+    form.setAttribute("method", "post");
+    form.setAttribute("action", "modify.php");
+    var hiddenField = document.createElement("input");
+    hiddenField.setAttribute("type", "hidden");
+    hiddenField.setAttribute("name", "user_permission");
+    hiddenField.setAttribute("value", id);
+    form.appendChild(hiddenField);
+    document.body.appendChild(form);
+    form.submit();
+  }
 
+
+  function selectManufacturerModel(value, valueText) {
 
     $("#div-new-model-slots").empty();
     $("#manufacturerModelSlotsPHP").val(value);
 
-    document.getElementById("slot_model_title").innerHTML = ('Slots Model -> ' + valueText);
+    document.getElementById("slot_model_title").innerHTML = ('Slots Model for ' + valueText);
     var x = document.getElementsByClassName("tab");
     x[currentTab].style.display = "none";
     currentTab = 1;
@@ -755,8 +837,8 @@
           input.name = "member";
           input.style.float = "left";
           input.style.width = "100%";
-          input.style.marginTop = "5px";
-          input.style.marginBottom = "5px";
+          input.style.marginTop = "2px";
+          input.style.marginBottom = "2px";
           input.readOnly = true;
           input.value = datas[i + 1];
           container_model_slots.appendChild(input);

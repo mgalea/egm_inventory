@@ -30,6 +30,7 @@ if ($result->num_rows == 1) {
 		if ($row['active'] == "1") {
 			$_SESSION['user'] = $user;
 			$_SESSION['user_type'] = $row['user_type'];
+			$_SESSION['user_id'] = $row['id'];
 			header("Location: ../index.php?");
 		} else {
 			header("Location: ../login.php?error=Username Inactive.");
