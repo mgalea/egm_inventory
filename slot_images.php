@@ -89,11 +89,13 @@
         <div class="col-sm-1 col-4-md"></div>
         <div class="col-sm-10 col-4-md">
           <form action="PHP/uploadImages.php" method="POST" enctype="multipart/form-data">
-            <input style="display:none;" type="text" name="slot" value="<?php echo $slot; ?>">
+            <input  type="hidden" name="slot" value="<?php echo $slot; ?>">
 
-            <input class="btn btn-outline-secondary" type="file" name="fileToUpload[]" id="fileToUpload" accept="image/*" multiple>
+            <label for="fileToUpload " class="form-label float-start">Choose image to uplaod (JPG or PNG)</label>
 
-            <input class="btn btn-lg btn-primary mt-2" type="submit" value="Upload Image" name="submit">
+            <input class="form-control form-control-lg float-start" type="file" name="fileToUpload[]" id="fileToUpload" accept="image/*" multiple>
+
+            <input class="btn btn-lg btn-primary mt-2 float-end" type="submit" value="Upload Image" name="submit">
 
           </form>
         </div>
@@ -102,7 +104,7 @@
       <div class="row text-center">
         <div class="col-sm-1 col-4-md"></div>
         <div class="col-sm-10 col-4-md">
-          <button class="mt-5 btn btn-lg btn-warning" onclick="init()" type="button" name="button">Take from Camera</button>
+          <button class="mt-5 mb-5 btn btn-lg btn-warning" onclick="init()" type="button" name="button">Take from Camera</button>
         </div>
       </div>
 

@@ -308,12 +308,12 @@
         </form>
       </div>
 
-      <div class="row m-1">
+      <div class="row mt-1">
         <div class="col-12">
           <h1>Operators</h1>
         </div>
       </div>
-      <div class="row m-1">
+      <div class="row mt-1">
         <div class="col-6">
           <input type="text" id="myInput" onkeyup="searchInOperators()" placeholder="Search ...">
         </div>
@@ -321,7 +321,7 @@
           <button class="btn btn-lg btn-success float-end" onclick="document.getElementById('id_add_operator').style.display='block'">Add Operator</button>
         </div>
       </div>
-      <div class="row m-1">
+      <div class="row mt-1">
         <div class="col-12 text-center">
 
           <table id="myTable" class="w3-table-all w3-hoverable w3-responsive center">
@@ -329,8 +329,7 @@
               <tr>
                 <th class="w3-dark-grey w3-hover-black" onclick="w3.sortHTML('#myTable', '.item', 'td:nth-child(1)')" style="cursor:pointer">Name <i class="fa fa-sort" style="font-size:13px;"></i></th>
                 <th class="w3-dark-grey w3-hover-black" onclick="w3.sortHTML('#myTable', '.item', 'td:nth-child(2)')" style="cursor:pointer">License Number <i class="fa fa-sort" style="font-size:13px;"></i></th>
-                <th class="w3-dark-grey w3-hover-black">Edit</th>
-                <th class="w3-dark-grey w3-hover-black">Info</th>
+                <th class="w3-dark-grey w3-hover-black">Action</th>
               </tr>
             </thead>
             <?php
@@ -339,7 +338,7 @@
               if ($result = $connect->query($query)) {
                 if ($result->num_rows > 0) {
                   while ($row = $result->fetch_assoc()) {
-                    echo "<tr class=\"item\"><td>" . $row["company_name"] . "</td><td>" . $row["official_license_number"] . "</td><td onclick=\"edit_operator(" . $row["license_number"] . ")\"><img class=\"icon\" src=\"images/edit.png\" alt=\"Edit\"></td><td onclick=\"info_operator(" . $row["license_number"] . ")\"><img class=\"icon\" src=\"images/info.png\" alt=\"Info\"></td></tr>";
+                    echo "<tr class=\"item\"><td>" . $row["company_name"] . "</td><td>" . $row["official_license_number"] . "</td><td><img onclick=\"edit_operator(" . $row["license_number"] . ")\" class=\"icon\" src=\"images/edit.png\" alt=\"Edit\"><img onclick=\"info_operator(" . $row["license_number"] . ")\" class=\"icon\" src=\"images/info.png\" alt=\"Info\"></td></tr>";
                   }
                 }
               }

@@ -33,10 +33,7 @@
 
     <div class="row mx-justify-content-center mt-5">
 
-
-
     </div>
-
 
     <div id="spinner" class="lds-spinner">
       <div></div>
@@ -52,7 +49,6 @@
       <div></div>
       <div></div>
     </div>
-
 
     <?php
     $serial_number_motherboard = "";
@@ -195,17 +191,14 @@
 
     ?>
 
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-
-
-    <div id="id_info_slot" class="modal-div-info">
+   <div id="id_info_slot" class="modal-div-info">
       <span onclick="closeAdd()" class="close_add" title="Close">&times;</span>
       <div class="modal-div-content">
         <div class="container">
           <div class="row">
-            <div class="col-6">
+            <div class="col-md-6 col-sm-12">
               <h1 style="margin-top: 20px; float : center;"><b>EGM Details</b></h1>
-              <table class="w3-table-all">
+              <table class="w3-table-all w3-responsive" width="100%">
                 <tr>
                   <td><b> Serial Number:</b></td>
                   <td> <?php echo $serial_number; ?></td>
@@ -275,74 +268,12 @@
                 </tr>
               </table>
             </div>
-            <div class="col-6">
-              <h1>&nbsp;</h1>
-              <div class="row">
-              </div>
-              <div class="row">
-                <h2 style="margin-top: 20px; float : center;"><b>Motherboard Details</b></h2>
-              </div>
-              <div class="row mb-5">
-                <table class="w3-table-all">
-                  <tr>
-                    <td><b>Original:</td>
-                    <td> <?php if ($is_original == "1") echo "YES";
-                          else echo "NO"; ?></td>
-                  </tr>
-                  <tr>
-                    <td><b>Serial Number:</td>
-                    <td> <?php echo $serial_number_motherboard; ?></td>
-                  </tr>
 
-                  <tr>
-                    <td><b>Manufacturer Motherboard:</td>
-                    <td>
-                      <?php
-                      if ($id_manufacturer_motherboard) {
-                        $query = "SELECT name_manufacturer FROM manufacturer WHERE id_manufacturer = " . $id_manufacturer_motherboard . ";";
-                        if ($result = $connect->query($query)) {
-                          $row = $result->fetch_assoc();
-                          echo  $row["name_manufacturer"];
-                        }
-                      } else {
-                        echo "Unknown";
-                      }
-                      ?>
-                    </td>
-                  </tr>
-                </table>
-              </div>
-              <div class="col-50">
-                <fieldset>
-                  <legend style="text-align: left;">Power port</legend>
-                  <label>Jumper number: <?php echo $power_jumper_number; ?></label></br>
-                  <label>Jumper type: <?php echo $power_jumper_type; ?></label>
-                </fieldset>
-              </div>
-              <div class="col-50">
-                <fieldset>
-                  <legend style="text-align: left;">Com port</legend>
-                  <label>Jumper number: <?php echo $com_jumper_number; ?></label></br>
-                  <label>Jumper type: <?php echo $com_jumper_type; ?></label>
-                </fieldset>
-              </div>
-              <div class="col-100-top">
-                <table class="w3-table-all">
-                  <tr>
-                    <td><b>Location in the Establishment:</b></td>
-                  </tr>
-                  <tr>
-                    <td><?php if ($est_location != "") echo $est_location;
-                        else echo "~"; ?></td>
-                  </tr>
-                </table>
-              </div>
-            </div>
           </div>
         </div>
       </div>
 
-
+      <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
       <script type="text/javascript">
         $(window).on("load", function() {
           <?php if (isset($_GET["error"])) { ?>

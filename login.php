@@ -24,7 +24,7 @@ session_start();
     ?>
 <main class="flex-shrink-0">
     <div class="container-fluid">
-        <img class="pt-5 title" src="images/svg/title.svg" />
+        <img class="app_img pt-4 title" src="images/svg/title.svg" />
 
         <div class="imgcontainer">
             <img class="brand_img" src="images/lslga.png" alt="Lagos State Lotterie and Gaming Authority">
@@ -39,12 +39,12 @@ session_start();
                             <b>Username</b>
                         </label>
                         <input type="text" placeholder="Enter Username" name="username" required>
-                        <label class="pt-2 " for="password">
+                        <label class="pt-2" for="password">
                             <b>Password</b>
                         </label>
                         <input class="fs-sm-2" type="password" placeholder="Enter Password" name="password" required>
                         <div class="text-center">
-                            <button class="mt-3 btn-lg btn-secondary font-display text-center" type="submit">Login</button>
+                            <button class="mt-2 btn-lg btn-secondary font-display text-center" type="submit">Login</button>
                         </div>
                     </div>
                 </div>

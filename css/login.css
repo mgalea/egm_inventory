@@ -35,10 +35,6 @@ label{
     font-weight: 100;
 }
 
-.font-display {
-    font-size: 1.1rem;
-}
-
 .login-content{
     width: 50%;
 }
@@ -48,10 +44,6 @@ label{
     input[type=text],
     input[type=password] {
 
-        font-size: 2rem;
-    }
-
-    .font-display {
         font-size: 1.5rem;
     }
 
@@ -64,6 +56,17 @@ label{
     img.brand_img {
         max-width: 120px;
     }
+    img.app_img {
+        max-width: 50%;
+    }
+    
+input[type=text],
+input[type=password] {
+    width: 100%;
+    padding: 3px 20px;
+    margin: 0px 0;
+
+}
 }
 
 
