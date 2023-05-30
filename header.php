@@ -42,7 +42,7 @@
             <a class="nav-link ms-2 " href="#" onclick="window.location.assign('operator.php');">Operators</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link ms-2" href="#" onclick="window.location.assign('establishment.php');">Establishments</h1></a>
+            <a class="nav-link ms-2" href="#" onclick="window.location.assign('establishment.php');">Locations</h1></a>
           </li>
           <li class="nav-item">
             <a class="nav-link ms-2" href="#" onclick="window.location.assign('slot.php');">Slots</a>

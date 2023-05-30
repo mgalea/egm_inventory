@@ -73,13 +73,14 @@
       <div class="row my-3">
         <div class="col-8">
           <h1>Slots </h1>
-          <?php echo (isset($_GET['notag'])) ? "<h3><b>No RFID Tag</b></h3>" : NULL ?>
+          <?php echo (isset($_GET['untagged'])) ? "<h3><b>No RFID Tag</b></h3>" : NULL ?>
+          <?php echo (isset($_GET['tagged'])) ? "<h3><b>No RFID Tag</b></h3>" : NULL ?>
           <?php
           if (isset($_POST['establishment'])) {
             $query = "SELECT * from establishment where  permit_number = " . $_POST['establishment'] . ";";
             $result = $connect->query($query);
             $row = $result->fetch_assoc();
-            echo "<h4><b>Establishment: </b>" . $row['name'] . "</h4>";
+            echo "<h4><b>Location: </b>" . $row['name'] . "</h4>";
             $query = "SELECT * from operator where  license_number = " . $row['fk_license_number_operator'] . " LIMIT 1;";
             $result = $connect->query($query);
             $row = $result->fetch_assoc();
@@ -97,7 +98,7 @@
             <div class="col-8">
               <p class="fs-2"><b>Operator: <?php echo $row['company_name'] ?></b>
 
-                <button class="ms-3 btn btn-lg btn-primary" onclick="showEstablishment()">Show Establishments</button>
+                <button class="ms-3 btn btn-lg btn-primary" onclick="showEstablishment()">Show Locations</button>
               </p>
             </div>
 
@@ -110,17 +111,17 @@
           <input type="text" id="myInput" onkeyup="searchInSlots()" placeholder="Search ...">
         </div>
         <div class="col-lg-3 col-md-4 col-sm-12 mt-2">
-          <?php if (isset($_GET['notag'])) {
-            $tag = $_GET['notag'] + 100; ?>
-            <div class="btn-group" role="group" aria-label="Basic example">
+          <?php if (isset($_GET['untagged'])) {
+            $tag = $_GET['untagged'] + 100; ?>
+            <div class="btn-group" role="group" aria-label="Record Nav">
               <button type="button" class="btn btn-lg btn-secondary btn-outline-light " onclick="window.open('./slot.php','_self');">Clear</button>
-              <button type="button" class="btn btn-lg btn-secondary btn-outline-light" onclick="window.open('./slot.php?notag=<?php echo ($_GET['notag'] > 100) ? $_GET['notag'] - 100 : $_GET['notag'] ?>','_self');">
+              <button type="button" class="btn btn-lg btn-secondary btn-outline-light" onclick="window.open('./slot.php?untagged=<?php echo ($_GET['untagged'] > 100) ? $_GET['untagged'] - 100 : $_GET['untagged'] ?>','_self');">
                 <<</button>
                   <button type="button" class="btn btn-lg btn-secondary btn-outline-light "><?php echo $tag - 100 ?> to <?php echo $tag - 1 ?></button>
-                  <button type="button" class="btn btn-lg btn-secondary btn-outline-light" onclick="window.open('./slot.php?notag=<?php echo $tag ?>','_self');">>></button>
+                  <button type="button" class="btn btn-lg btn-secondary btn-outline-light" onclick="window.open('./slot.php?untagged=<?php echo $tag ?>','_self');">>></button>
             </div>
           <?php } else { ?>
-            <button class="btn btn-lg btn-warning float-end" onclick="window.open('./slot.php?notag=1','_self');">Show No Tag</button>
+            <button class="btn btn-lg btn-warning float-end" onclick="window.open('./slot.php?untagged=1','_self');">Show No Tag</button>
           <?php } ?>
         </div>
 
@@ -134,7 +135,7 @@
             <tr>
               <?php if (!isset($_POST['establishment']) && !isset($_POST['operator'])) { ?>
                 <th class="w3-dark-grey w3-hover-black" onclick="w3.sortHTML('#myTable', '.item', 'td:nth-child(1)')" style="cursor:pointer">Operator <i class="fa fa-sort" style="font-size:13px;"></i></th>
-                <th class="w3-dark-grey w3-hover-black" onclick="w3.sortHTML('#myTable', '.item', 'td:nth-child(2)')" style="cursor:pointer">Regulator Number <i class="fa fa-sort" style="font-size:13px;"></i></th>
+                <th class="w3-dark-grey w3-hover-black" onclick="w3.sortHTML('#myTable', '.item', 'td:nth-child(2)')" style="cursor:pointer">Inventory Number <i class="fa fa-sort" style="font-size:13px;"></i></th>
                 <th class="w3-dark-grey w3-hover-black" onclick="w3.sortHTML('#myTable', '.item', 'td:nth-child(3)')" style="cursor:pointer">Manufacturer <i class="fa fa-sort" style="font-size:13px;"></i></th>
                 <th class="w3-dark-grey w3-hover-black" onclick="w3.sortHTML('#myTable', '.item', 'td:nth-child(4)')" style="cursor:pointer">Serial Number <i class="fa fa-sort" style="font-size:13px;"></i></th>
                 <th class="w3-dark-grey w3-hover-black" onclick="w3.sortHTML('#myTable', '.item', 'td:nth-child(5)')" style="cursor:pointer">Type <i class="fa fa-sort" style="font-size:13px;"></i></th>
@@ -159,19 +160,19 @@
                     }
                   }
                 }
-              } else if (isset($_POST['operator'])) {
+              } else if (isset($_POST['operatorS'])) {
                 $query = "SELECT * from slot_machines, slot_model, type_slot_machines, manufacturer, operator where fk_model = id_model AND fk_id_manufacturer = id_manufacturer AND fk_slot_type = id_type_slot_machines AND fk_license_number = license_number AND official_license_number = \"" . $_POST['operator'] . "\";";
                 if ($result = $connect->query($query)) {
                   if ($result->num_rows > 0) {
                     while ($row = $result->fetch_assoc()) {
-                      echo "<tr class=\"item\"><td>" . $row["reg_number"] . "</td><td>" . $row["name_manufacturer"] . "</td><td>" . $row["serial_number"] . "</td><td>" . $row["name_type"] . "</td><td>" . $row["name_model"] . "</td><td><i class=\"fa-light fa-2x fa-tag seal\"></i></td><i class='fa-duotone fa-2x fa-image p-2' onclick=\"show_image('" . $row["serial_number"] . "')\"></td><td></i><i class='fa-duotone fa-2x fa-tag p-2' onclick=\"show_tag('" . $row["serial_number"] . "')\"></i><i class='fa-duotone fa-2x fa-square-pen p-2' onclick=\"edit_slot('" . $row["serial_number"] . "')\"></i> <i class='fa-duotone fa-2x  fa-square-info p-2' onclick=\"info_slot('" . $row["serial_number"] . "')\"></i></td></tr>";
+                     // echo "<tr class=\"item\"><td>" . $row["reg_number"] . "</td><td>" . $row["name_manufacturer"] . "</td><td>" . $row["serial_number"] . "</td><td>" . $row["name_type"] . "</td><td>" . $row["name_model"] . "</td><td><i class=\"fa-light fa-2x fa-tag seal\"></i></td><i class='fa-duotone fa-2x fa-image p-2' onclick=\"show_image('" . $row["serial_number"] . "')\"></td><td></i><i class='fa-duotone fa-2x fa-tag p-2' onclick=\"show_tag('" . $row["serial_number"] . "')\"></i><i class='fa-duotone fa-2x fa-square-pen p-2' onclick=\"edit_slot('" . $row["serial_number"] . "')\"></i> <i class='fa-duotone fa-2x  fa-square-info p-2' onclick=\"info_slot('" . $row["serial_number"] . "')\"></i></td></tr>";
                     }
                   }
                 }
               } else {
                 $query = "SELECT * from slot_machines, slot_model, type_slot_machines, manufacturer, operator where fk_model = id_model AND fk_id_manufacturer = id_manufacturer AND fk_slot_type = id_type_slot_machines AND fk_license_number = license_number";
-                if (isset($_GET['notag'])) {
-                  $query = "SELECT * FROM manufacturer r,operator o,type_slot_machines y,slot_model m, slot_machines s LEFT OUTER JOIN tag t ON s.serial_number = t.fk_serial_number  WHERE t.fk_serial_number IS NULL OR t.active=0 AND s.fk_model = m.id_model AND s.fk_slot_type = y.name_type AND s.operator_number= o.license_number AND m.fk_id_manufacturer = r.name_manufacturer LIMIT " . $_GET['notag'] . ",100;";
+                if (isset($_GET['untagged'])) {
+                  $query = "SELECT * FROM manufacturer r,operator o,type_slot_machines y,slot_model m, slot_machines s LEFT OUTER JOIN tag t ON s.serial_number = t.fk_serial_number  WHERE t.fk_serial_number IS NULL OR t.active=0 AND s.fk_model = m.id_model AND s.fk_slot_type = y.name_type AND s.operator_number= o.license_number AND m.fk_id_manufacturer = r.name_manufacturer LIMIT " . $_GET['untagged'] . ",100;";
                 }
 
                 if ($result = $connect->query($query)) {
@@ -385,7 +386,7 @@
               </tr>
 
               <tr>
-                <td><b>Regulator Number:</b></td>
+                <td><b>Inventory Number:</b></td>
                 <td> <?php echo $regulator_number; ?></td>
               </tr>
               <tr>
@@ -397,7 +398,7 @@
                 <td><?php echo $operator_name; ?></td>
               </tr>
               <tr>
-                <td><b>Establishment:</b></td>
+                <td><b>Location:</b></td>
                 <td> <?php if ($establishment != "") echo $establishment;
                       else echo  " ~ "; ?></td>
               </tr>
@@ -498,7 +499,7 @@
             <div class="col-100-top">
               <table class="w3-table-all">
                 <tr>
-                  <td><b>Location in the Establishment:</b></td>
+                  <td><b>Location in the Premises:</b></td>
                 </tr>
                 <tr>
                   <td><?php if ($est_location != "") echo $est_location;
@@ -770,7 +771,7 @@
             echo "<div id=\"idDivShow\" style=\"display:none;\">";
           }
           ?>
-          <label><b>Establishment</b></label>
+          <label><b>Location</b></label>
           <?php
           if (isset($_POST['slot'])) { ?>
 
@@ -821,7 +822,7 @@
           <label><b>Serial Number</b></label>
           <input class="input-add" type="text" name="serial_number" value="<?php echo $serial_number; ?>" <?php if (isset($_POST['slot'])) echo "readonly";
                                                                                                           else echo "required"; ?>>
-          <label><b>Regulator Number</b></label>
+          <label><b>Inventory Number</b></label>
           <input class="input-add" type="text" name="regulator_number" value="<?php echo $regulator_number; ?>" required>
           <label><b>Operator Number</b></label>
           <input class="input-add" type="text" name="operator_number" value="<?php echo $operator_number; ?>" required>
@@ -882,7 +883,7 @@
             <input type="radio" name="number_game" value="1" <?php if ($type_player == "1") echo "checked"; ?>> Multi Game
             <input type="checkbox" name="multiterminal" value="1" <?php if ($multiterminal == "1") echo "checked"; ?>> Multi Terminal
           </div>
-          <label><b>Location in the Establishment</b></label></br>
+          <label><b>Location in the Premises</b></label></br>
           <textarea class="input-add" name="est_location" rows="4" cols="50" maxlength="256"><?php echo $est_location; ?></textarea>
           <label><b>Status</b></label>
           <select id="state_id" class="input-add" name="state" required>

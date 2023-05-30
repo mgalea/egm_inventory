@@ -213,7 +213,7 @@
         <span onclick="closeModify()" class="close_add" title="Close">&times;</span>
         <form id="formAddTypeEstablishment" class="modal-div-content" action="PHP/add_type_establishment.php" method="POST">
           <div class="container">
-            <h1>Establishments Types</h1>
+            <h1>Location Types</h1>
             <hr>
             <?php
             $query = "SELECT * FROM type;";
@@ -420,7 +420,7 @@
 
           <button class="btn btn-secondary btn-default w-100" onclick="document.getElementById('id_add_brand_operator').style.display='block'">Operators Brands</button>
 
-          <button class="btn btn-secondary btn-default w-100" onclick="document.getElementById('id_add_type_establishment').style.display='block'">Establishment Types</button>
+          <button class="btn btn-secondary btn-default w-100" onclick="document.getElementById('id_add_type_establishment').style.display='block'">Location Types</button>
 
           <button class="btn btn-secondary btn-default w-100" onclick="document.getElementById('id_add_manufacturer_slots').style.display='block'">Slots Manufacturers</button>
 

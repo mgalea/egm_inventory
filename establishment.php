@@ -173,7 +173,7 @@
                       <td> <?php echo $operator_name; ?></td>
                     </tr>
                     <tr>
-                      <td>Namber of Machines:</td>
+                      <td>Number of Machines:</td>
                       <td> <?php echo $n_slot_machines; ?></td>
                     </tr>
                     <tr>
@@ -181,7 +181,7 @@
                       <td><?php echo $state; ?></td>
                     </tr>
                     <tr>
-                      <td>Establishment Type:</td>
+                      <td>Location Type:</td>
                       <td> <?php echo $typeNameString; ?></td>
                     </tr>
                   </table>
@@ -269,7 +269,7 @@
                   <option value="0" <?php if ($state == "0") echo "selected"; ?>>Cancelled</option>
                 </select>
                 <div class="col-100">
-                  <label><b>Establishment Types</b></label>
+                  <label><b>Location Types</b></label>
                   <input id="typePHP" name="typePHP" type="hidden" value="<?php echo $typeString; ?>" required>
 
 
@@ -279,7 +279,7 @@
 
                     <div class="col-100-add input-add">
                       <select name="type" id="type" class="input-select-add" placeholder="Select Type">
-                        <option value="0" disabled selected>Add an Establishment Type</option>
+                        <option value="0" disabled selected>Add an Location Type</option>
                         <?php
                         $query = "SELECT * FROM type;";
                         if ($result = $connect->query($query)) {
@@ -334,7 +334,7 @@
 
         <div class="row mt-4">
           <div class="col-12">
-            <h1>Establishments</h1>
+            <h1>Locations</h1>
           </div>
           <div class="col-6">
             <?php if (isset($_POST['operator'])) {
@@ -352,7 +352,7 @@
             <input type="text" id="myInput" onkeyup="searchInEstablishments()" placeholder="Search ...">
           </div>
           <div class="col-6 ">
-            <button class="btn btn-success float-end" onclick="document.getElementById('id_add_establishment').style.display='block'">Add Establishment</button>
+            <button class="btn btn-success float-end" onclick="document.getElementById('id_add_establishment').style.display='block'">Add Location</button>
           </div>
         </div>
         <div class="row">

@@ -104,10 +104,10 @@
 
       $query="INSERT INTO slot_machines(`serial_number`, `date_manufacturing`, `fk_license_number`, `fk_model`, `fk_slot_type`, `date_commission`, `est_location`, `commission`, `date_decommission`, `multi_terminal`, `multi_game`, `reg_number`, `operator_number`, `is_original`, `fk_serial_number_motherboard`)";
       if($state==0){
-        $query = $query." VALUES (\"".$serial_number."\",\"".$date_manufacturing."\", ".$fk_license_number.", ".$model.", ".$type.", \"".$date_commission."\", \"". $establishment_location."\", ".$state.", \"".$date_decommission."\", ". $multiterminal.", ".$number_game.", ".$regulator_number.", ".$operator_number.", ".$is_original.", \"".$serial_number_motherboard."\");";
+        $query = $query." VALUES (\"".$serial_number."\",\"".$date_manufacturing."\", ".$fk_license_number.", ".$model.", ".$type.", \"".$date_commission."\", \"". $establishment_location."\", ".$state.", \"".$date_decommission."\", ". $multiterminal.", ".$number_game.", \"".$regulator_number."\", \"".$operator_number."\", ".$is_original.", \"".$serial_number_motherboard."\");";
       }
       else{
-        $query = $query." VALUES (\"".$serial_number."\",\"".$date_manufacturing."\", ".$fk_license_number.", ".$model.", ".$type.", \"".$date_commission."\", \"". $establishment_location."\", ".$state.", null, ". $multiterminal.", ".$number_game.", ".$regulator_number.", ".$operator_number.", ".$is_original.", \"".$serial_number_motherboard."\");";
+        $query = $query." VALUES (\"".$serial_number."\",\"".$date_manufacturing."\", ".$fk_license_number.", ".$model.", ".$type.", \"".$date_commission."\", \"". $establishment_location."\", ".$state.", null, ". $multiterminal.", ".$number_game.", \"".$regulator_number."\", \"".$operator_number."\", ".$is_original.", \"".$serial_number_motherboard."\");";
       }
 
       if($connect->query($query)){
@@ -133,4 +133,3 @@
   else{
     header("location: ../slot.php?error=4 ".$connect->error);
   }
-?>
