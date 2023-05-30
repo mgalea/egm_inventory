@@ -2,13 +2,13 @@
 include 'connection.php';
 $connect = connectDB();
 
-$lat = "";
-$lng = "";
+$lat = "0.0";
+$lng = "0.0";
 
 $brandString = $_POST['brandPHP'];
 $brands = explode(",", $brandString);
 
-if ($_POST['coordinates'] && $_POST['coordinates'] == "checked") {
+if (isset($_POST['coordinates']) && $_POST['coordinates'] != "unchecked") {
   $coordinates = explode(":", $_POST['coordinates']);
   $lat = $coordinates[0];
   $lng = $coordinates[1];
@@ -29,6 +29,8 @@ if ($connect) {
   if ($_POST['coordinates'] && $_POST['coordinates'] != "unchecked") {
     $query = "INSERT INTO pstl_adr(`strt_nm`, `bldg_nm`, `region`,`twn_nm`, `ctry`, `latitude`, `longitude`, `pstl_code_number`)";
     $query = $query . " VALUES (\"" . $_POST['strt_nm'] . "\",\"" . $_POST['bldgNb'] . "\",\"" . $_POST['region'] . "\",\"" . $_POST['twnNm'] . "\",\"" . $_POST['ctry'] . "\"," . $lat . "," . $lng . ",\"" . $_POST['zip'] . "\");";
+    echo $_POST['coordinates'];
+    echo $query;
   } else {
     $query = "INSERT INTO pstl_adr(`strt_nm`, `bldg_nm`, `twn_nm`, `region`,`ctry`, `pstl_code_number`)";
     $query = $query . " VALUES (\"" . $_POST['strt_nm'] . "\",\"" . $_POST['bldgNb'] . "\",\"" . $_POST['region'] . "\",\"" . $_POST['twnNm'] . "\",\"" . $_POST['ctry'] . "\",\"" . $_POST['zip'] . "\");";

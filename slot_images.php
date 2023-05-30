@@ -71,7 +71,7 @@
           if ($row = $result->fetch_assoc()) {
             echo "<div class='col-sm-12 col-md-4 col-xl-3 mt-2'><table class='w3-table-all ' width='100%'>";
             echo "<tr><td><b>Serial Number:</b></td><td>" . $slot . "</td></tr>";
-            echo "<td><b>Reg Asset Number:</b></td><td>" . $row["reg_number"] . "</td></tr>";
+            echo "<td><b>Inventory Number:</b></td><td>" . $row["reg_number"] . "</td></tr>";
             echo "</table></div>";
             echo "<div class='col-sm-12 col-md-4 col-xl-3 mt-2'><table class='w3-table-all '>";
             echo "<tr><td><b>Serial Number:</b></td><td>" . $slot . "</td></tr>";

@@ -7,4 +7,6 @@ $_SESSION['user_type'] = "";
 
 header("Location: ../index.php");
 
+exit;
+
 ?>

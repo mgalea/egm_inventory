@@ -3,7 +3,30 @@
 include 'connection.php';
 $connect = connectDB();
 
-session_start();
+
+
+
+
+if (empty($_POST['username']) ){
+	header("Location: ../login.php?error=Username cannot be empty.");
+	exit;
+}
+
+if (empty(ltrim($_POST['username']))){
+	header("Location: ../login.php?error=Only ghosts can use empty spaces.");
+	exit;
+}
+
+
+if (empty($_POST['password']) ){
+	header("Location: ../login.php?error=Password cannot be empty.");
+	exit;
+}
+
+if (empty(ltrim($_POST['password'])) ){
+	header("Location: ../login.php?error=That's a strange password!");
+	exit;
+}
 
 $user = $_POST['username'];
 $pasw = $_POST['password'];
@@ -27,11 +50,17 @@ if ($result->num_rows == 1) {
 	$result = $connect->query($strSQL);
 	if ($result->num_rows == 1) {
 		$row = $result->fetch_assoc();
+
+		if (session_status() === PHP_SESSION_NONE) {
+			session_start();
+		}
+
 		if ($row['active'] == "1") {
 			$_SESSION['user'] = $user;
 			$_SESSION['user_type'] = $row['user_type'];
 			$_SESSION['user_id'] = $row['id'];
-			header("Location: ../index.php?");
+			
+			header("Location: ../index.php");
 		} else {
 			header("Location: ../login.php?error=Username Inactive.");
 		}
@@ -40,6 +69,6 @@ if ($result->num_rows == 1) {
 	
 	}
 } else {
-	header("Location: ../login.php?error=Username error!");
+	header("Location: ../login.php?error=Username error.");
 	
 }

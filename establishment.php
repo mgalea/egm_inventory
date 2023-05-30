@@ -156,9 +156,9 @@
           <div class="modal-div-content">
             <div class="container">
               <div class="row">
-                <div class="col-md-6 col-sm-12">
+                <div class="col-6">
                   <h2><?php echo $name; ?></h2>
-                  <table class="w3-table-all w3-hoverable" width="100%">
+                  <table class="w3-table-all w3-hoverable w3-responsive">
 
                     <tr>
                       <td>Permit Number:</td>
@@ -173,7 +173,7 @@
                       <td> <?php echo $operator_name; ?></td>
                     </tr>
                     <tr>
-                      <td>Namber of Machines:</td>
+                      <td>Number of Machines:</td>
                       <td> <?php echo $n_slot_machines; ?></td>
                     </tr>
                     <tr>
@@ -181,7 +181,7 @@
                       <td><?php echo $state; ?></td>
                     </tr>
                     <tr>
-                      <td>Establishment Type:</td>
+                      <td>Location Type:</td>
                       <td> <?php echo $typeNameString; ?></td>
                     </tr>
                   </table>
@@ -203,7 +203,7 @@
                     </tr>
                   </table>
                 </div>
-                <div class="col-md-6 col-sm-12">
+                <div class="col-6">
                   <div class="col-100-coordinates">
                     <label><span class="badge bg-dark m-1 p-2"><?php echo " Coordinates: Lat:" . $latitude . ", Lon: " . $longitude; ?></span></label>
                   </div>
@@ -221,121 +221,112 @@
           <form id="formAdd" class="modal-div-content" action="PHP/<?php if (isset($_POST['establishment'])) echo "editEstablishment.php";
                                                                     else echo "addEstablishment.php"; ?>" method="POST">
             <div class="container">
-              <div class="row">
-                <div class="col-12">
-                  <h1><?php if (isset($_POST['establishment'])) echo "Edit Establishment";
-                      else echo "New Establishment"; ?></h1>
-                  <hr>
+              <h1><?php if (isset($_POST['establishment'])) echo "Edit Establishment";
+                  else echo "New Establishment"; ?></h1>
+              <hr>
 
-                  <label><b>Permit Number</b></label>
+              <label><b>Permit Number</b></label>
 
-                  <?php if (isset($_POST['establishment'])) { ?>
-                    <input class="input-add" type="text" name="permit_number" value="<?php echo $permit_number; ?>" style="display:none;">
-                    <input class="input-add" type="text" value="<?php echo $official_permit_number; ?>" readonly>
-                  <?php } else { ?>
-                    <input class="input-add" type="text" name="permit_number" value="" required>
-                  <?php } ?>
+              <?php if (isset($_POST['establishment'])) { ?>
+                <input class="input-add" type="text" name="permit_number" value="<?php echo $permit_number; ?>" style="display:none;">
+                <input class="input-add" type="text" value="<?php echo $official_permit_number; ?>" readonly>
+              <?php } else { ?>
+                <input class="input-add" type="text" name="permit_number" value="" required>
+              <?php } ?>
 
-                  <label><b>Operator</b></label>
-                  <?php
-                  if (isset($_POST['operator'])) {
-                    $query = "SELECT * FROM operator WHERE license_number = " . $official_operator_license . ";";
-                    $result = $connect->query($query);
-                    $row = $result->fetch_assoc(); ?>
-                    <input class="input-add" type="text" value="<?php echo $row['company_name']; ?>" readonly>
-                    <input id="fk_operator" type="text" name="fk_license_number_operator" value="<?php echo $row['license_number']; ?>">
-                  <?php } else if (isset($_POST['establishment'])) {
-                    $query = "SELECT * FROM establishment, operator WHERE license_number = fk_license_number_operator AND permit_number = " . $_POST['establishment'] . ";";
-                    $result = $connect->query($query);
-                    $row = $result->fetch_assoc(); ?>
-                    <input class="input-add" type="text" value="<?php echo $row['company_name']; ?>" readonly>
-                    <input id="fk_operator" type="text" name="fk_license_number_operator" value="<?php echo $row['license_number']; ?>">
-                  <?php } else { ?>
-                    <select class="input-add" name="fk_license_number_operator">
-                    <?php
-                    $query = "SELECT * FROM operator;";
-                    if ($result = $connect->query($query)) {
-                      while ($row = $result->fetch_assoc()) {
-                        echo "<option value=\"" . $row['license_number'] . "\">" . $row['company_name'] . "</option>";
-                      }
-                    }
-                    echo "</select>";
+              <label><b>Operator</b></label>
+              <?php
+              if (isset($_POST['operator'])) {
+                $query = "SELECT * FROM operator WHERE license_number = " . $official_operator_license . ";";
+                $result = $connect->query($query);
+                $row = $result->fetch_assoc(); ?>
+                <input class="input-add" type="text" value="<?php echo $row['company_name']; ?>" readonly>
+                <input id="fk_operator" type="text" name="fk_license_number_operator" value="<?php echo $row['license_number']; ?>">
+              <?php } else if (isset($_POST['establishment'])) {
+                $query = "SELECT * FROM establishment, operator WHERE license_number = fk_license_number_operator AND permit_number = " . $_POST['establishment'] . ";";
+                $result = $connect->query($query);
+                $row = $result->fetch_assoc(); ?>
+                <input class="input-add" type="text" value="<?php echo $row['company_name']; ?>" readonly>
+                <input id="fk_operator" type="text" name="fk_license_number_operator" value="<?php echo $row['license_number']; ?>">
+              <?php } else { ?>
+                <select class="input-add" name="fk_license_number_operator">
+                <?php
+                $query = "SELECT * FROM operator;";
+                if ($result = $connect->query($query)) {
+                  while ($row = $result->fetch_assoc()) {
+                    echo "<option value=\"" . $row['license_number'] . "\">" . $row['company_name'] . "</option>";
                   }
-                    ?>
-                    <label><b>Name</b></label>
-                    <input class="input-add" type="text" name="name" value="<?php echo $name; ?>" required>
-                    <label><b>State</b></label>
-                    <select class="input-add" name="state">
-                      <option value="1" <?php if ($state == "1") echo "selected"; ?>>Active</option>
-                      <option value="2" <?php if ($state == "2") echo "selected"; ?>>Suspended</option>
-                      <option value="0" <?php if ($state == "0") echo "selected"; ?>>Cancelled</option>
-                    </select>
-                    <div class="col-100">
-                      <label><b>Establishment Types</b></label>
-                      <input id="typePHP" name="typePHP" type="hidden" value="<?php echo $typeString; ?>" required>
+                }
+                echo "</select>";
+              }
+                ?>
+                <label><b>Name</b></label>
+                <input class="input-add" type="text" name="name" value="<?php echo $name; ?>" required>
+                <label><b>State</b></label>
+                <select class="input-add" name="state">
+                  <option value="1" <?php if ($state == "1") echo "selected"; ?>>Active</option>
+                  <option value="2" <?php if ($state == "2") echo "selected"; ?>>Suspended</option>
+                  <option value="0" <?php if ($state == "0") echo "selected"; ?>>Cancelled</option>
+                </select>
+                <div class="col-100">
+                  <label><b>Location Types</b></label>
+                  <input id="typePHP" name="typePHP" type="hidden" value="<?php echo $typeString; ?>" required>
 
 
-                      <div class="col-100-add">
-
-                        <div id="div-new" class="col-100-add"></div>
-
-                        <div class="col-100-add input-add">
-                          <select name="type" id="type" class="input-select-add" placeholder="Select Type">
-                            <option value="0" disabled selected>Add an Establishment Type</option>
-                            <?php
-                            $query = "SELECT * FROM type;";
-                            if ($result = $connect->query($query)) {
-                              while ($row = $result->fetch_assoc()) {
-                                echo "<option value=\"" . $row['id_type'] . "\">" . $row['namet'] . "</option>";
-                              }
-                            }
-                            ?>
-                          </select>
-                          <button id="addType" type="button"></button>
-                        </div>
-                      </div>
-                    </div>
-                </div>
-              </div>
-              <div class="row mt-3">
-                <div class="col-12">
-                  <label><b>Address</b></label>
-                </div>
-              </div>
-
-              <div class="row">
-
-                <div class="col-md-6 col-sm-12 mb-3">
-                  <div>
-                    <label>Street Name</label>
-                    <input id="strt_nm" class="input-add" type="text" name="strt_nm" value="<?php echo $strt_nm; ?>" required>
-                    <label>Building Number</label>
-                    <input id="bldgNb" class="input-add" type="text" name="bldgNb" value="<?php echo $bldg_nm; ?>" required>
-                    <label>Town Name</label>
-                    <input id="twnNm" class="input-add" type="text" name="twnNm" value="<?php echo $twn_nm; ?>" required>
-                    <label>Country</label>
-                    <input id="ctry" class="input-add" type="text" name="ctry" value="<?php if ($ctry != "") echo $ctry;
-                                                                                      else echo "Nigeria"; ?>" required>
-                    <label>Postal Code</label>
-                    <input id="zip" class="input-add" type="text" name="zip" value="<?php echo $pstl_code_number; ?>" required>
-                    <input id="checkbox" type="checkbox" name="coordinates" value="<?php echo $latitude . ":" . $longitude ?>" <?php if ($latitude != "" && $longitude != "") echo "checked"; ?>> Include Latitude and Longitude<br>
-                  </div>
-                </div>
-                <div class="col-md-6 col-sm-12">
                   <div class="col-100-add">
-                    <div class="coordinates">
-                      <label><span id="latlng" class="badge bg-dark mb-2 p-2"><?php echo " Coordinates: Lat:" . $latitude . ", Lon: " . $longitude; ?></span></label>
-                    </div>
-                    <button id="refresh" type="button" class="btn btn-primary  btn-lg mb-2 float-end"> <i class="fa-light fa-globe-stand"></i> Geocode </button>
-                  </div>
-                  <div id="map"></div>
-                </div>
-              </div>
-              <div class="clearfix">
-                <button type="submit" class="m-3 savebtn btn btn-lg btn-success">Save</button>
-                <button type="button" onclick="closeAdd()" class="m-3 cancelbtn btn btn-lg btn-warning">Cancel</button>
 
-              </div>
+                    <div id="div-new" class="col-100-add"></div>
+
+                    <div class="col-100-add input-add">
+                      <select name="type" id="type" class="input-select-add" placeholder="Select Type">
+                        <option value="0" disabled selected>Add an Location Type</option>
+                        <?php
+                        $query = "SELECT * FROM type;";
+                        if ($result = $connect->query($query)) {
+                          while ($row = $result->fetch_assoc()) {
+                            echo "<option value=\"" . $row['id_type'] . "\">" . $row['namet'] . "</option>";
+                          }
+                        }
+                        ?>
+                      </select>
+                      <button id="addType" type="button"></button>
+                    </div>
+                  </div>
+                </div>
+
+                <label><b>Address</b></label>
+                <div class="col-99">
+                  <div class="col-50">
+                    <div>
+                      <label>Street Name</label>
+                      <input id="strt_nm" class="input-add" type="text" name="strt_nm" value="<?php echo $strt_nm; ?>" required>
+                      <label>Building Number</label>
+                      <input id="bldgNb" class="input-add" type="text" name="bldgNb" value="<?php echo $bldg_nm; ?>" required>
+                      <label>Town Name</label>
+                      <input id="twnNm" class="input-add" type="text" name="twnNm" value="<?php echo $twn_nm; ?>" required>
+                      <label>Country</label>
+                      <input id="ctry" class="input-add" type="text" name="ctry" value="<?php if ($ctry != "") echo $ctry;
+                                                                                        else echo "Nigeria"; ?>" required>
+                      <label>Postal Code</label>
+                      <input id="zip" class="input-add" type="text" name="zip" value="<?php echo $pstl_code_number; ?>" required>
+                      <input id="checkbox" type="checkbox" name="coordinates" value="<?php echo $latitude . ":" . $longitude ?>" <?php if ($latitude != "" && $longitude != "") echo "checked"; ?>> Include Latitude and Longitude<br>
+                    </div>
+                  </div>
+                  <div class="col-50">
+                    <div class="col-100-add">
+                      <div class="coordinates">
+                        <label id="latlng"><?php if ($latitude != "" && $longitude != "") echo $latitude . " , " . $longitude; ?></label>
+                      </div>
+                      <input id="refresh" type="button">
+                    </div>
+                    <div id="map"></div>
+                  </div>
+                </div>
+                <div class="clearfix">
+                  <button type="submit" class="m-3 savebtn btn btn-lg btn-success">Save</button>
+                  <button type="button" onclick="closeAdd()" class="m-3 cancelbtn btn btn-lg btn-warning">Cancel</button>
+
+                </div>
             </div>
           </form>
         </div>
@@ -343,7 +334,7 @@
 
         <div class="row mt-4">
           <div class="col-12">
-            <h1>Establishments</h1>
+            <h1>Locations</h1>
           </div>
           <div class="col-6">
             <?php if (isset($_POST['operator'])) {
@@ -361,20 +352,21 @@
             <input type="text" id="myInput" onkeyup="searchInEstablishments()" placeholder="Search ...">
           </div>
           <div class="col-6 ">
-            <button class="btn btn-success float-end" onclick="document.getElementById('id_add_establishment').style.display='block'">Add Establishment</button>
+            <button class="btn btn-success float-end" onclick="document.getElementById('id_add_establishment').style.display='block'">Add Location</button>
           </div>
         </div>
         <div class="row">
           <div class="col-12">
-            <table id="myTable" class="w3-table-all w3-hoverable " width="100%">
+            <table id="myTable" class="w3-table-all w3-hoverable w3-responsive">
               <tr>
-                <th class="w3-dark-grey w3-hover-black d-none d-md-table-cell">Index</th>
-                <th class="w3-dark-grey w3-hover-black d-none d-md-table-cell" onclick="w3.sortHTML('#myTable', '.item', 'td:nth-child(1)')" style="cursor:pointer">Permit Number <i class="fa fa-sort" style="font-size:13px;"></i></th>
+                <th>Index</th>
+                <th class="w3-dark-grey w3-hover-black" onclick="w3.sortHTML('#myTable', '.item', 'td:nth-child(1)')" style="cursor:pointer">Permit Number <i class="fa fa-sort" style="font-size:13px;"></i></th>
                 <th class="w3-dark-grey w3-hover-black" onclick="w3.sortHTML('#myTable', '.item', 'td:nth-child(2)')" style="cursor:pointer">Name <i class="fa fa-sort" style="font-size:13px;"></i></th>
-                <th class="w3-dark-grey w3-hover-black d-none d-md-table-cell" onclick="w3.sortHTML('#myTable', '.item', 'td:nth-child(3)')" style="cursor:pointer">Town <i class="fa fa-sort" style="font-size:13px;"></i></th>
+                <th class="w3-dark-grey w3-hover-black" onclick="w3.sortHTML('#myTable', '.item', 'td:nth-child(3)')" style="cursor:pointer">Town <i class="fa fa-sort" style="font-size:13px;"></i></th>
                 <?php if (isset($_POST['operator'])) {
                 } else { ?><th class="w3-dark-grey w3-hover-black" onclick="w3.sortHTML('#myTable', '.item', 'td:nth-child(4)')" style="cursor:pointer">Operator <i class="fa fa-sort" style="font-size:13px;"></i></th><?php } ?>
-                <th class="w3-dark-grey w3-hover-black">Action</th>
+                <th class="w3-dark-grey w3-hover-black">Edit</th>
+                <th class="w3-dark-grey w3-hover-black">Info</th>
               </tr>
               <?php
               if ($connect) {
@@ -383,7 +375,7 @@
                   if ($result = $connect->query($query)) {
                     if ($result->num_rows > 0) {
                       while ($row = $result->fetch_assoc()) {
-                        echo "<tr class=\"item\"><td class='d-none d-md-table-cell'>" . $row["permit_number"] . "</td><td class='d-none d-md-table-cell'>" . $row["official_permit_number"] . "</td><td >" . $row["name"] . "</td><td class='d-none d-md-table-cell'>" . $row["twn_nm"] . "</td><td><img class=\"icon\" onclick=\"edit_establishment(" . $row["permit_number"] . ")\" src=\"images/edit.png\" alt=\"Edit\"><img class=\"icon\" onclick=\"info_establishment(" . $row["permit_number"] . ")\" src=\"images/info.png\" alt=\"Info\"></td></tr>";
+                        echo "<tr class=\"item\"><td>" . $row["permit_number"] . "</td><td>" . $row["official_permit_number"] . "</td><td>" . $row["name"] . "</td><td>" . $row["twn_nm"] . "</td><td><img class=\"icon\" onclick=\"edit_establishment(" . $row["permit_number"] . ")\" src=\"images/edit.png\" alt=\"Edit\"></td><td><img class=\"icon\" onclick=\"info_establishment(" . $row["permit_number"] . ")\" src=\"images/info.png\" alt=\"Info\"></td></tr>";
                       }
                     }
                   }
@@ -392,7 +384,7 @@
                   if ($result = $connect->query($query)) {
                     if ($result->num_rows > 0) {
                       while ($row = $result->fetch_assoc()) {
-                        echo "<tr class=\"item\"><td class='d-none d-md-table-cell'>" . $row["permit_number"] . "</td><td class='d-none d-md-table-cell'>" . $row["official_permit_number"] . "</td><td>" . $row["name"] . "</td><td class='d-none d-md-table-cell'>" . $row["twn_nm"] . "</td><td>" . $row["company_name"] . "</td><td><img  onclick=\"edit_establishment(" . $row["permit_number"] . ")\" class=\"icon\" src=\"images/edit.png\" alt=\"Edit\"><img  onclick=\"info_establishment(" . $row["permit_number"] . ")\" class=\"icon\" src=\"images/info.png\" alt=\"Info\"></td></tr>";
+                        echo "<tr class=\"item\"><td>" . $row["permit_number"] . "</td><td>" . $row["official_permit_number"] . "</td><td>" . $row["name"] . "</td><td>" . $row["twn_nm"] . "</td><td>" . $row["company_name"] . "</td><td onclick=\"edit_establishment(" . $row["permit_number"] . ")\"><img class=\"icon\" src=\"images/edit.png\" alt=\"Edit\"></td><td onclick=\"info_establishment(" . $row["permit_number"] . ")\"><img class=\"icon\" src=\"images/info.png\" alt=\"Info\"></td></tr>";
                       }
                     }
                   }

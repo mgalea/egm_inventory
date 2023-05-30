@@ -147,11 +147,11 @@
                       <td> <?php echo $name; ?></td>
                     </tr>
                     <tr>
-                      <td>Namber of Machines:</td>
+                      <td>Number of Machines:</td>
                       <td> <?php echo $n_machines; ?></td>
                     </tr>
                     <tr>
-                      <td>Namber of Active Machines:</td>
+                      <td>Number of Active Machines:</td>
                       <td> <?php echo $n_a_machines; ?></td>
                     </tr>
                     <tr>

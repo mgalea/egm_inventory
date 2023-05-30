@@ -84,13 +84,13 @@
 
     if (isset($_POST['slot_info'])) {
       $seal_number = $_POST['slot_info'];
-      if ($connect && $seal_number != "") {
 
+      if ($connect && $seal_number != "") {
 
         switch ($_POST['type']) {
           case "0":
             $query = "SELECT * FROM slot_machines, manufacturer, type_slot_machines, slot_model, tag 
-            WHERE tag_number=\"" . $seal_number . "\"
+            WHERE tag.tag_number=\"" . $seal_number . "\"
             AND slot_machines.serial_number = tag.fk_serial_number 
             AND slot_machines.fk_slot_type=type_slot_machines.id_type_slot_machines 
             AND fk_model=slot_model.id_model 
@@ -98,18 +98,16 @@
             break;
 
           case "1":
-            $query = "SELECT * FROM slot_machines, manufacturer, type_slot_machines, slot_model, tag 
-            WHERE serial_number=\"" . $seal_number . "\"
-            AND slot_machines.serial_number = tag.fk_serial_number 
+            $query = "SELECT * FROM slot_machines, manufacturer, type_slot_machines, slot_model
+            WHERE slot_machines.serial_number = \"" . $seal_number . "\"
             AND slot_machines.fk_slot_type=type_slot_machines.id_type_slot_machines 
             AND fk_model=slot_model.id_model 
             AND slot_model.fk_id_manufacturer=manufacturer.id_manufacturer;";
             break;
 
           case "2":
-            $query = "SELECT * FROM slot_machines, manufacturer, type_slot_machines, slot_model, tag 
-            WHERE reg_number=\"" . $seal_number . "\"
-            AND slot_machines.serial_number = tag.fk_serial_number 
+            $query = "SELECT * FROM slot_machines, manufacturer, type_slot_machines, slot_model
+            WHERE slot_machines.reg_number = \"" . $seal_number . "\"
             AND slot_machines.fk_slot_type=type_slot_machines.id_type_slot_machines 
             AND fk_model=slot_model.id_model 
             AND slot_model.fk_id_manufacturer=manufacturer.id_manufacturer;";
@@ -209,7 +207,7 @@
                 </tr>
 
                 <tr>
-                  <td><b>Regulator Number:</b></td>
+                  <td><b>Inventory Number:</b></td>
                   <td> <?php echo $regulator_number; ?></td>
                 </tr>
                 <tr>
