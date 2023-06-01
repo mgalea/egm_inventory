@@ -7,8 +7,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css" integrity="sha512-SzlrxWUlpfuzQ+pcUCosxcglQRNAq/DZjVsC0lE40xsADsfeQoEypE+enwcOiGjk/bSuGGKHEyjSoQ1zVisanQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-  <script src="https://kit.fontawesome.com/8be26e49e1.js" crossorigin="anonymous"></script>
+  <script src="fontawesome/js/all.min.js"></script>
   <link rel="icon" href="favicon/favicon.ico">
   <link rel="stylesheet" href="css/header.css">
   <link rel="stylesheet" href="css/style.css">
@@ -77,15 +76,56 @@
           <?php echo (isset($_GET['tagged'])) ? "<h3><b>No RFID Tag</b></h3>" : NULL ?>
           <?php
           if (isset($_POST['establishment'])) {
+
+
             $query = "SELECT * from establishment where  permit_number = " . $_POST['establishment'] . ";";
             $result = $connect->query($query);
             $row = $result->fetch_assoc();
+            $operator = $row['fk_license_number_operator'];
             echo "<h4><b>Location: </b>" . $row['name'] . "</h4>";
-            $query = "SELECT * from operator where  license_number = " . $row['fk_license_number_operator'] . " LIMIT 1;";
+
+            $query = "SELECT * from operator where  license_number = " . $operator . " LIMIT 1;";
             $result = $connect->query($query);
             $row = $result->fetch_assoc();
             echo "<h4><b>Operator: </b>" . $row['company_name'] . "</h4>";
+
+            $query = "SELECT * from establishment where  fk_license_number_operator = " . $operator . ";";
+            if ($result = $connect->query($query)) {
+              if ($result->num_rows > 1) {
+          ?>
+                <!-- Slot Transfer Modal -->
+                <div id="transferSlotModal" class="modal-div-transfer" tabindex="-1" role="dialog">
+                  <span onclick="closeAdd()" class="close_add" title="Close">&times;</span>
+                  <form class="modal-div-content" action="PHP/transferSlot.php" method="POST">
+                    <input type="hidden" name="from_establishment" id="from_establishment" value="">
+                    <input type="hidden" name="serial_number" id="t_serial_number" value="">
+                    <div class="container">
+
+                      <h3 class="mb-3">Transfer Slot to Another Location</h3>
+
+                      <label for="location">Transfer Location:</label>
+                      <select name="to_establishment" id="to_establishment">
+                        <?php
+
+                        while ($row = $result->fetch_assoc()) {
+                          if ($row['permit_number'] != $_POST['establishment']){
+                            echo  '<option value="' . $row['permit_number'] . '">' . $row['name'] . '</option>';
+                          }
+                        }
+
+                        ?>
+                      </select>
+                      <button class="btn btn-lg btn-warning m-3" data-dismiss="modal" aria-hidden="true">Close</button>
+                      <button class="m-3 savebtn btn btn-lg btn-success">Save changes</button>
+                    </div>
+
+                  </form>
+                </div>
+          <?php
+              }
+            }
           }
+
           ?>
         </div>
 
@@ -103,6 +143,8 @@
             </div>
 
           </div>
+
+
         <?php } ?>
 
       </div>
@@ -116,7 +158,7 @@
             <div class="btn-group" role="group" aria-label="Record Nav">
               <button type="button" class="btn btn-lg btn-secondary btn-outline-light " onclick="window.open('./slot.php','_self');">Clear</button>
               <button type="button" class="btn btn-lg btn-secondary btn-outline-light" onclick="window.open('./slot.php?untagged=<?php echo ($_GET['untagged'] > 100) ? $_GET['untagged'] - 100 : $_GET['untagged'] ?>','_self');">
-                <<</button>
+                <<< /button>
                   <button type="button" class="btn btn-lg btn-secondary btn-outline-light "><?php echo $tag - 100 ?> to <?php echo $tag - 1 ?></button>
                   <button type="button" class="btn btn-lg btn-secondary btn-outline-light" onclick="window.open('./slot.php?untagged=<?php echo $tag ?>','_self');">>></button>
             </div>
@@ -156,7 +198,13 @@
                 if ($result = $connect->query($query)) {
                   if ($result->num_rows > 0) {
                     while ($row = $result->fetch_assoc()) {
-                      echo "<tr class=\"item\"><td>" . $row["reg_number"] . "</td><td>" . $row["name_manufacturer"] . "</td><td>" . $row["serial_number"] . "</td><td>" . $row["name_type"] . "</td><td>" . $row["name_model"] . "</td><td><i class='fa-duotone fa-2x fa-image p-2' onclick=\"show_image('" . $row["serial_number"] . "')\"></i><i class='fa-duotone fa-2x fa-tag p-2' onclick=\"show_tag('" . $row["serial_number"] . "')\"></i><i class='fa-duotone fa-2x fa-square-pen p-2' onclick=\"edit_slot('" . $row["serial_number"] . "')\"></i> <i class='fa-duotone fa-2x  fa-square-info p-2' onclick=\"info_slot('" . $row["serial_number"] . "')\"></i></td></tr>";
+                      echo "<tr class=\"item\"><td>" . $row["reg_number"] . "</td><td>" . $row["name_manufacturer"] . "</td><td>" . $row["serial_number"] . "</td><td>" . $row["name_type"] . "</td><td>" . $row["name_model"] . "</td>
+                      <td>
+                      <i class='fa-duotone fa-2x fa-image p-2' onclick=\"show_image('" . $row["serial_number"] . "')\"></i>
+                      <i class='fa-duotone fa-2x fa-tag p-2' onclick=\"show_tag('" . $row["serial_number"] . "')\"></i>
+                      <i class='fa-duotone fa-2x fa-square-pen p-2' onclick=\"edit_slot('" . $row["serial_number"] . "')\"></i> 
+                      <i class='fa-duotone fa-2x fa-arrows-left-right p-2' onclick=\"transferSlotModal ('" . $row["serial_number"] . "'," . $_POST['establishment'] . ")\"></i>
+                      </td></tr>";
                     }
                   }
                 }
@@ -165,7 +213,7 @@
                 if ($result = $connect->query($query)) {
                   if ($result->num_rows > 0) {
                     while ($row = $result->fetch_assoc()) {
-                     // echo "<tr class=\"item\"><td>" . $row["reg_number"] . "</td><td>" . $row["name_manufacturer"] . "</td><td>" . $row["serial_number"] . "</td><td>" . $row["name_type"] . "</td><td>" . $row["name_model"] . "</td><td><i class=\"fa-light fa-2x fa-tag seal\"></i></td><i class='fa-duotone fa-2x fa-image p-2' onclick=\"show_image('" . $row["serial_number"] . "')\"></td><td></i><i class='fa-duotone fa-2x fa-tag p-2' onclick=\"show_tag('" . $row["serial_number"] . "')\"></i><i class='fa-duotone fa-2x fa-square-pen p-2' onclick=\"edit_slot('" . $row["serial_number"] . "')\"></i> <i class='fa-duotone fa-2x  fa-square-info p-2' onclick=\"info_slot('" . $row["serial_number"] . "')\"></i></td></tr>";
+                      echo "<tr class=\"item\"><td>" . $row["reg_number"] . "</td><td>" . $row["name_manufacturer"] . "</td><td>" . $row["serial_number"] . "</td><td>" . $row["name_type"] . "</td><td>" . $row["name_model"] . "</td><td><i class='fa-duotone fa-2x fa-image p-2' onclick=\"show_image('" . $row["serial_number"] . "')\"></i> <i class='fa-duotone fa-2x  fa-square-info p-2' onclick=\"info_slot('" . $row["serial_number"] . "')\"></i></td></tr>";
                     }
                   }
                 }
@@ -366,6 +414,8 @@
 
 
     ?>
+
+
   </div>
 
   <div id="id_info_slot" class="modal-div-info">
@@ -696,6 +746,7 @@
 
         });
 
+
         $("#myTable tr td:eq(0)").click(function() {
           $(this).addClass('selected').siblings().removeClass('selected');
           var value = $(this).find('td:nth-child(<?php if (isset($_POST['operator']) || isset($_POST['establishment'])) echo "1";
@@ -717,7 +768,16 @@
             bool = 0;
           }
         });
+
+
       });
+
+      function transferSlotModal(slot_id, establishment) {
+        $("#from_establishment").val(establishment);
+        $("#t_serial_number").val(slot_id);
+        $('#transferSlotModal').show();
+        console.log('OK ' + slot_id);
+      };
     </script>
 
 
@@ -953,7 +1013,7 @@
           </div>
           <div class="clearfix">
             <button type="submit" class="m-3 savebtn btn btn-lg btn-success">Save</button>
-            <button type="button" onclick="closeAdd()" class="m-3  btn btn-lg btn-warning">Cancel</button>
+            <button type="button" onclick="closeAdd()" class="m-3 btn btn-lg btn-warning">Cancel</button>
 
           </div>
       </div>

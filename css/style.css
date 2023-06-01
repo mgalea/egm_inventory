@@ -258,6 +258,7 @@ input[type=date]:focus {
 .modal-div,
 .modal-div-modify,
 .modal-div-info,
+.modal-div-transfer,
 .modal-div-error{
   display: none;
   position: fixed;
