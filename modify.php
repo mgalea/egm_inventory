@@ -472,7 +472,10 @@
                         $state = "Disabled";
                       }
                       $o = "<tr class=\"item\"><td>" . $row["username"] . "</td><td>" . (($row["id"] == 1) ? "Super Adminsitrator" : $row["type_value"]) . "</td><td>" . $row["email"] . "</td><td>" . $row["telephone"] . "</td><td style='text-align: center'>" . $row["organization"] . "</td><td style='text-align: center'>" . $state;
-                      $o =  ($row["id"] == 1) ? $o . "<td></td></tr>" : $o . "</td><td style='text-align: center' ><i onclick=\"edit_user(" . $row["id"] . ")\" class='fa-duotone fa-2x fa-pencil px-2' data-toggle='tooltip' data-placement='bottom' title='Edit'></i><i onclick=\"document.getElementById('id_user_permissions').style.display='block'\" class='fa-duotone fa-2x fa-eye px-2' data-toggle='Permissions' data-placement='bottom' title='Permissions'></i><i onclick=\"delete_user(" . $row["id"] . ")\" class='fa-duotone fa-2x fa-trash px-2' data-toggle='tooltip' data-placement='bottom' title='Delete'></i></td></tr>";
+                      $o =  ($row["id"] == 1) ? $o . "<td></td></tr>" : $o . "</td><td style='text-align: center' >
+                      <i onclick=\"edit_user(" . $row["id"] . ")\" class='fa-duotone fa-2x fa-pencil px-2' data-toggle='tooltip' data-placement='bottom' title='Edit'></i>
+                      <i onclick=\"document.getElementById('id_user_permissions').style.display='block'\" class='fa-duotone fa-2x fa-eye px-2' data-toggle='Permissions' data-placement='bottom' title='Permissions'></i>
+                      <i onclick=\"delete_user(" . $row["id"] . ")\" class='fa-duotone fa-2x fa-trash px-2' data-toggle='tooltip' data-placement='bottom' title='Delete'></i></td></tr>";
                       echo  $o;
                     }
                   }
